@@ -12,6 +12,7 @@ import android.widget.Button;
 public class AndroidomaticKeyerActivity extends Activity {
 	private String TAG = "AndroidomaticKeyer";
 	private Thread soundThread = null;
+	private Button bigButton;
 	private MorsePlayer player;
 	private String activeMessage;  // eventually chosen from SQLite list
 	private int hertz = 800;  // should be tweakable
@@ -23,7 +24,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        Button bigButton = (Button)findViewById(R.id.bigButton);
+        bigButton = (Button)findViewById(R.id.bigButton);
         bigButton.setOnClickListener(bigButtonListener);
         
     }
@@ -51,12 +52,14 @@ public class AndroidomaticKeyerActivity extends Activity {
 	            }
 	        });
     	soundThread.start();
+    	bigButton.setText("STOP");
     }
     
     void stopMessage() {
     	if ((soundThread != null) && (soundThread.isAlive())) {
     		Log.i(TAG, "Stopping morse thread.");
     		soundThread.interrupt();
+    		bigButton.setText("START");
     	}
     }
 }
