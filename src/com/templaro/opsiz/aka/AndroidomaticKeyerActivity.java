@@ -18,6 +18,8 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private int hertz = 800;  // should be tweakable
 	private int speed = 12;  // should be tweakable
 	
+	
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
