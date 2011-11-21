@@ -15,7 +15,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private Button bigButton;
 	private MorsePlayer player;
 	private String activeMessage;  // eventually chosen from SQLite list
-	private int hertz = 800;  // should be tweakable
+	private int hertz = 700;  // should be tweakable
 	private int speed = 12;  // should be tweakable
 	
 	
@@ -61,8 +61,8 @@ public class AndroidomaticKeyerActivity extends Activity {
     	if ((soundThread != null) && (soundThread.isAlive())) {
     		Log.i(TAG, "Stopping morse thread.");
     		soundThread.interrupt();
-    		bigButton.setText("START");
     	}
+    	bigButton.setText("START");
     }
 }
 
