@@ -89,6 +89,8 @@ public class MorsePlayer {
 		try {
 			for (MorseBit bit : pattern) {
 				Thread.sleep(5);  // is this the only way to notice a thread interrupt from main activity??
+				if (null == bit)  // why on earth do nulls creep in?  grrr.
+					break;
 				switch (bit) {
 				case GAP:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
 				case DOT:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
