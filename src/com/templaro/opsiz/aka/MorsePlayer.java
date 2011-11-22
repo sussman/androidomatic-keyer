@@ -86,12 +86,15 @@ public class MorsePlayer {
 		// check to make sure sine data is already generated
 		Log.i(TAG, "Now playing morse code...");
 		MorseBit[] pattern = MorseConverter.pattern(MESSAGE);  // TODO: should come from a text field
-		try {
-			for (MorseBit bit : pattern) {
-				Thread.sleep(5);  // is this the only way to notice a thread interrupt from main activity??
-				if (null == bit)  // why on earth do nulls creep in?  grrr.
-					break;
-				switch (bit) {
+		for (MorseBit bit : pattern) {
+			if (Thread.interrupted()) {
+				Log.i(TAG, "Interrupted, stopping all sound...");
+				audioTrack.stop(); // make sure no sound is playing
+				return;
+			}
+			if (null == bit)  // why on earth do nulls creep in?  grrr.
+				continue;
+			switch (bit) {
 				case GAP:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
 				case DOT:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
 				case DASH: audioTrack.write(dahSnd, 0, dahSnd.length);  break;
@@ -104,13 +107,7 @@ public class MorsePlayer {
 						audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
 					break;
 				default:  break;
-				}
-			}
-		} catch (InterruptedException e) {
-			Log.i(TAG, "Interrupted, stopping all sound...");
-			audioTrack.stop(); // make sure no sound is playing
-			return;
+			}	
 		}
-	}
-	
+	} 
 }

@@ -29,11 +29,10 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private String TAG = "AndroidomaticKeyer";
 	private Thread soundThread = null;
 	private Button bigButton;
-	private MorsePlayer player;
 	private String activeMessage;  // eventually chosen from SQLite list
 	private int hertz = 700;  // should be tweakable
 	private int speed = 12;  // should be tweakable
-	
+	private MorsePlayer player = new MorsePlayer(hertz, speed);
 	
 	
     /** Called when the activity is first created. */
@@ -65,7 +64,6 @@ public class AndroidomaticKeyerActivity extends Activity {
     	soundThread = new Thread(new Runnable() {
 	           @Override
 	            public void run() {
-	        	   player = new MorsePlayer(hertz, speed);
 	        	   player.playMorse(activeMessage);
 	            }
 	        });
