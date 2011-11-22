@@ -29,6 +29,9 @@ import android.media.AudioTrack;
 
 
 public class MorsePlayer {
+	
+	private String MESSAGE = "hello world";
+	
 	private String TAG = "MorsePlayer";
 	private int sampleRate = 8000;
 	private double duration = .1;  // in seconds
@@ -82,19 +85,29 @@ public class MorsePlayer {
 	public void playMorse(String message) {
 		// check to make sure sine data is already generated
 		Log.i(TAG, "Now playing morse code...");
-		for (int i = 0; i < 4; i++) {
-			try {
-				audioTrack.write(ditSnd, 0, ditSnd.length);
-				audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);
-				audioTrack.write(dahSnd, 0, dahSnd.length);
-			    Log.i(TAG, "HIT PLAY");
-			    Thread.sleep(1000);
-			    Log.i(TAG, "SLEPT 1 sec");
-			} catch (InterruptedException e) {
-				Log.i(TAG, "Interrupted, stopping all sound...");
-				audioTrack.stop(); // make sure no sound is playing
-				return;
+		MorseBit[] pattern = MorseConverter.pattern(MESSAGE);  // TODO: should come from a text field
+		try {
+			for (MorseBit bit : pattern) {
+				Thread.sleep(5);  // is this the only way to notice a thread interrupt from main activity??
+				switch (bit) {
+				case GAP:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
+				case DOT:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
+				case DASH: audioTrack.write(dahSnd, 0, dahSnd.length);  break;
+				case LETTER_GAP:
+					for (int i = 0; i < 3; i++)
+						audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
+					break;
+				case WORD_GAP:
+					for (int i = 0; i < 7; i++)
+						audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
+					break;
+				default:  break;
+				}
 			}
+		} catch (InterruptedException e) {
+			Log.i(TAG, "Interrupted, stopping all sound...");
+			audioTrack.stop(); // make sure no sound is playing
+			return;
 		}
 	}
 	
