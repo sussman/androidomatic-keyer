@@ -23,15 +23,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 public class AndroidomaticKeyerActivity extends Activity {
 	private String TAG = "AndroidomaticKeyer";
 	private Thread soundThread = null;
-	private Button bigButton;
+	private Button playButton;
+	private EditText keyerEditText;
 	private String activeMessage;  // eventually chosen from SQLite list
 	private int hertz = 700;  // should be tweakable
-	private int speed = 12;  // should be tweakable
+	private int speed = 30;  // should be tweakable
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
 	
 	
@@ -41,12 +43,13 @@ public class AndroidomaticKeyerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        bigButton = (Button)findViewById(R.id.bigButton);
-        bigButton.setOnClickListener(bigButtonListener);
+        playButton = (Button)findViewById(R.id.playButton);
+        playButton.setOnClickListener(playButtonListener);
         
+        keyerEditText = (EditText)findViewById(R.id.keyerEditText);
     }
     
-    private OnClickListener bigButtonListener = new OnClickListener() {
+    private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {
         	if((soundThread != null) && (soundThread.isAlive())) {
         		stopMessage();
@@ -64,11 +67,11 @@ public class AndroidomaticKeyerActivity extends Activity {
     	soundThread = new Thread(new Runnable() {
 	           @Override
 	            public void run() {
-	        	   player.playMorse(activeMessage);
+	        	   player.playMorse(keyerEditText.getText().toString());
 	            }
 	        });
     	soundThread.start();
-    	bigButton.setText("STOP");
+    	playButton.setText("STOP");
     }
     
     void stopMessage() {
@@ -76,7 +79,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     		Log.i(TAG, "Stopping morse thread.");
     		soundThread.interrupt();
     	}
-    	bigButton.setText("START");
+    	playButton.setText("START");
     }
 }
 

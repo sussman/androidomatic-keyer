@@ -3,15 +3,14 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-    
-    <TextView android:id="@+id/text"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Hello, I am a TextView" />
-    <Button android:id="@+id/bigButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Play/Stop" />
+    android:background="#777"
+    android:weightSum="1">
+    <ImageView android:layout_height="wrap_content" android:src="@drawable/bootian" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:id="@+id/bootianImage"></ImageView>
+    <TextView android:layout_height="wrap_content" android:text="Enter keyer message:" android:id="@+id/text" android:gravity="center_horizontal" android:layout_width="fill_parent"></TextView>
+    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/keyerEditText">
+        <requestFocus></requestFocus>
+    </EditText>
+    <Button android:layout_height="wrap_content"
+            android:text="Play" android:layout_weight="0.08" android:layout_width="fill_parent" android:id="@+id/playButton"/>
     
 </LinearLayout>

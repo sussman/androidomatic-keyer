@@ -21,16 +21,12 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-/* A bunch of this code is copied from
+/* A bunch of this wave-generating code is copied from
  * http://marblemice.blogspot.com/2010/04/generate-and-play-tone-in-android.htm
- * 
- * All of the public methods should be called within a new Thread.
  */
 
 
 public class MorsePlayer {
-	
-	private String MESSAGE = "hello world";
 	
 	private String TAG = "MorsePlayer";
 	private int sampleRate = 8000;
@@ -44,8 +40,8 @@ public class MorsePlayer {
 	private AudioTrack audioTrack;
 	
 
-	// Prepare to play morse code at SPEED wpm and HERTZ frequency,
-	// by pre-generating 'dit' and 'dah' sinewave tones of the proper length.
+	// Constructor: prepare to play morse code at SPEED wpm and HERTZ frequency,
+	// by pre-generating 'dit','dah' and empty sinewave tones of the proper lengths.
 	public MorsePlayer(int hertz, int speed) {
 		Log.i(TAG, "Generating dit and dah tones.");
 		
@@ -82,32 +78,44 @@ public class MorsePlayer {
         }
 	}
 	
+	// Plays MESSAGE in an infinite loop, until thread is interrupted by parent.
 	public void playMorse(String message) {
 		// check to make sure sine data is already generated
 		Log.i(TAG, "Now playing morse code...");
-		MorseBit[] pattern = MorseConverter.pattern(MESSAGE);  // TODO: should come from a text field
-		for (MorseBit bit : pattern) {
-			if (Thread.interrupted()) {
+		MorseBit[] pattern = MorseConverter.pattern(message);
+		audioTrack.play();
+		
+		while (true) {
+			for (MorseBit bit : pattern) {
+				if (Thread.interrupted()) {
+					Log.i(TAG, "Interrupted, stopping all sound...");
+					audioTrack.stop(); // make sure no sound is playing
+					return;
+				}
+				if (null == bit)  // why on earth do nulls creep in?  grrr.
+					continue;
+				switch (bit) {
+					case GAP:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
+					case DOT:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
+					case DASH: audioTrack.write(dahSnd, 0, dahSnd.length);  break;
+					case LETTER_GAP:
+						for (int i = 0; i < 3; i++)
+							audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
+						break;
+					case WORD_GAP:
+						for (int i = 0; i < 7; i++)
+							audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
+						break;
+					default:  break;
+				}	
+			}
+			try {
+				Thread.sleep(2000);  // TODO: should be configurable
+			} catch (InterruptedException e) {
 				Log.i(TAG, "Interrupted, stopping all sound...");
 				audioTrack.stop(); // make sure no sound is playing
 				return;
 			}
-			if (null == bit)  // why on earth do nulls creep in?  grrr.
-				continue;
-			switch (bit) {
-				case GAP:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
-				case DOT:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
-				case DASH: audioTrack.write(dahSnd, 0, dahSnd.length);  break;
-				case LETTER_GAP:
-					for (int i = 0; i < 3; i++)
-						audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
-					break;
-				case WORD_GAP:
-					for (int i = 0; i < 7; i++)
-						audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
-					break;
-				default:  break;
-			}	
 		}
-	} 
+	}
 }
