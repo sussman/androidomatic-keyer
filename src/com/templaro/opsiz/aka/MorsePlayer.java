@@ -30,7 +30,7 @@ public class MorsePlayer {
 	
 	private String TAG = "MorsePlayer";
 	private int sampleRate = 8000;
-	private double duration = .1;  // in seconds
+	private double duration;  // in seconds
 	private int numSamples;
 	private double sample[];
 	private byte ditSnd[];
@@ -45,9 +45,10 @@ public class MorsePlayer {
 	public MorsePlayer(int hertz, int speed) {
 		Log.i(TAG, "Generating dit and dah tones.");
 		
-		// duration should be derived from SPEED, 
+		// duration is derived from SPEED, 
 		// where (1200 / wpm) = element length in milliseconds
-		numSamples = 800; // duration * sampleRate;
+		duration = (double)((1200 / speed) * .001);
+		numSamples = (int)(duration * sampleRate);
 		sample = new double[numSamples];
 		ditSnd = new byte[2 * numSamples];
 		dahSnd = new byte[6 * numSamples];
@@ -57,7 +58,7 @@ public class MorsePlayer {
 				AudioFormat.CHANNEL_CONFIGURATION_MONO,
                 AudioFormat.ENCODING_PCM_16BIT, 10 * numSamples,
                 AudioTrack.MODE_STREAM);
-		audioTrack.play();  // begin asynchronous playback of anything streamed to the track
+		audioTrack.play();  // begin asynchronous playback of anything streamed to track
 		
         for (int i = 0; i < numSamples; ++i) {
             sample[i] = Math.sin(2 * Math.PI * i / (sampleRate/hertz));

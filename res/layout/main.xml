@@ -10,6 +10,11 @@
     <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/keyerEditText">
         <requestFocus></requestFocus>
     </EditText>
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_width="wrap_content" android:text="WPM" android:id="@+id/speedLabel"></TextView>
+        <SeekBar android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/seekBar1" android:layout_width="fill_parent"></SeekBar>
+        <TextView android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_width="wrap_content" android:id="@+id/textView2" android:text="5"></TextView>
+    </LinearLayout>
     <Button android:layout_height="wrap_content"
             android:text="Play" android:layout_weight="0.08" android:layout_width="fill_parent" android:id="@+id/playButton"/>
     

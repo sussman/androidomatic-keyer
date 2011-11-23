@@ -18,7 +18,6 @@ package com.templaro.opsiz.aka;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,12 +27,12 @@ import android.widget.EditText;
 
 public class AndroidomaticKeyerActivity extends Activity {
 	private String TAG = "AndroidomaticKeyer";
-	private Thread soundThread = null;
+	private Thread soundThread;
 	private Button playButton;
 	private EditText keyerEditText;
 	private String activeMessage;  // eventually chosen from SQLite list
 	private int hertz = 700;  // should be tweakable
-	private int speed = 30;  // should be tweakable
+	private int speed = 20;  // should be tweakable
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
 	
 	

@@ -45,7 +45,7 @@ class MorseConverter {
         /* S */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
         /* T */ new MorseBit[] { MorseBit.DASH },
         /* U */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
-        /* V */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
+        /* V */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
         /* W */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
         /* X */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
         /* Y */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
