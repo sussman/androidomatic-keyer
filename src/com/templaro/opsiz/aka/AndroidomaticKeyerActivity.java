@@ -50,23 +50,26 @@ public class AndroidomaticKeyerActivity extends Activity {
     
     private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {
-        	if((soundThread != null) && (soundThread.isAlive())) {
+        	if ((soundThread != null) && (soundThread.isAlive())) {
         		stopMessage();
         	} else {
-        		startMessage("hello bootians");
+        		startMessage();
         	}
         }
     };
     
-	// This spawns a new thread, since we don't want the sine-data generation
-	// nor the playing of sound to interfere with the main UI thread.
-    void startMessage(String message) {
-    	Log.i(TAG, "Starting morse thread.");
-    	activeMessage = message;
+	// Play sound (infinite loop) on separate thread from main UI thread.
+    void startMessage() {
+    	if ((soundThread != null) && (soundThread.isAlive())) {
+    		Log.i(TAG, "Trying to stop old thread first...");
+    		stopMessage();
+    	}
+    	Log.i(TAG, "Starting morse thread with new message.");
+    	player.setMessage(keyerEditText.getText().toString());
     	soundThread = new Thread(new Runnable() {
 	           @Override
 	            public void run() {
-	        	   player.playMorse(keyerEditText.getText().toString());
+	        	   player.playMorse();
 	            }
 	        });
     	soundThread.start();
@@ -74,9 +77,14 @@ public class AndroidomaticKeyerActivity extends Activity {
     }
     
     void stopMessage() {
-    	if ((soundThread != null) && (soundThread.isAlive())) {
-    		Log.i(TAG, "Stopping morse thread.");
+    	if (soundThread.isAlive()) {
+    		Log.i(TAG, "Stopping existing morse thread.");
     		soundThread.interrupt();
+    		try {
+    			soundThread.join();  // wait for thread to die
+    		} catch (InterruptedException e) {
+    			Log.i(TAG, "Main thread interrupted while waiting for child to die!");
+    		}
     	}
     	playButton.setText("START");
     }

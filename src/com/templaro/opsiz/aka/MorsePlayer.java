@@ -36,8 +36,8 @@ public class MorsePlayer {
 	private byte ditSnd[];
 	private byte dahSnd[];
 	private byte pauseInnerSnd[];
-	// TODO: pauseLetterSnd, pauseWordSnd
 	private AudioTrack audioTrack;
+	private String currentMessage;  // message to play in morse
 	
 
 	// Constructor: prepare to play morse code at SPEED wpm and HERTZ frequency,
@@ -79,11 +79,17 @@ public class MorsePlayer {
         }
 	}
 	
+	
+	public void setMessage(String message) {
+		currentMessage = message;
+	}
+	
+	
 	// Plays MESSAGE in an infinite loop, until thread is interrupted by parent.
-	public void playMorse(String message) {
+	public void playMorse() {
 		// check to make sure sine data is already generated
 		Log.i(TAG, "Now playing morse code...");
-		MorseBit[] pattern = MorseConverter.pattern(message);
+		MorseBit[] pattern = MorseConverter.pattern(currentMessage);
 		audioTrack.play();
 		
 		while (true) {
