@@ -96,6 +96,11 @@ public class MorsePlayer {
 		buildSounds();
 	}
 	
+	public void setTone(int hertz) {
+		toneHertz = hertz;
+		buildSounds();
+	}
+	
 	// Plays MESSAGE in an infinite loop, until thread is interrupted by parent.
 	public void playMorse() {
 		// check to make sure sine data is already generated
