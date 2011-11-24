@@ -48,6 +48,13 @@ public class AndroidomaticKeyerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        soundThread = new Thread(new Runnable() {
+	           @Override
+	            public void run() {
+	        	   player.playMorse();
+	            }
+	        });
+        
         playButton = (Button)findViewById(R.id.playButton);
         playButton.setOnClickListener(playButtonListener);
         
@@ -57,11 +64,12 @@ public class AndroidomaticKeyerActivity extends Activity {
         speedLabel = (TextView)findViewById(R.id.speedLabel);
         speedBar.setOnSeekBarChangeListener(speedBarListener);
         speedBar.setMax(45);  // actually WPM speed range is 5-50.
+        speedBar.setProgress(10);  // so the starting val here is 15 wpm.
     }
     
     private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {
-        	if ((soundThread != null) && (soundThread.isAlive())) {
+        	if (soundThread.isAlive()) {
         		stopMessage();
         	} else {
         		startMessage();
@@ -71,26 +79,36 @@ public class AndroidomaticKeyerActivity extends Activity {
     
     
     private OnSeekBarChangeListener speedBarListener = new OnSeekBarChangeListener() {
+    	private boolean was_playing = false;
+    	
     	public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
     		speedLabel.setText(String.format("%d WPM", progress + 5));
     	}
     	
     	public void onStartTrackingTouch(SeekBar seekBar) {
+    		if (soundThread.isAlive())
+    			was_playing = true;
+    		stopMessage();  // user has begun changing WPM; kill any current sound
     	}
     	
-    	public void  onStopTrackingTouch(SeekBar seekBar) {
+    	public void onStopTrackingTouch(SeekBar seekBar) {
+    		if (was_playing) {
+    			startMessage(); // user finished changing WPM; restart sound if necessary
+    			was_playing = false;
+    		}
     	}
     };
     
     
 	// Play sound (infinite loop) on separate thread from main UI thread.
     void startMessage() {
-    	if ((soundThread != null) && (soundThread.isAlive())) {
+    	if (soundThread.isAlive()) {
     		Log.i(TAG, "Trying to stop old thread first...");
     		stopMessage();
     	}
     	Log.i(TAG, "Starting morse thread with new message.");
     	player.setMessage(keyerEditText.getText().toString());
+    	player.setSpeed(speedBar.getProgress() + 5);
     	soundThread = new Thread(new Runnable() {
 	           @Override
 	            public void run() {
