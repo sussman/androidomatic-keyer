@@ -23,13 +23,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 
 public class AndroidomaticKeyerActivity extends Activity {
+	
 	private String TAG = "AndroidomaticKeyer";
 	private Thread soundThread;
 	private Button playButton;
 	private EditText keyerEditText;
+	private SeekBar speedBar;
+	private TextView speedLabel;
 	private String activeMessage;  // eventually chosen from SQLite list
 	private int hertz = 700;  // should be tweakable
 	private int speed = 20;  // should be tweakable
@@ -46,6 +52,11 @@ public class AndroidomaticKeyerActivity extends Activity {
         playButton.setOnClickListener(playButtonListener);
         
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
+        
+        speedBar = (SeekBar)findViewById(R.id.speedBar);
+        speedLabel = (TextView)findViewById(R.id.speedLabel);
+        speedBar.setOnSeekBarChangeListener(speedBarListener);
+        speedBar.setMax(45);  // actually WPM speed range is 5-50.
     }
     
     private OnClickListener playButtonListener = new OnClickListener() {
@@ -57,6 +68,20 @@ public class AndroidomaticKeyerActivity extends Activity {
         	}
         }
     };
+    
+    
+    private OnSeekBarChangeListener speedBarListener = new OnSeekBarChangeListener() {
+    	public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
+    		speedLabel.setText(String.format("%d WPM", progress + 5));
+    	}
+    	
+    	public void onStartTrackingTouch(SeekBar seekBar) {
+    	}
+    	
+    	public void  onStopTrackingTouch(SeekBar seekBar) {
+    	}
+    };
+    
     
 	// Play sound (infinite loop) on separate thread from main UI thread.
     void startMessage() {
