@@ -118,7 +118,7 @@ class HellConverter {
         // Since all FH characters start with a row of null bits
         // the audio stream begins with silence rather than tone
 
-    	str = "  " + str;
+    	str = " " + " " + " " + str;
         int strlen = str.length();
         boolean[] result = new boolean[strlen*98];
         int pos = 1;

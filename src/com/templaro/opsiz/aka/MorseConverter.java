@@ -19,7 +19,7 @@
    and hacked on quite a bit.  Hooray for Apache-licensed examples! */
 package com.templaro.opsiz.aka;
 
-/** Class that implements the text to morse code coversion */
+/** Class that implements the text to morse code conversion */
 class MorseConverter {
 
     /** The characters from 'A' to 'Z' */
