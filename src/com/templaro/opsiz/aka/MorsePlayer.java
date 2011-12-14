@@ -22,7 +22,7 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 
 /* A bunch of this wave-generating code is copied from
- * http://marblemice.blogspot.com/2010/04/generate-and-play-tone-in-android.htm
+ * http://marblemice.blogspot.com/2010/04/generate-and-play-tone-in-android.html
  */
 
 
@@ -62,6 +62,9 @@ public class MorsePlayer {
 		// where (1200 / wpm) = element length in milliseconds
 		duration = (double)((1200 / wpmSpeed) * .001);
 		numSamples = (int)(duration * sampleRate);
+		while (Math.abs(Math.sin(2 * Math.PI *numSamples / (sampleRate/toneHertz))) > .11){
+			numSamples++;
+		}
 		sample = new double[numSamples];
 		ditSnd = new byte[2 * numSamples];
 		dahSnd = new byte[6 * numSamples];
