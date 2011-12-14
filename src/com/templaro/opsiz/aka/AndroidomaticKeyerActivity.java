@@ -51,7 +51,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         setContentView(R.layout.main);
         
         soundThread = new Thread(new Runnable() {
-	           @Override
+	            @Override
 	            public void run() {
 	        	   player.playMorse();
 	            }
