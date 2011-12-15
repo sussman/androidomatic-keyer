@@ -27,7 +27,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-
 public class AndroidomaticKeyerActivity extends Activity {
 	
 	private String TAG = "AndroidomaticKeyer";
@@ -42,6 +41,20 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private int hertz = 700;  // should be tweakable
 	private int speed = 15;  // should be tweakable
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
+	
+	/* Memory slot buttons are hard coded at this point, but down the road,
+	 * how about dropping the buttons, and just displaying the text in
+	 * a growable listview, with ability to add/delete slots in an array?
+	 */
+	
+	private Button memorySlotButton1;
+	private TextView memorySlotTextView1;
+	private Button memorySlotButton2;
+	private TextView memorySlotTextView2;
+	private Button memorySlotButton3;
+	private TextView memorySlotTextView3;
+	private Button memorySlotButton4;
+	private TextView memorySlotTextView4;
 	
 	
     /** Called when the activity is first created. */
@@ -59,6 +72,23 @@ public class AndroidomaticKeyerActivity extends Activity {
         
         playButton = (Button)findViewById(R.id.playButton);
         playButton.setOnClickListener(playButtonListener);
+        
+        memorySlotButton1 = (Button)findViewById(R.id.memorySlotButton1);
+        memorySlotButton1.setOnClickListener(memorySlotButtonListener1);
+        
+        memorySlotButton2 = (Button)findViewById(R.id.memorySlotButton2);
+        memorySlotButton2.setOnClickListener(memorySlotButtonListener2);
+        
+        memorySlotButton3 = (Button)findViewById(R.id.memorySlotButton3);
+        memorySlotButton3.setOnClickListener(memorySlotButtonListener3);
+        
+        memorySlotButton4 = (Button)findViewById(R.id.memorySlotButton4);
+        memorySlotButton4.setOnClickListener(memorySlotButtonListener4);
+        
+        memorySlotTextView1 = (TextView)findViewById(R.id.memorySlotTextView1);
+        memorySlotTextView2 = (TextView)findViewById(R.id.memorySlotTextView2);
+        memorySlotTextView3 = (TextView)findViewById(R.id.memorySlotTextView3);
+        memorySlotTextView4 = (TextView)findViewById(R.id.memorySlotTextView4);
         
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
         
@@ -85,6 +115,29 @@ public class AndroidomaticKeyerActivity extends Activity {
         }
     };
     
+    private OnClickListener memorySlotButtonListener1 = new OnClickListener() {
+    	public void onClick(View v) {
+    		keyerEditText.setText(memorySlotTextView1.getText().toString());
+        }
+    };
+    
+    private OnClickListener memorySlotButtonListener2 = new OnClickListener() {
+    	public void onClick(View v) {
+    		keyerEditText.setText(memorySlotTextView2.getText().toString());
+        }
+    };
+    
+    private OnClickListener memorySlotButtonListener3 = new OnClickListener() {
+    	public void onClick(View v) {
+    		keyerEditText.setText(memorySlotTextView3.getText().toString());
+        }
+    };
+    
+    private OnClickListener memorySlotButtonListener4 = new OnClickListener() {
+    	public void onClick(View v) {
+    		keyerEditText.setText(memorySlotTextView4.getText().toString());
+        }
+    };
     
     private OnSeekBarChangeListener speedBarListener = new OnSeekBarChangeListener() {
     	private boolean was_playing = false;
@@ -112,7 +165,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     	private boolean was_playing = false;
     	
     	public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
-    		toneLabel.setText(String.format("%d hz", progress + 500));
+    		toneLabel.setText(String.format("%d Hz", progress + 500));
     	}
     	
     	public void onStartTrackingTouch(SeekBar seekBar) {

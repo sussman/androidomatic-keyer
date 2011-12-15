@@ -67,22 +67,22 @@
     </LinearLayout>
 
     <TableLayout
-        android:id="@+id/messageTable"
+        android:id="@+id/memorySlotTable"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:layout_marginBottom="20dip" android:layout_marginTop="20dip" android:layout_marginLeft="10dip" android:layout_marginRight="10dip" android:background="#888" android:fadingEdge="horizontal|vertical">
 
         <TableRow
-            android:id="@+id/tableRow1"
+            android:id="@+id/memorySlotRow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:paddingTop="10dip" android:gravity="center_vertical">
 
             <Button
-                android:id="@+id/buttonMsg1"
+                android:id="@+id/memorySlotButton1"
                 android:layout_height="wrap_content"
                 android:text="1" android:minEms="3" android:textStyle="bold" android:textColor="#0000FF"/>
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/memorySlotTextView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CQ CQ CQ DE AI4SV AI4SV K" android:paddingLeft="10dp" android:layout_weight="1"/>
@@ -90,18 +90,18 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/memorySlotRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:gravity="center_vertical">
 
             <Button
-                android:id="@+id/buttonMsg2"
+                android:id="@+id/memorySlotButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2" android:minEms="3" android:textStyle="bold" android:textColor="#0000FF"/>
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/memorySlotTextView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TNX REPLY UR 599 OP JACK QTH BETHESDA, MD" android:paddingLeft="10dip" android:layout_weight="1"/>
@@ -109,18 +109,18 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow3"
+            android:id="@+id/memorySlotTableRow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:gravity="center_vertical">
 
             <Button
-                android:id="@+id/buttonMsg3"
+                android:id="@+id/memorySlotButton3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3" android:minEms="3" android:textStyle="bold" android:textColor="#0000FF"/>
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/memorySlotTextView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="RIG KNWD TS-450 ANT G5RV AT 40 FT PWR 5W" android:paddingLeft="10dip" android:layout_weight="1"/>
@@ -128,18 +128,18 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow4"
+            android:id="@+id/memorySlotTableRow4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical">
 
             <Button
-                android:id="@+id/buttonMsg4"
+                android:id="@+id/memorySlotButton4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4" android:minEms="3" android:textStyle="bold" android:textColor="#0000FF"/>
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/memorySlotTextView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TNX FER FB QSO ES CUAGN - 73" android:paddingLeft="10dip" android:layout_weight="1"/>
