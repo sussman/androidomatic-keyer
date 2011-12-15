@@ -61,9 +61,13 @@ public class MorsePlayer {
 	private void buildSounds() {
 		// where (1200 / wpm) = element length in milliseconds
 		duration = (double)((1200 / wpmSpeed) * .001);
-		numSamples = (int)(duration * sampleRate);
-		while (Math.abs(Math.sin(2 * Math.PI *numSamples / (sampleRate/toneHertz))) > .11){
+		numSamples = (int)(duration * sampleRate - 1);
+		double sineMagnitude = 1; // starting with a dummy value for absolute normalized value of sine wave 
+		double CUTOFF = 0.1; // threshold for whether sine wave is near zero crossing
+		while (sineMagnitude > CUTOFF){
 			numSamples++;
+			//check to see if  is near zero-crossing to avoid clicks when sound cuts off
+			sineMagnitude = Math.abs(Math.sin(2 * Math.PI *numSamples / (sampleRate/toneHertz)));
 		}
 		sample = new double[numSamples];
 		ditSnd = new byte[2 * numSamples];
