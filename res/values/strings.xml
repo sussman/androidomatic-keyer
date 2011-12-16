@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, AndroidomaticKeyerActivity!</string>
-    <string name="app_name">AKA</string>
+    
+	<string name="app_name">AKA</string>
+    
+    <string-array name="messages_array">
+        <item>CQ CQ CQ DE AI4SV AI4SV K</item>
+        <item>TNX FER CALL UR 599 OP JACK QTH FAIRFAX, VA</item>
+        <item>RIG KNWD 450S ANT G5RV 45 FT PWR 5W</item>
+        <item>TNX FB QSO ES 73</item>
+    </string-array>
+
 </resources>
