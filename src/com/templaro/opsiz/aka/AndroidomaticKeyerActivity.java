@@ -17,8 +17,12 @@
 package com.templaro.opsiz.aka;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -52,7 +56,10 @@ public class AndroidomaticKeyerActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        //TODO: Popuate String array from SQLite database
         String[] messages = getResources().getStringArray(R.array.messages_array);
+        
+        //TODO: A custom listview -- smaller fonts, etc.
         setListAdapter(new ArrayAdapter<String>(this, 
                 android.R.layout.simple_list_item_1, messages));
         
@@ -91,6 +98,42 @@ public class AndroidomaticKeyerActivity extends ListActivity {
         toneBar.setMax(1000);  // tone range is 500-1500
         toneBar.setProgress(200);  // so the starting val here is 700hz.
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.mode:
+            switchMode();
+            return true;
+        case R.id.help:
+        	Intent i = new Intent(this, Help.class);
+    		startActivity(i);
+            return true;
+        case R.id.settings:
+        	editSetting();
+        	return true;
+        case R.id.exit:
+        	finish();
+        	return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    private void switchMode() {
+	}
+    
+    private void editSetting() {
+    }
+    
     
     private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {

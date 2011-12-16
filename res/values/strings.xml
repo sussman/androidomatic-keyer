@@ -2,7 +2,48 @@
 <resources>
     
 	<string name="app_name">AKA</string>
-    
+	
+	<string name="mode_label">Hell mode</string>	    
+	<string name="help_label">Help</string>
+	<string name="exit_label">Exit</string>		
+	<string name="settings_label">Settings...</string>
+	
+	<string name="help_title">AKA Help</string>    
+	<string name="help_text">
+	    <b>What is it?</b>
+	    \n\nThe Androidomatic Keyer (also known as the AKA) is a memory keyer that 
+	    enables you to send either morse code or Hellscreiber mode messages from your 
+	    android phone through a radio transmitter. 
+	    In contrast to other digital modes, neither requires that the 
+	    radio transmit a modulated signal. Both modes switch the radio carrier
+	    on and off in a specific pattern. Consequently, they require little
+	    bandwidth and perform well even at low power and under noisy conditions.  
+	    This means that your radio can be a
+	    relatively simple CW transmitter -- perhaps something that
+	    you can build yourself. The phone\'s audio
+	    output needs to be connected to the radio\'s key jack through a simple interface 
+	    consisting of just a few easily obtainable components. Plans for building 
+	    such an interface can be found on the Internet at:
+	     goo.gl/dummyURLfornow.html.
+	     \n\n<b>Operation</b>
+	     \n\nThe keyer will send any message 
+	    that appears in the message window at the top
+	    of the screen. You can either type in a message or select one of the stored 
+	    messages. To store a new message, press the "+" key next to the message window. 
+	    Once you add a message, the keyer will remember it for next time.
+	    If you want to get rid of a stored message, select it for more than a second
+	    and then select <b>Delete</b> from the menu that appears. Similarly, if you want 
+	    to edit a previous message or copy it to a new message slot, select the message
+	    for more than a second and choose either <b>Edit</b> or <b>Copy</b>.
+	    \n\nA number of options are available through the menu, including the 
+	    ability to switch back and forth between morse code and Hellscreiber modes and to 
+	    change settings.\n\n
+	    <b>Modes</b>
+	    \n\n<u>Morse Code</u>:
+	    About morse and relevant.
+	    \n\n<u>Hellscreiber</u>: 
+	    About Hellscreiber and settings.\n</string>
+	   
     <string-array name="messages_array">
         <item>CQ CQ CQ DE AI4SV AI4SV K</item>
         <item>TNX FER CALL UR 599 OP JACK QTH FAIRFAX, VA</item>
