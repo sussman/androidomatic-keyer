@@ -50,5 +50,11 @@
         <item>RIG KNWD 450S ANT G5RV 45 FT PWR 5W</item>
         <item>TNX FB QSO ES 73</item>
     </string-array>
+    
+	<string-array name="message_options_array">
+        <item>Edit</item>
+        <item>Copy</item>
+        <item>Delete</item>
+    </string-array>
 
 </resources>

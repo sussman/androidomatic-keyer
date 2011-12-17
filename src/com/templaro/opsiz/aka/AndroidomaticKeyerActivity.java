@@ -20,6 +20,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -66,14 +68,13 @@ public class AndroidomaticKeyerActivity extends Activity {
         		android.R.layout.simple_list_item_1, messages);
         list.setAdapter(adapter);
         registerForContextMenu(list);
-       
 
-  	  list.setOnItemClickListener(new OnItemClickListener() {
-  	    public void onItemClick(AdapterView<?> parent, View view,
-  	        int position, long id) {
+  	  	list.setOnItemClickListener(new OnItemClickListener() {
+  	  		public void onItemClick(AdapterView<?> parent, View view,
+  	  				int position, long id) {
   	    		keyerEditText.setText(((TextView) view).getText().toString());
-  	    }
-  	  });
+  	  		}
+  	  	});
         
       
         soundThread = new Thread(new Runnable() {
@@ -136,6 +137,17 @@ public class AndroidomaticKeyerActivity extends Activity {
     private void editSetting() {
     }
     
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+        ContextMenuInfo menuInfo) {
+      if (v.getId()==R.id.list) {
+        menu.setHeaderTitle("Message Options");
+        String[] menuItems = getResources().getStringArray(R.array.message_options_array);
+        for (int i = 0; i<menuItems.length; i++) {
+          menu.add(Menu.NONE, i, i, menuItems[i]);
+        }
+      }
+    }
     
     private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {
