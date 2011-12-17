@@ -59,7 +59,8 @@ public class AndroidomaticKeyerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        //TODO: Populate String array from SQLite database
+        //TODO: Populate String array from SQLite database 
+        //for now, read initial strings from a static resource
         messages = getResources().getStringArray(R.array.messages_array);
         
         messageList = (ListView)findViewById(R.id.messageList);
@@ -156,7 +157,6 @@ public class AndroidomaticKeyerActivity extends Activity {
     	String[] menuItems = getResources().getStringArray(R.array.message_options_array);
     	String menuItemName = menuItems[menuItemIndex];
     	String listItemName = messages[info.position];
-
     	TextView text = (TextView)findViewById(R.id.instructionText);
     	
     	
