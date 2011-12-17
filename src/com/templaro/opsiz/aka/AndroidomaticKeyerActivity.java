@@ -159,11 +159,8 @@ public class AndroidomaticKeyerActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
     	int menuItemIndex = item.getItemId();
-    	String[] menuItems = getResources().getStringArray(R.array.message_options_array);
     	String listItemName = messages.get(info.position);
     	TextView text = (TextView)findViewById(R.id.instructionText);
-    	
-    	
     	switch (menuItemIndex) {
     	//Edit
     	case 0:
@@ -171,7 +168,8 @@ public class AndroidomaticKeyerActivity extends Activity {
     		return true;
     	//Copy	
     	case 1:
-    		text.setText(String.format("Copying item %s", listItemName));
+    		messages.add(info.position, messages.get(info.position));
+    		messageList.invalidateViews();
     		return true;
     	//Move Up	
     	case 2:
@@ -181,6 +179,8 @@ public class AndroidomaticKeyerActivity extends Activity {
     		return true;
     	//Delete	
     	case 4:
+    		messages.remove(info.position);
+    		messageList.invalidateViews();
     		return true;
     	default:
     		return super.onOptionsItemSelected(item);
