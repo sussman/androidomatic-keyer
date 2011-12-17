@@ -37,6 +37,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 public class AndroidomaticKeyerActivity extends Activity {
 	
@@ -173,9 +174,27 @@ public class AndroidomaticKeyerActivity extends Activity {
     		return true;
     	//Move Up	
     	case 2:
+    		if(info.position>0){
+    			messages.add(info.position-1,messages.get(info.position));
+    			messages.remove(info.position+1);
+    			messageList.invalidateViews();
+    		}
+    		else {
+    			Toast.makeText(getApplicationContext(), "Can't move up any further.",
+    			          Toast.LENGTH_SHORT).show();
+    		}
     		return true;
     	//Move Down	
     	case 3:
+    		if(info.position<(messages.size()-1)){
+    			messages.add(info.position,messages.get(info.position+1));
+    			messages.remove(info.position+2);
+    			messageList.invalidateViews();
+    		}
+    		else {
+    			Toast.makeText(getApplicationContext(), "Can't move down any further.",
+    			          Toast.LENGTH_SHORT).show();
+    		}
     		return true;
     	//Delete	
     	case 4:
@@ -186,7 +205,6 @@ public class AndroidomaticKeyerActivity extends Activity {
     		return super.onOptionsItemSelected(item);
     	}
     } 
-    
     
     private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {
