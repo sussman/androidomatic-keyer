@@ -56,6 +56,8 @@
 	<string-array name="message_options_array">
         <item>Edit</item>
         <item>Copy</item>
+        <item>Move Up</item>
+        <item>Move Down</item>
         <item>Delete</item>
     </string-array>
 

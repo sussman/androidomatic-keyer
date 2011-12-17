@@ -158,8 +158,29 @@ public class AndroidomaticKeyerActivity extends Activity {
     	String listItemName = messages[info.position];
 
     	TextView text = (TextView)findViewById(R.id.instructionText);
-    	text.setText(String.format("Selected %s for item %s", menuItemName, listItemName));
-    	return true;
+    	
+    	
+    	switch (menuItemIndex) {
+    	//Edit
+    	case 0:
+    		text.setText(String.format("Editing item %s", listItemName));
+    		return true;
+    	//Copy	
+    	case 1:
+    		text.setText(String.format("Copying item %s", listItemName));
+    		return true;
+    	//Move Up	
+    	case 2:
+    		return true;
+    	//Move Down	
+    	case 3:
+    		return true;
+    	//Delete	
+    	case 4:
+    		return true;
+    	default:
+    		return super.onOptionsItemSelected(item);
+    	}
     } 
     
     private OnClickListener playButtonListener = new OnClickListener() {
