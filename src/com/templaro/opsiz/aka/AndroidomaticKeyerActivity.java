@@ -16,6 +16,7 @@
 
 package com.templaro.opsiz.aka;
 
+import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private int speed = 15;  // should be tweakable
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
 	private ListView messageList;
-	private String[] messages;
+	private ArrayList<String> messages = new ArrayList<String>();
 	
     /** Called when the activity is first created. */
     @Override
@@ -60,9 +61,13 @@ public class AndroidomaticKeyerActivity extends Activity {
         setContentView(R.layout.main);
         
         //TODO: Populate String array from SQLite database 
-        //for now, read initial strings from a static resource
-        messages = getResources().getStringArray(R.array.messages_array);
+        //for now, read initial strings from an xml resource file
         
+        String [] importedMessages = getResources().getStringArray(R.array.messages_array);
+        for (String s: importedMessages) {
+        	messages.add(s);
+        }
+
         messageList = (ListView)findViewById(R.id.messageList);
         //TODO: A custom listview -- smaller fonts, etc.
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
@@ -76,7 +81,6 @@ public class AndroidomaticKeyerActivity extends Activity {
   	    		keyerEditText.setText(((TextView) view).getText().toString());
   	  		}
   	  	});
-        
       
         soundThread = new Thread(new Runnable() {
 	            @Override
@@ -102,6 +106,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         toneBar.setMax(1000);  // tone range is 500-1500
         toneBar.setProgress(200);  // so the starting val here is 700hz.
     }
+    
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -155,8 +160,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
     	int menuItemIndex = item.getItemId();
     	String[] menuItems = getResources().getStringArray(R.array.message_options_array);
-    	String menuItemName = menuItems[menuItemIndex];
-    	String listItemName = messages[info.position];
+    	String listItemName = messages.get(info.position);
     	TextView text = (TextView)findViewById(R.id.instructionText);
     	
     	
@@ -182,6 +186,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     		return super.onOptionsItemSelected(item);
     	}
     } 
+    
     
     private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {
