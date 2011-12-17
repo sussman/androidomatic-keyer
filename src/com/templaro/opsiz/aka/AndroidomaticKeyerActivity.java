@@ -16,7 +16,7 @@
 
 package com.templaro.opsiz.aka;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +35,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 
-public class AndroidomaticKeyerActivity extends ListActivity {
+public class AndroidomaticKeyerActivity extends Activity {
 	
 	private String TAG = "AndroidomaticKeyer";
 	private Thread soundThread;
@@ -45,10 +45,11 @@ public class AndroidomaticKeyerActivity extends ListActivity {
 	private TextView speedLabel;
 	private SeekBar toneBar;
 	private TextView toneLabel;
-	private String activeMessage;  // eventually chosen from SQLite list
 	private int hertz = 700;  // should be tweakable
 	private int speed = 15;  // should be tweakable
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
+	private ListView list;
+	private String[] messages;
 	
     /** Called when the activity is first created. */
     @Override
@@ -56,17 +57,18 @@ public class AndroidomaticKeyerActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        //TODO: Popuate String array from SQLite database
-        String[] messages = getResources().getStringArray(R.array.messages_array);
+        //TODO: Populate String array from SQLite database
+        messages = getResources().getStringArray(R.array.messages_array);
         
+        ListView list = (ListView)findViewById(R.id.list);
         //TODO: A custom listview -- smaller fonts, etc.
-        setListAdapter(new ArrayAdapter<String>(this, 
-                android.R.layout.simple_list_item_1, messages));
-        
-        ListView lv = getListView();
-  	  //lv.setTextFilterEnabled(true);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+        		android.R.layout.simple_list_item_1, messages);
+        list.setAdapter(adapter);
+        registerForContextMenu(list);
+       
 
-  	  lv.setOnItemClickListener(new OnItemClickListener() {
+  	  list.setOnItemClickListener(new OnItemClickListener() {
   	    public void onItemClick(AdapterView<?> parent, View view,
   	        int position, long id) {
   	    		keyerEditText.setText(((TextView) view).getText().toString());
