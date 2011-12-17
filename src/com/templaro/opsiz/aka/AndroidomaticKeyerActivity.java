@@ -62,7 +62,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         //TODO: Populate String array from SQLite database
         messages = getResources().getStringArray(R.array.messages_array);
         
-        ListView messageList = (ListView)findViewById(R.id.messageList);
+        messageList = (ListView)findViewById(R.id.messageList);
         //TODO: A custom listview -- smaller fonts, etc.
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
         		android.R.layout.simple_list_item_1, messages);
@@ -141,13 +141,26 @@ public class AndroidomaticKeyerActivity extends Activity {
     public void onCreateContextMenu(ContextMenu menu, View v,
         ContextMenuInfo menuInfo) {
       if (v.getId()==R.id.messageList) {
-        menu.setHeaderTitle("Message Options");
+        menu.setHeaderTitle(getResources().getString(R.string.messageOptions));
         String[] menuItems = getResources().getStringArray(R.array.message_options_array);
         for (int i = 0; i<menuItems.length; i++) {
           menu.add(Menu.NONE, i, i, menuItems[i]);
         }
       }
     }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+    	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+    	int menuItemIndex = item.getItemId();
+    	String[] menuItems = getResources().getStringArray(R.array.message_options_array);
+    	String menuItemName = menuItems[menuItemIndex];
+    	String listItemName = messages[info.position];
+
+    	TextView text = (TextView)findViewById(R.id.instructionText);
+    	text.setText(String.format("Selected %s for item %s", menuItemName, listItemName));
+    	return true;
+    } 
     
     private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {

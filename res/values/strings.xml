@@ -8,6 +8,8 @@
 	<string name="exit_label">Exit</string>		
 	<string name="settings_label">Settings...</string>
 	
+	<string name="messageOptions">Message Options</string>    
+	
 	<string name="help_title">AKA Help</string>    
 	<string name="help_text">
 	    <b>What is it?</b>
