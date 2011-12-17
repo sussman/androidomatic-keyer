@@ -50,7 +50,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private int hertz = 700;  // should be tweakable
 	private int speed = 15;  // should be tweakable
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
-	private ListView list;
+	private ListView messageList;
 	private String[] messages;
 	
     /** Called when the activity is first created. */
@@ -62,14 +62,14 @@ public class AndroidomaticKeyerActivity extends Activity {
         //TODO: Populate String array from SQLite database
         messages = getResources().getStringArray(R.array.messages_array);
         
-        ListView list = (ListView)findViewById(R.id.list);
+        ListView messageList = (ListView)findViewById(R.id.messageList);
         //TODO: A custom listview -- smaller fonts, etc.
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
         		android.R.layout.simple_list_item_1, messages);
-        list.setAdapter(adapter);
-        registerForContextMenu(list);
+        messageList.setAdapter(adapter);
+        registerForContextMenu(messageList);
 
-  	  	list.setOnItemClickListener(new OnItemClickListener() {
+  	  	messageList.setOnItemClickListener(new OnItemClickListener() {
   	  		public void onItemClick(AdapterView<?> parent, View view,
   	  				int position, long id) {
   	    		keyerEditText.setText(((TextView) view).getText().toString());
@@ -140,7 +140,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
         ContextMenuInfo menuInfo) {
-      if (v.getId()==R.id.list) {
+      if (v.getId()==R.id.messageList) {
         menu.setHeaderTitle("Message Options");
         String[] menuItems = getResources().getStringArray(R.array.message_options_array);
         for (int i = 0; i<menuItems.length; i++) {

@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topLinearLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#777"
     android:orientation="vertical"
     android:weightSum="1">
 
-    <ImageView android:layout_height="wrap_content" android:src="@drawable/bootian" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:id="@+id/bootianImage"></ImageView>
-    <TextView android:layout_height="wrap_content" android:text="Enter keyer message:" android:gravity="center_horizontal" android:layout_width="fill_parent" android:id="@+id/instructionText"></TextView>
-    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/keyerEditText" android:layout_marginBottom="10dip" android:layout_marginLeft="10dip" android:layout_marginRight="10dip">
+    <ImageView android:layout_height="wrap_content" 
+        android:src="@drawable/bootian" 
+        android:layout_width="wrap_content" 
+        android:layout_gravity="center_horizontal" 
+        android:id="@+id/bootianImage">
+    </ImageView>
+    <TextView android:layout_height="wrap_content" 
+        android:text="Enter keyer message:" 
+        android:gravity="center_horizontal" 
+        android:layout_width="fill_parent" 
+        android:id="@+id/instructionText">
+    </TextView>
+    <EditText android:layout_height="wrap_content" 
+        android:layout_width="fill_parent" 
+        android:id="@+id/keyerEditText" 
+        android:layout_marginBottom="10dip" 
+        android:layout_marginLeft="10dip" 
+        android:layout_marginRight="10dip">
         <requestFocus></requestFocus>
     </EditText>
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
+        android:id="@+id/speedBarLinearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
@@ -22,19 +38,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="05 WPM"
-            android:textAppearance="?android:attr/textAppearanceSmall" android:gravity="right" android:ems="4" android:focusableInTouchMode="true"/>
+            android:textAppearance="?android:attr/textAppearanceSmall" 
+            android:gravity="right" android:ems="4" 
+            android:focusableInTouchMode="true"/>
 
         <SeekBar
             android:id="@+id/speedBar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" 
-            android:paddingLeft="10dip" android:paddingRight="10dip" android:layout_marginLeft="10dip"/>
+            android:paddingLeft="10dip" 
+            android:paddingRight="10dip" 
+            android:layout_marginLeft="10dip"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/toneBarLinearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
@@ -43,18 +63,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="500 Hz"
-            android:textAppearance="?android:attr/textAppearanceSmall" android:gravity="right" android:ems="4"/>
+            android:textAppearance="?android:attr/textAppearanceSmall" 
+            android:gravity="right" 
+            android:ems="4"/>
 
         <SeekBar
             android:id="@+id/toneBar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="10dip" android:paddingRight="10dip" android:layout_marginLeft="10dip"/>
+            android:paddingLeft="10dip" 
+            android:paddingRight="10dip" 
+            android:layout_marginLeft="10dip"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/playButtonLinearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal" >
@@ -62,18 +86,23 @@
         <Button
             android:id="@+id/playButton"
             android:ellipsize="none"
-            android:text="Play" android:layout_width="wrap_content" android:layout_height="wrap_content" android:saveEnabled="false" android:minEms="6" android:layout_marginTop="10dip"/>
+            android:text="Play" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:saveEnabled="false" 
+            android:minEms="6" 
+            android:layout_marginTop="10dip"/>
 
     </LinearLayout>
     
      <ListView  
-         android:id="@+id/list"
+         android:id="@+id/messageList"
          android:layout_width="fill_parent" 
          android:layout_height="wrap_content"  />
      
-     <TextView android:id="@+id/empty"
+     <TextView android:id="@+id/emptyMessageList"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:text="Empty set"  />
+         android:text="No messages have been entered"  />
     
 </LinearLayout>
