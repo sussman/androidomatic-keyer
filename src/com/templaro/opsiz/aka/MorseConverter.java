@@ -19,69 +19,118 @@
    and hacked on quite a bit.  Hooray for Apache-licensed examples! */
 package com.templaro.opsiz.aka;
 
+import java.util.HashMap;
+
 /** Class that implements the text to morse code conversion */
 class MorseConverter {
-
-    /** The characters from 'A' to 'Z' */
-    private static final MorseBit[][] LETTERS = new MorseBit[][] {
-        /* A */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
-        /* B */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-        /* C */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT },
-        /* D */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-        /* E */ new MorseBit[] { MorseBit.DOT },
-        /* F */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT },
-        /* G */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT },
-        /* H */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-        /* I */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-        /* J */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
-        /* K */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
-        /* L */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-        /* M */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
-        /* N */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT },
-        /* O */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
-        /* P */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT },
-        /* Q */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
-        /* R */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT },
-        /* S */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-        /* T */ new MorseBit[] { MorseBit.DASH },
-        /* U */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
-        /* V */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
-        /* W */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
-        /* X */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
-        /* Y */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
-        /* Z */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-    };
-
-    /** The characters from '0' to '9' */
-    private static final MorseBit[][] NUMBERS = new MorseBit[][] {
-        /* 0 */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
-        /* 1 */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
-        /* 2 */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
-        /* 3 */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH },
-        /* 4 */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH },
-        /* 5 */ new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-        /* 6 */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-        /* 7 */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-        /* 8 */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT },
-        /* 9 */ new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT },
-    };
+	
+	private static final HashMap<Character, MorseBit[]> morse_map = new HashMap<Character, MorseBit[]>(){
+        {
+        	put('A', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH });
+        	put('B', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT });
+        	put('C', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DOT });
+        	put('D', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT });
+        	put('E', new MorseBit[] { MorseBit.DOT });
+        	put('F', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DOT });
+        	put('G', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DOT });
+        	put('H', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP,
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT });
+        	put('I', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT });
+        	put('J', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DASH });
+        	put('K', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DASH });
+        	put('L', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT });
+        	put('M', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH });
+        	put('N', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT });
+        	put('O', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DASH });
+        	put('P', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DOT});
+        	put('Q', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DASH });
+        	put('R', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DOT});
+        	put('S', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT });
+        	put('T', new MorseBit[] { MorseBit.DASH });
+        	put('U', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DASH });
+        	put('V', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP,
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DASH });
+        	put('W', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DASH });
+        	put('X', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DASH });
+        	put('Y', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DASH });
+        	put('Z', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT });
+        	put('0', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH });
+        	put('1',new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH });
+        	put('2', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH });
+        	put('3', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DASH });
+        	put('4', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH });
+        	put('5', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT });
+        	put('6', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT });
+        	put('7', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT });
+        	put('8',new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DOT });
+        	put('9',new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP,
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT });
+        	put('/', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP,
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT});
+        	put('.', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, 
+        			MorseBit.GAP, MorseBit.DASH});
+        	put(',', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT,MorseBit.GAP, MorseBit.DASH, 
+        			MorseBit.GAP, MorseBit.DASH});
+        	put('?', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, 
+        			MorseBit.GAP, MorseBit.DOT});
+        	//BT
+        	put('=', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH});
+        	put('-', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, MorseBit.DASH});
+        	//AR
+        	put('+', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT});
+        	//KN
+        	put('~', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DASH, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT});
+        	//SK
+        	put('*', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
+        			MorseBit.DOT, MorseBit.GAP, MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, 
+        			MorseBit.GAP, MorseBit.DASH });	
+        	}
+        };
 
     private static final MorseBit[] ERROR_GAP = new MorseBit[] { MorseBit.GAP };
 
     /** Return the pattern data for a given character */
     static MorseBit[] pattern(char c) {
-        if (c >= 'A' && c <= 'Z') {
-            return LETTERS[c - 'A'];
-        }
-        if (c >= 'a' && c <= 'z') {
-            return LETTERS[c - 'a'];
-        }
-        else if (c >= '0' && c <= '9') {
-            return NUMBERS[c - '0'];
-        }
-        else {
-            return ERROR_GAP;
-        }
+    	if (Character.isLetter(c))
+            c = Character.toUpperCase(c);
+    	if (morse_map.containsKey(c))
+        	return morse_map.get(c);
+    	else
+        	return ERROR_GAP;
     }
 
     static MorseBit[] pattern(String str) {
