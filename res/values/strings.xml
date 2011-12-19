@@ -3,7 +3,8 @@
     
 	<string name="app_name">AKA</string>
 	
-	<string name="mode_label">Hell mode</string>	    
+	<string name="toCW_label">CW mode</string>	  
+	<string name="toHell_label">HELL mode</string>  
 	<string name="help_label">Help</string>
 	<string name="exit_label">Exit</string>		
 	<string name="settings_label">Settings...</string>
@@ -48,7 +49,7 @@
 	   
     <string-array name="messages_array">
         <item>CQ CQ CQ DE AI4SV AI4SV K</item>
-        <item>TNX FER CALL UR 599 OP JACK QTH FAIRFAX, VA</item>
+        <item>TNX FER CALL = UR 599 OP JACK QTH FAIRFAX, VA +</item>
         <item>RIG KNWD 450S ANT G5RV 45 FT PWR 5W</item>
         <item>TNX FB QSO ES 73</item>
     </string-array>

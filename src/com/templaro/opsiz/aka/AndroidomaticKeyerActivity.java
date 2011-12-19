@@ -54,6 +54,8 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
 	private ListView messageList;
 	private ArrayList<String> messages = new ArrayList<String>();
+	private boolean cwMode = true;
+	
 	
     /** Called when the activity is first created. */
     @Override
@@ -130,16 +132,31 @@ public class AndroidomaticKeyerActivity extends Activity {
         case R.id.settings:
         	editSetting();
         	return true;
-        case R.id.exit:
-        	finish();
-        	return true;
         default:
             return super.onOptionsItemSelected(item);
         }
     }
     
     private void switchMode() {
+    	//TODO: Revise UI to reflect change of mode
+    	//(in addition to menu button text changing)
+    	cwMode = !cwMode;
 	}
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+    	if(cwMode){
+            menu
+            .findItem(R.id.mode)
+            .setTitle(R.string.toHell_label);
+    	}
+    	else {
+    		menu
+    		.findItem(R.id.mode)
+    		.setTitle(R.string.toCW_label);
+    	}
+            return super.onPrepareOptionsMenu(menu);
+    }
     
     private void editSetting() {
     }
@@ -161,7 +178,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
     	int menuItemIndex = item.getItemId();
     	String listItemName = messages.get(info.position);
-    	TextView text = (TextView)findViewById(R.id.instructionText);
+    	TextView text = (TextView)findViewById(R.id.instructionText); //for debugging only
     	switch (menuItemIndex) {
     	//Edit
     	case 0:
