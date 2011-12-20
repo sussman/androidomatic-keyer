@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="General"
+        android:key="general_category">
+        
+        //Language Selection if Internationalized //
+
+        <EditTextPreference
+            android:key="callsign"
+            android:title="Your Callsign"
+            android:summary="Callsign to substitute for @ in the text"
+            android:dialogTitle="Callsign"
+            android:dialogMessage="Enter your callsign"   
+            android:defaultValue="URCALL" />
+        
+          <CheckBoxPreference
+            android:key="suppress_other_sound"
+            android:summary="Suppress all other phone sounds including ringing and alarms"
+            android:title="Suppress Other Phone Sounds"
+            android:defaultValue="true"  />
+        
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+		android:title="CW (Morse Code) Mode"
+        android:key="cw_category" >
+    </PreferenceCategory>      
+    
+    <PreferenceCategory
+        android:title="Hellscreiber Mode"
+        android:key="hell_category">
+        
+    </PreferenceCategory>
+    
+    <PreferenceCategory>
+        android:title="Beacon"
+        android:key="beacon_category"
+        
+        <EditTextPreference
+            android:key="beacon_text"
+            android:title="Beacon Text"
+            android:summary="Message to be sent by beacon"
+            android:dialogTitle="Beacon Message"
+            android:dialogMessage="Enter a message"   
+            android:defaultValue="QTH # DE @/B @/B" />
+        
+         <ListPreference
+            android:key="beacon_interval"
+            android:title="Beacon Interval"
+
+            android:summary="Define how often beacon is sent"
+            android:defaultValue="15"
+            android:entries="@array/beaconInterval"
+            android:entryValues="@array/beaconIntervalValues" />   
+       
+    </PreferenceCategory>
+
+</PreferenceScreen>
+

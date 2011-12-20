@@ -63,6 +63,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        
         //TODO: Populate String array from SQLite database 
         //for now, read initial strings from an xml resource file
         
@@ -126,11 +127,10 @@ public class AndroidomaticKeyerActivity extends Activity {
             switchMode();
             return true;
         case R.id.help:
-        	Intent i = new Intent(this, Help.class);
-    		startActivity(i);
+    		startActivity(new Intent(this, Help.class));
             return true;
         case R.id.settings:
-        	editSetting();
+        	startActivity(new Intent(this, Settings.class));
         	return true;
         default:
             return super.onOptionsItemSelected(item);
@@ -158,8 +158,6 @@ public class AndroidomaticKeyerActivity extends Activity {
             return super.onPrepareOptionsMenu(menu);
     }
     
-    private void editSetting() {
-    }
     
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
