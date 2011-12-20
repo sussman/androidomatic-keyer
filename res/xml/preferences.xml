@@ -18,7 +18,7 @@
           <CheckBoxPreference
             android:key="suppress_other_sound"
             android:summary="Suppress all other phone sounds including ringing and alarms"
-            android:title="Suppress Other Phone Sounds"
+            android:title="Suppress Phone Sounds"
             android:defaultValue="true"  />
         
     </PreferenceCategory>
@@ -31,12 +31,11 @@
     <PreferenceCategory
         android:title="Hellscreiber Mode"
         android:key="hell_category">
-        
     </PreferenceCategory>
     
-    <PreferenceCategory>
+    <PreferenceCategory
         android:title="Beacon"
-        android:key="beacon_category"
+        android:key="beacon_category">
         
         <EditTextPreference
             android:key="beacon_text"
