@@ -252,6 +252,21 @@ public class AndroidomaticKeyerActivity extends Activity {
              speed = prefs.getInt("wpm", 15);
     }
     
+    /** Called when activity stops */
+    @Override
+    protected void onStop(){
+       super.onStop();
+
+      //save the current preferences for next time...
+       SharedPreferences prefs = 
+               PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+      SharedPreferences.Editor editor = prefs.edit();
+      editor.putInt("sidetone", hertz);
+      editor.putInt("wpm", speed);
+      editor.commit();
+    }
+    
+    
     private OnSeekBarChangeListener speedBarListener = new OnSeekBarChangeListener() {
     	private boolean was_playing = false;
     	
