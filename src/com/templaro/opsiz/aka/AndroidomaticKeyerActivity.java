@@ -69,15 +69,18 @@ public class AndroidomaticKeyerActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "Initialize layout");
         setContentView(R.layout.main);
+        
         
         //TODO: Populate String array from SQLite database 
         //for now, read initial strings from an xml resource file
-        
+        Log.i(TAG, "Importing canned messages");
         String [] importedMessages = getResources().getStringArray(R.array.messages_array);
         for (String s: importedMessages) {
         	messages.add(s);
         }
+        Log.i(TAG, "Canned messages imported");	
 
         messageList = (ListView)findViewById(R.id.messageList);
         //TODO: A custom listview -- smaller fonts, etc.
@@ -147,6 +150,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     private void switchMode() {
     	//TODO: Revise UI to reflect change of mode
     	//(in addition to menu button text changing)
+    	Log.i(TAG, "Switched to " + (String) ((cwMode) ? "Hell" : "CW" + " mode"));
     	cwMode = !cwMode;
 	}
 
@@ -183,17 +187,19 @@ public class AndroidomaticKeyerActivity extends Activity {
     	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
     	int menuItemIndex = item.getItemId();
     	String listItemName = messages.get(info.position);
-    	TextView text = (TextView)findViewById(R.id.instructionText); //for debugging only
     	switch (menuItemIndex) {
     	case MENU_EDIT:
-    		text.setText(String.format("Editing item %s", listItemName));
+    		Log.i(TAG, String.format("Editing message %s at index %d", 
+    				listItemName, info.position));
     		return true;
     	case MENU_COPY:
+    		Log.i(TAG, String.format("Copying message at index %d", info.position));
     		messages.add(info.position, messages.get(info.position));
     		messageList.invalidateViews();
     		return true;
     	case MENU_MOVE_UP:
     		if(info.position>0){
+    			Log.i(TAG, String.format("Try to move up message at index %d", info.position));
     			messages.add(info.position-1,messages.get(info.position));
     			messages.remove(info.position+1);
     			messageList.invalidateViews();
@@ -204,6 +210,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     		}
     		return true;
     	case MENU_MOVE_DOWN:
+    		Log.i(TAG, String.format("Try to move down message at index %d", info.position));
     		if(info.position<(messages.size()-1)){
     			messages.add(info.position,messages.get(info.position+1));
     			messages.remove(info.position+2);
@@ -215,6 +222,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     		}
     		return true;
     	case MENU_DELETE:
+    		Log.i(TAG, String.format("Delete message at index %d", info.position));
     		messages.remove(info.position);
     		messageList.invalidateViews();
     		return true;
@@ -246,6 +254,7 @@ public class AndroidomaticKeyerActivity extends Activity {
      *  Preferences activity)
      */
     private void getSettings() {
+    		Log.i(TAG, "Loading saved preferences");
              SharedPreferences prefs = 
                      PreferenceManager.getDefaultSharedPreferences(getBaseContext());
              hertz = prefs.getInt("sidetone", 800);
@@ -258,6 +267,7 @@ public class AndroidomaticKeyerActivity extends Activity {
        super.onStop();
 
       //save the current preferences for next time...
+       Log.i(TAG, "Saving current preferences");
        SharedPreferences prefs = 
                PreferenceManager.getDefaultSharedPreferences(getBaseContext());
       SharedPreferences.Editor editor = prefs.edit();
