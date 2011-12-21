@@ -43,6 +43,12 @@ import android.widget.Toast;
 
 public class AndroidomaticKeyerActivity extends Activity {
 	
+	private static final int MENU_EDIT = 0;
+	private static final int MENU_COPY = 1;
+	private static final int MENU_MOVE_UP = 2;
+	private static final int MENU_MOVE_DOWN = 3;
+	private static final int MENU_DELETE = 4;
+	
 	private String TAG = "AndroidomaticKeyer";
 	private Thread soundThread;
 	private Button playButton;
@@ -179,17 +185,14 @@ public class AndroidomaticKeyerActivity extends Activity {
     	String listItemName = messages.get(info.position);
     	TextView text = (TextView)findViewById(R.id.instructionText); //for debugging only
     	switch (menuItemIndex) {
-    	//Edit
-    	case 0:
+    	case MENU_EDIT:
     		text.setText(String.format("Editing item %s", listItemName));
     		return true;
-    	//Copy	
-    	case 1:
+    	case MENU_COPY:
     		messages.add(info.position, messages.get(info.position));
     		messageList.invalidateViews();
     		return true;
-    	//Move Up	
-    	case 2:
+    	case MENU_MOVE_UP:
     		if(info.position>0){
     			messages.add(info.position-1,messages.get(info.position));
     			messages.remove(info.position+1);
@@ -200,8 +203,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     			          Toast.LENGTH_SHORT).show();
     		}
     		return true;
-    	//Move Down	
-    	case 3:
+    	case MENU_MOVE_DOWN:
     		if(info.position<(messages.size()-1)){
     			messages.add(info.position,messages.get(info.position+1));
     			messages.remove(info.position+2);
@@ -212,8 +214,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     			          Toast.LENGTH_SHORT).show();
     		}
     		return true;
-    	//Delete	
-    	case 4:
+    	case MENU_DELETE:
     		messages.remove(info.position);
     		messageList.invalidateViews();
     		return true;
