@@ -19,7 +19,9 @@ package com.templaro.opsiz.aka;
 import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -62,7 +64,6 @@ public class AndroidomaticKeyerActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
         
         //TODO: Populate String array from SQLite database 
         //for now, read initial strings from an xml resource file
@@ -230,6 +231,25 @@ public class AndroidomaticKeyerActivity extends Activity {
         	}
         }
     };
+    
+    
+    /** Called whenever activity comes (or returns) to foreground. */
+    @Override
+    public void onStart() {
+            super.onStart();
+            getSettings();  // make sure user prefs are applied
+    }
+    
+    /** Called by onStart(), to make sure prefs are loaded whenever we return
+     *  to the main AKA activity (e.g. after backing out of the 
+     *  Preferences activity)
+     */
+    private void getSettings() {
+             SharedPreferences prefs = 
+                     PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+             hertz = prefs.getInt("sidetone", 800);
+             speed = prefs.getInt("wpm", 15);
+    }
     
     private OnSeekBarChangeListener speedBarListener = new OnSeekBarChangeListener() {
     	private boolean was_playing = false;
