@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:templaro="http://templaro.com" >
+    
     <PreferenceCategory
         android:title="General"
         android:key="general_category">
@@ -26,12 +29,46 @@
     <PreferenceCategory
 		android:title="CW (Morse Code) Mode"
         android:key="cw_category" >
+          
+        <com.templaro.opsiz.aka.SeekBarPreference
+            	android:key="sidetone"
+                android:title="Sidetone pitch"
+                android:summary="Adjust audible tone"
+                android:defaultValue="800"
+                android:max="2000"
+                templaro:min="500"
+            	templaro:unitsLeft=""
+                templaro:unitsRight="Hz"
+            />
+        
+          <com.templaro.opsiz.aka.SeekBarPreference
+            	android:key="wpm"
+                android:title="Code speed"
+                android:summary="Adjust speed of sent code"
+                android:defaultValue="15"
+                android:max="60"
+                templaro:min="5"
+            	templaro:unitsLeft=""
+                templaro:unitsRight="wpm"
+            />
+        
     </PreferenceCategory>      
     
     <PreferenceCategory
         android:title="Hellscreiber Mode"
         android:key="hell_category">
     </PreferenceCategory>
+    
+         <com.templaro.opsiz.aka.SeekBarPreference
+            	android:key="HellTiming"
+                android:title="Tweak fine timing"
+                android:summary="Adjust character darkness"
+                android:defaultValue="0"
+                android:max="2000"
+                templaro:min="-2000"
+            	templaro:unitsLeft=""
+                templaro:unitsRight="μSec"
+            />
     
     <PreferenceCategory
         android:title="Beacon"
