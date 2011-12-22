@@ -34,9 +34,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -53,12 +51,8 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private Thread soundThread;
 	private Button playButton;
 	private EditText keyerEditText;
-	private SeekBar speedBar;
-	private TextView speedLabel;
-	private SeekBar toneBar;
-	private TextView toneLabel;
-	private int hertz = 700;  // should be tweakable
-	private int speed = 15;  // should be tweakable
+	private int hertz = 800; 
+	private int speed = 15; 
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
 	private ListView messageList;
 	private ArrayList<String> messages = new ArrayList<String>();
@@ -86,17 +80,6 @@ public class AndroidomaticKeyerActivity extends Activity {
         
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
         
-        speedBar = (SeekBar)findViewById(R.id.speedBar);
-        speedLabel = (TextView)findViewById(R.id.speedLabel);
-        speedBar.setOnSeekBarChangeListener(speedBarListener);
-        speedBar.setMax(45);  // actually WPM speed range is 5-50.
-        speedBar.setProgress(10);  // so the starting val here is 15 wpm.
-        
-        toneBar = (SeekBar)findViewById(R.id.toneBar);
-        toneLabel = (TextView)findViewById(R.id.toneLabel);
-        toneBar.setOnSeekBarChangeListener(toneBarListener);
-        toneBar.setMax(1000);  // tone range is 500-1500
-        toneBar.setProgress(200);  // so the starting val here is 700hz.
     }
     
  
@@ -282,51 +265,6 @@ public class AndroidomaticKeyerActivity extends Activity {
       editor.putInt("wpm", speed);
       editor.commit();
     }
-    
-    
-    private OnSeekBarChangeListener speedBarListener = new OnSeekBarChangeListener() {
-    	private boolean was_playing = false;
-    	
-    	public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
-    		speedLabel.setText(String.format("%d WPM", progress + 5));
-    	}
-    	
-    	public void onStartTrackingTouch(SeekBar seekBar) {
-    		if (soundThread.isAlive())
-    			was_playing = true;
-    		stopMessage();  // user has begun changing WPM; kill any current sound
-    	}
-    	
-    	public void onStopTrackingTouch(SeekBar seekBar) {
-    		if (was_playing) {
-    			startMessage(); // user finished changing WPM; restart sound if necessary
-    			was_playing = false;
-    		}
-    	}
-    };
-    
-    
-    private OnSeekBarChangeListener toneBarListener = new OnSeekBarChangeListener() {
-    	private boolean was_playing = false;
-    	
-    	public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
-    		toneLabel.setText(String.format("%d Hz", progress + 500));
-    	}
-    	
-    	public void onStartTrackingTouch(SeekBar seekBar) {
-    		if (soundThread.isAlive())
-    			was_playing = true;
-    		stopMessage();  // user has begun changing tone; kill any current sound
-    	}
-    	
-    	public void onStopTrackingTouch(SeekBar seekBar) {
-    		if (was_playing) {
-    			startMessage(); // user finished changing tone; restart sound if necessary
-    			was_playing = false;
-    		}
-    	}
-    };
-    
     
 	// Play sound (infinite loop) on separate thread from main UI thread.
     void startMessage() {

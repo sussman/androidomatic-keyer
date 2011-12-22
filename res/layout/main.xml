@@ -29,55 +29,6 @@
     </EditText>
 
     <LinearLayout
-        android:id="@+id/speedBarLinearLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/speedLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="05 WPM"
-            android:textAppearance="?android:attr/textAppearanceSmall" 
-            android:gravity="right" android:ems="4" 
-            android:focusableInTouchMode="true"/>
-
-        <SeekBar
-            android:id="@+id/speedBar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" 
-            android:paddingLeft="10dip" 
-            android:paddingRight="10dip" 
-            android:layout_marginLeft="10dip"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/toneBarLinearLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/toneLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="500 Hz"
-            android:textAppearance="?android:attr/textAppearanceSmall" 
-            android:gravity="right" 
-            android:ems="4"/>
-
-        <SeekBar
-            android:id="@+id/toneBar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="10dip" 
-            android:paddingRight="10dip" 
-            android:layout_marginLeft="10dip"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/playButtonLinearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
