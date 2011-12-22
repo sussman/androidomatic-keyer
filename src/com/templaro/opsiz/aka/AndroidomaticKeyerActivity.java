@@ -52,7 +52,8 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private Button playButton;
 	private EditText keyerEditText;
 	private int hertz = 800; 
-	private int speed = 15; 
+	private int speed = 15;
+	private int darkness = 0;
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
 	private ListView messageList;
 	private ArrayList<String> messages = new ArrayList<String>();
@@ -249,6 +250,7 @@ public class AndroidomaticKeyerActivity extends Activity {
                      PreferenceManager.getDefaultSharedPreferences(getBaseContext());
              hertz = prefs.getInt("sidetone", 800);
              speed = prefs.getInt("wpm", 15);
+             darkness = prefs.getInt("hellTiming", 0);
     }
     
     /** Called when activity stops */
@@ -263,6 +265,7 @@ public class AndroidomaticKeyerActivity extends Activity {
       SharedPreferences.Editor editor = prefs.edit();
       editor.putInt("sidetone", hertz);
       editor.putInt("wpm", speed);
+      editor.putInt("hellTiming", darkness);
       editor.commit();
     }
     
