@@ -71,31 +71,9 @@ public class AndroidomaticKeyerActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "Initialize layout");
         setContentView(R.layout.main);
-        
-        
-        //TODO: Populate String array from SQLite database 
-        //for now, read initial strings from an xml resource file
-        Log.i(TAG, "Importing canned messages");
-        String [] importedMessages = getResources().getStringArray(R.array.messages_array);
-        for (String s: importedMessages) {
-        	messages.add(s);
-        }
-        Log.i(TAG, "Canned messages imported");	
+        LoadMessages();
+        DisplayMessages();
 
-        messageList = (ListView)findViewById(R.id.messageList);
-        //TODO: A custom listview -- smaller fonts, etc.
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-        		android.R.layout.simple_list_item_1, messages);
-        messageList.setAdapter(adapter);
-        registerForContextMenu(messageList);
-
-  	  	messageList.setOnItemClickListener(new OnItemClickListener() {
-  	  		public void onItemClick(AdapterView<?> parent, View view,
-  	  				int position, long id) {
-  	    		keyerEditText.setText(((TextView) view).getText().toString());
-  	  		}
-  	  	});
-      
         soundThread = new Thread(new Runnable() {
 	            @Override
 	            public void run() {
@@ -121,8 +99,37 @@ public class AndroidomaticKeyerActivity extends Activity {
         toneBar.setProgress(200);  // so the starting val here is 700hz.
     }
     
-    
-    @Override
+ 
+	private void LoadMessages() {
+    	 //TODO: Populate String array from SQLite database 
+        //for now, read initial strings from an xml resource file
+        Log.i(TAG, "Importing canned messages");
+        String [] importedMessages = getResources().getStringArray(R.array.messages_array);
+        for (String s: importedMessages) {
+        	messages.add(s);
+        }
+        Log.i(TAG, "Canned messages imported");	
+	}
+	
+    private void DisplayMessages() {
+    	messageList = (ListView)findViewById(R.id.messageList);
+        //TODO: A custom listview -- smaller fonts, etc.
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+        		android.R.layout.simple_list_item_1, messages);
+        messageList.setAdapter(adapter);
+        registerForContextMenu(messageList);
+
+  	  	messageList.setOnItemClickListener(new OnItemClickListener() {
+  	  		public void onItemClick(AdapterView<?> parent, View view,
+  	  				int position, long id) {
+  	    		keyerEditText.setText(((TextView) view).getText().toString());
+  	  		}
+  	  	});
+  	  Log.i(TAG, "Displaed Message Listview");	
+	}
+
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
@@ -329,8 +336,8 @@ public class AndroidomaticKeyerActivity extends Activity {
     	}
     	Log.i(TAG, "Starting morse thread with new message.");
     	player.setMessage(keyerEditText.getText().toString());
-    	player.setSpeed(speedBar.getProgress() + 5);
-    	player.setTone(toneBar.getProgress() + 500);
+    	player.setSpeed(speed);
+    	player.setTone(hertz);
     	soundThread = new Thread(new Runnable() {
 	           @Override
 	            public void run() {

@@ -60,14 +60,14 @@
     </PreferenceCategory>
     
          <com.templaro.opsiz.aka.SeekBarPreference
-            	android:key="HellTiming"
-                android:title="Tweak fine timing"
-                android:summary="Adjust character darkness"
+            	android:key="hellTiming"
+                android:title="Character Darkness"
+                android:summary="Adjust fine timing"
                 android:defaultValue="0"
-                android:max="2000"
-                templaro:min="-2000"
+                android:max="50"
+                templaro:min="-50"
             	templaro:unitsLeft=""
-                templaro:unitsRight="μSec"
+                templaro:unitsRight="% Dark"
             />
     
     <PreferenceCategory

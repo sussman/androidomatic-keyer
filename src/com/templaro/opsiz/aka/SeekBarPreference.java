@@ -31,6 +31,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     private int mInterval      = 1;
     private int mCurrentValue;
     private String mUnitsLeft  = "";
+    private String mKey = "";
     private String mUnitsRight = "";
     private SeekBar mSeekBar;
     
@@ -60,6 +61,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         mUnitsLeft = getAttributeStringValue(attrs, TEMPLARONS, "unitsLeft", "");
         String units = getAttributeStringValue(attrs, TEMPLARONS, "units", "");
         mUnitsRight = getAttributeStringValue(attrs, TEMPLARONS, "unitsRight", units);
+        mKey = getAttributeStringValue(attrs, ANDROIDNS, "key", "");
         
         try {
             String newInterval = attrs.getAttributeValue(TEMPLARONS, "interval");
@@ -175,8 +177,8 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         // change accepted, store it
         mCurrentValue = newValue;
         mStatusText.setText(String.valueOf(newValue));
+        Log.i(TAG, (String.format("Updated the %s seekbar and saved value of %d", mKey, newValue)));
         persistInt(newValue);
-
     }
 
     @Override
