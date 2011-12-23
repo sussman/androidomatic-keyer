@@ -47,7 +47,7 @@
                 android:summary="Adjust speed of sent code"
                 android:defaultValue="15"
                 android:max="60"
-                templaro.min="5"
+                templaro:min="5"
             	templaro:unitsLeft=""
                 templaro:unitsRight="wpm"
             />
