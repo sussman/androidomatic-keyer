@@ -3,3 +3,4 @@ bin
 .project
 gen
 proguard.cfg
+.DS_Store
