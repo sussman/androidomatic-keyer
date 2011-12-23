@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<resources>
+		<declare-styleable name="com.templaro.opsiz.aka.SeekBarPreference">
+			<attr name="min" format="integer" />
+			<attr name="interval" format="integer" />
+			<attr name="units" format="string" />
+			<attr name="unitsLeft" format="string" />
+			<attr name="unitsRight" format="string" />
+		</declare-styleable>
+	</resources>

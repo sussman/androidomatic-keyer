@@ -23,7 +23,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     private final String TAG = getClass().getName();
     
     private static final String ANDROIDNS="http://schemas.android.com/apk/res/android";
-    private static final String TEMPLARONS="http://templaro.com";
+    private static final String TEMPLARONS="http://schemas.android.com/apk/res/com.templaro.opsiz.aka";
     private static final int DEFAULT_VALUE = 50;
     
     private int mMaxValue      = 100;
@@ -50,14 +50,14 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     private void initPreference(Context context, AttributeSet attrs) {
         setValuesFromXml(attrs);
         mSeekBar = new SeekBar(context, attrs);
-        mSeekBar.setOnSeekBarChangeListener(this);
         mSeekBar.setMax(mMaxValue - mMinValue);
+        mSeekBar.setOnSeekBarChangeListener(this);
     }
     
     private void setValuesFromXml(AttributeSet attrs) {
+    	
         mMaxValue = attrs.getAttributeIntValue(ANDROIDNS, "max", 100);
         mMinValue = attrs.getAttributeIntValue(TEMPLARONS, "min", 0);
-        
         mUnitsLeft = getAttributeStringValue(attrs, TEMPLARONS, "unitsLeft", "");
         String units = getAttributeStringValue(attrs, TEMPLARONS, "units", "");
         mUnitsRight = getAttributeStringValue(attrs, TEMPLARONS, "unitsRight", units);
@@ -70,8 +70,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         }
         catch(Exception e) {
             Log.e(TAG, "Invalid interval value", e);
-        }
-        
+        }  
     }
     
     private String getAttributeStringValue(AttributeSet attrs, String namespace, String name, String defaultValue) {
