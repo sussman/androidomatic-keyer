@@ -18,6 +18,9 @@ package com.templaro.opsiz.aka;
 
 import java.util.ArrayList;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,6 +28,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,11 +45,16 @@ import android.widget.Toast;
 
 public class AndroidomaticKeyerActivity extends Activity {
 	
+	//Context Menu Options
 	private static final int MENU_EDIT = 0;
 	private static final int MENU_COPY = 1;
 	private static final int MENU_MOVE_UP = 2;
 	private static final int MENU_MOVE_DOWN = 3;
 	private static final int MENU_DELETE = 4;
+	
+    // Dialog boxes we manage. Passed to showDialog().
+    // Processed in onDialogCreate().
+	private static final int DIALOG_EDIT_MESSAGE= 1;
 	
 	private String TAG = "AndroidomaticKeyer";
 	private Thread soundThread;
@@ -180,6 +189,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     	String listItemName = messages.get(info.position);
     	switch (menuItemIndex) {
     	case MENU_EDIT:
+    		showDialog(DIALOG_EDIT_MESSAGE);
     		Log.i(TAG, String.format("Editing message %s at index %d", 
     				listItemName, info.position));
     		return true;
@@ -301,6 +311,46 @@ public class AndroidomaticKeyerActivity extends Activity {
     	}
     	playButton.setText("START");
     }
+
+
+    /** Have our activity manage and persist dialogs, showing and hiding them */
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+        case DIALOG_EDIT_MESSAGE:
+                LayoutInflater factory = LayoutInflater.from(this);
+                final View textEntryView = factory.inflate(R.layout.edit_message_prompt, null);
+                final EditText et = (EditText) textEntryView.findViewById(R.id.edit_message_prompt_entry);
+                return new AlertDialog.Builder(AndroidomaticKeyerActivity.this)
+                .setTitle("Edit Message")
+                .setView(textEntryView)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        	Log.i(TAG, "OK'd the message edit.");
+                        }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        	Log.i(TAG, "Nix'd the message edit.");
+                        }
+                })
+                .create();
+        default:
+        	return null;
+        }
+	}
+
+
+    /** Have our activity prepare dialogs before displaying them */
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+        super.onPrepareDialog(id, dialog);
+        switch(id) {
+        case DIALOG_EDIT_MESSAGE:
+           //do stuff to set up the dialogue
+        	break;
+        default:
+        	return;
+        }
+    }
 }
-
-
