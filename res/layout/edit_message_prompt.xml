@@ -7,7 +7,7 @@
     <TextView android:id="@+id/edit_message_prompt_label" 
               android:layout_width="fill_parent" 
               android:layout_height="wrap_content"
-                      android:singleLine="true" android:text="Enter message:"/>
+              android:singleLine="true" android:text="Enter message:"/>
     
     <EditText android:id="@+id/edit_message_prompt_entry" 
               android:layout_width="fill_parent" 

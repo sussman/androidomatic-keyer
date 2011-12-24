@@ -64,9 +64,11 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private int speed = 15;
 	private int darkness = 0;
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
+	private boolean cwMode = true;
 	private ListView messageList;
 	private ArrayList<String> messages = new ArrayList<String>();
-	private boolean cwMode = true;
+	private int currentPick = 0;
+	private EditText messageEditText;
 	
 	
     /** Called when the activity is first created. */
@@ -186,23 +188,24 @@ public class AndroidomaticKeyerActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
     	int menuItemIndex = item.getItemId();
-    	String listItemName = messages.get(info.position);
+    	currentPick = info.position;
+    	String listItemName = messages.get(currentPick);
     	switch (menuItemIndex) {
     	case MENU_EDIT:
     		showDialog(DIALOG_EDIT_MESSAGE);
     		Log.i(TAG, String.format("Editing message %s at index %d", 
-    				listItemName, info.position));
+    				listItemName, currentPick));
     		return true;
     	case MENU_COPY:
     		Log.i(TAG, String.format("Copying message at index %d", info.position));
-    		messages.add(info.position, messages.get(info.position));
+    		messages.add(info.position, messages.get(currentPick));
     		messageList.invalidateViews();
     		return true;
     	case MENU_MOVE_UP:
     		if(info.position>0){
-    			Log.i(TAG, String.format("Try to move up message at index %d", info.position));
-    			messages.add(info.position-1,messages.get(info.position));
-    			messages.remove(info.position+1);
+    			Log.i(TAG, String.format("Try to move up message at index %d", currentPick));
+    			messages.add(currentPick-1,messages.get(currentPick));
+    			messages.remove(currentPick+1);
     			messageList.invalidateViews();
     		}
     		else {
@@ -211,10 +214,10 @@ public class AndroidomaticKeyerActivity extends Activity {
     		}
     		return true;
     	case MENU_MOVE_DOWN:
-    		Log.i(TAG, String.format("Try to move down message at index %d", info.position));
-    		if(info.position<(messages.size()-1)){
-    			messages.add(info.position,messages.get(info.position+1));
-    			messages.remove(info.position+2);
+    		Log.i(TAG, String.format("Try to move down message at index %d", currentPick));
+    		if(currentPick<(messages.size()-1)){
+    			messages.add(currentPick,messages.get(currentPick+1));
+    			messages.remove(currentPick+2);
     			messageList.invalidateViews();
     		}
     		else {
@@ -223,8 +226,8 @@ public class AndroidomaticKeyerActivity extends Activity {
     		}
     		return true;
     	case MENU_DELETE:
-    		Log.i(TAG, String.format("Delete message at index %d", info.position));
-    		messages.remove(info.position);
+    		Log.i(TAG, String.format("Delete message at index %d", currentPick));
+    		messages.remove(currentPick);
     		messageList.invalidateViews();
     		return true;
     	default:
@@ -320,12 +323,15 @@ public class AndroidomaticKeyerActivity extends Activity {
         case DIALOG_EDIT_MESSAGE:
                 LayoutInflater factory = LayoutInflater.from(this);
                 final View textEntryView = factory.inflate(R.layout.edit_message_prompt, null);
-                final EditText et = (EditText) textEntryView.findViewById(R.id.edit_message_prompt_entry);
+                messageEditText = (EditText) textEntryView.findViewById(R.id.edit_message_prompt_entry);
+                messageEditText.setText("initial value");
                 return new AlertDialog.Builder(AndroidomaticKeyerActivity.this)
                 .setTitle("Edit Message")
                 .setView(textEntryView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+                        	messages.set(currentPick, messageEditText.getText().toString());
+                        	messageList.invalidateViews();
                         	Log.i(TAG, "OK'd the message edit.");
                         }
                 })
@@ -347,8 +353,8 @@ public class AndroidomaticKeyerActivity extends Activity {
         super.onPrepareDialog(id, dialog);
         switch(id) {
         case DIALOG_EDIT_MESSAGE:
-           //do stuff to set up the dialogue
-        	break;
+        	 messageEditText.setText(messages.get(currentPick));
+        	 break;
         default:
         	return;
         }
