@@ -11,7 +11,8 @@
         android:src="@drawable/bootian" 
         android:layout_width="wrap_content" 
         android:layout_gravity="center_horizontal" 
-        android:id="@+id/bootianImage">
+        android:id="@+id/bootianImage" 
+        android:layout_marginTop="2dip">
     </ImageView>
     <TextView android:layout_height="wrap_content" 
         android:text="Enter keyer message:" 
@@ -22,7 +23,7 @@
     <EditText android:layout_height="wrap_content" 
         android:layout_width="fill_parent" 
         android:id="@+id/keyerEditText" 
-        android:layout_marginBottom="10dip" 
+        android:layout_marginBottom="5dip" 
         android:layout_marginLeft="10dip" 
         android:layout_marginRight="10dip">
         <requestFocus></requestFocus>
@@ -31,25 +32,49 @@
     <LinearLayout
         android:id="@+id/playButtonLinearLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
+        android:layout_height="wrap_content" 
+        android:fitsSystemWindows="true">
+
+        <Button
+            android:id="@+id/clearMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dip" 
+            android:layout_marginLeft="10dip" 
+            android:fitsSystemWindows="true" 
+            android:drawableBottom="@android:drawable/ic_input_delete" 
+            android:textSize="0dip" android:drawablePadding="0dip"/>
 
         <Button
             android:id="@+id/playButton"
             android:ellipsize="none"
-            android:text="Play" 
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content" 
             android:saveEnabled="false" 
-            android:minEms="6" 
-            android:layout_marginTop="10dip"/>
+            android:fitsSystemWindows="true" 
+            android:drawableBottom="@android:drawable/ic_media_play" 
+            android:layout_weight="1" 
+            android:textSize="0dip"/>
+
+        <Button
+            android:id="@+id/addMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip" 
+            android:layout_marginRight="10dip" 
+            android:fitsSystemWindows="true" 
+            android:drawableBottom="@android:drawable/ic_input_add" 
+            android:textSize="0dip"/>
 
     </LinearLayout>
     
      <ListView  
          android:id="@+id/messageList"
          android:layout_width="fill_parent" 
-         android:layout_height="wrap_content"  />
+         android:layout_height="wrap_content"  
+         android:layout_marginLeft="10dip" 
+         android:layout_marginRight="10dip" 
+         android:layout_marginTop="5dip" />
      
      <TextView android:id="@+id/emptyMessageList"
          android:layout_width="wrap_content"

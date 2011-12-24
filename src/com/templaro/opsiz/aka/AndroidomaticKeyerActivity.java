@@ -23,6 +23,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -69,7 +70,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private ArrayList<String> messages = new ArrayList<String>();
 	private int currentPick = 0;
 	private EditText messageEditText;
-	
+
 	
     /** Called when the activity is first created. */
     @Override
@@ -299,7 +300,8 @@ public class AndroidomaticKeyerActivity extends Activity {
 	            }
 	        });
     	soundThread.start();
-    	playButton.setText("STOP");
+    	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
+    			getResources().getDrawable(android.R.drawable.ic_media_pause));
     }
     
     void stopMessage() {
@@ -312,7 +314,8 @@ public class AndroidomaticKeyerActivity extends Activity {
     			Log.i(TAG, "Main thread interrupted while waiting for child to die!");
     		}
     	}
-    	playButton.setText("START");
+    	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
+    			getResources().getDrawable(android.R.drawable.ic_media_play));
     }
 
 
