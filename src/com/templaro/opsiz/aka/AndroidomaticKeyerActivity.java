@@ -304,19 +304,27 @@ public class AndroidomaticKeyerActivity extends Activity {
     		Log.i(TAG, "Trying to stop old thread first...");
     		stopMessage();
     	}
-    	Log.i(TAG, "Starting morse thread with new message.");
-    	player.setMessage(keyerEditText.getText().toString());
-    	player.setSpeed(speed);
-    	player.setTone(hertz);
-    	soundThread = new Thread(new Runnable() {
-	           @Override
-	            public void run() {
-	        	   player.playMorse();
-	            }
-	        });
-    	soundThread.start();
-    	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
-    			getResources().getDrawable(android.R.drawable.ic_media_pause));
+    	String playText = keyerEditText.getText().toString();
+    	if (playText.length() == 0) {
+    		Toast.makeText(getApplicationContext(), "Nothing to play. Enter a message first.",
+			          Toast.LENGTH_SHORT).show();
+      		Log.i(TAG,"Refused to play nothing");
+    	}
+    	else {
+    		Log.i(TAG, "Starting morse thread with new message.");
+        	player.setMessage(playText);
+        	player.setSpeed(speed);
+        	player.setTone(hertz);
+        	soundThread = new Thread(new Runnable() {
+    	           @Override
+    	            public void run() {
+    	        	   player.playMorse();
+    	            }
+    	        });
+        	soundThread.start();
+        	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
+        			getResources().getDrawable(android.R.drawable.ic_media_pause));
+    	}
     }
     
     void stopMessage() {
