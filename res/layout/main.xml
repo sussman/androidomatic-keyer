@@ -40,10 +40,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dip" 
-            android:layout_marginLeft="10dip" 
+            android:layout_marginLeft="20dip" 
             android:fitsSystemWindows="true" 
             android:drawableBottom="@android:drawable/ic_input_delete" 
-            android:textSize="0dip" android:drawablePadding="0dip"/>
+            android:textSize="0dip" android:drawablePadding="0dip" android:maxHeight="0dip"/>
 
         <Button
             android:id="@+id/playButton"
@@ -54,17 +54,17 @@
             android:fitsSystemWindows="true" 
             android:drawableBottom="@android:drawable/ic_media_play" 
             android:layout_weight="1" 
-            android:textSize="0dip"/>
+            android:textSize="0dip" android:maxHeight="0dip"/>
 
         <Button
             android:id="@+id/addMessageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip" 
-            android:layout_marginRight="10dip" 
+            android:layout_marginRight="20dip" 
             android:fitsSystemWindows="true" 
             android:drawableBottom="@android:drawable/ic_input_add" 
-            android:textSize="0dip"/>
+            android:textSize="0dip" android:maxHeight="0dip"/>
 
     </LinearLayout>
     
@@ -79,6 +79,11 @@
      <TextView android:id="@+id/emptyMessageList"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:text="No messages have been entered"  />
+         android:layout_marginRight="10dip"
+         android:layout_marginLeft="10dip"
+         android:gravity="center_horizontal"
+         android:text="No messages have been saved. To save a
+         			   new message to a memory slot, enter it 
+         			   above and then hit the save button. "  />
     
 </LinearLayout>
