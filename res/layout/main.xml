@@ -36,7 +36,7 @@
         android:fitsSystemWindows="true">
 
         <Button
-            android:id="@+id/clearMessage"
+            android:id="@+id/clearMessageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dip" 
@@ -57,7 +57,7 @@
             android:textSize="0dip"/>
 
         <Button
-            android:id="@+id/addMessage"
+            android:id="@+id/addMessageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip" 

@@ -23,7 +23,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -60,6 +59,8 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private String TAG = "AndroidomaticKeyer";
 	private Thread soundThread;
 	private Button playButton;
+	private Button clearMessageButton;
+	private Button addMessageButton;
 	private EditText keyerEditText;
 	private int hertz = 800; 
 	private int speed = 15;
@@ -90,6 +91,10 @@ public class AndroidomaticKeyerActivity extends Activity {
         
         playButton = (Button)findViewById(R.id.playButton);
         playButton.setOnClickListener(playButtonListener);
+        clearMessageButton = (Button)findViewById(R.id.clearMessageButton);
+        clearMessageButton.setOnClickListener(clearMessageButtonListener);
+        addMessageButton = (Button)findViewById(R.id.addMessageButton);
+        addMessageButton.setOnClickListener(addMessageButtonListener);
         
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
         
@@ -317,6 +322,23 @@ public class AndroidomaticKeyerActivity extends Activity {
     	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
     			getResources().getDrawable(android.R.drawable.ic_media_play));
     }
+
+    
+    private OnClickListener clearMessageButtonListener = new OnClickListener() {
+        public void onClick(View v) {
+        	keyerEditText.setText("");
+        }
+    };
+    
+    private OnClickListener addMessageButtonListener = new OnClickListener() {
+        public void onClick(View v) {
+        	int addAt = messages.size();
+        	messages.add(addAt, keyerEditText.getText().toString());
+        	messageList.invalidateViews();
+        	Log.i(TAG, String.format("Added new message at index %d", addAt));
+        }
+    };
+    
 
 
     /** Have our activity manage and persist dialogs, showing and hiding them */
