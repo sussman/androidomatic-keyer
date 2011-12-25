@@ -47,7 +47,7 @@
 	    \n\n<u>Hellscreiber</u>: 
 	    About Hellscreiber and settings.\n</string>
 	   
-    <string-array name="messages_array">
+	<string-array name="messages_array">
         <item>CQ CQ CQ DE AI4SV AI4SV K</item>
         <item>TNX FER CALL = UR 599 OP JACK QTH FAIRFAX, VA +</item>
         <item>RIG KNWD 450S ANT G5RV 45 FT PWR 5W</item>

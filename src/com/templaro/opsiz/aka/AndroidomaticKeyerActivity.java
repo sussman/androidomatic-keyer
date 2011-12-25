@@ -68,6 +68,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
 	private boolean cwMode = true;
 	private ListView messageList;
+	private TextView emptyMessageList;
 	private ArrayList<String> messages = new ArrayList<String>();
 	private int currentPick = 0;
 	private EditText messageEditText;
@@ -114,6 +115,11 @@ public class AndroidomaticKeyerActivity extends Activity {
 	
     private void DisplayMessages() {
     	messageList = (ListView)findViewById(R.id.messageList);
+    	emptyMessageList = (TextView)findViewById(R.id.emptyMessageList);
+    	if (messages.size() > 0) {
+    		emptyMessageList.setVisibility(View.INVISIBLE);
+    		Log.i(TAG, "Hiding the empty list warning");
+    	}
         //TODO: A custom listview -- smaller fonts, etc.
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
         		android.R.layout.simple_list_item_1, messages);
@@ -126,7 +132,7 @@ public class AndroidomaticKeyerActivity extends Activity {
   	    		keyerEditText.setText(((TextView) view).getText().toString());
   	  		}
   	  	});
-  	  Log.i(TAG, "Displaed Message Listview");	
+  	  Log.i(TAG, "Displayed Message Listview");	
 	}
 
 
@@ -235,6 +241,10 @@ public class AndroidomaticKeyerActivity extends Activity {
     		Log.i(TAG, String.format("Delete message at index %d", currentPick));
     		messages.remove(currentPick);
     		messageList.invalidateViews();
+    		if (messages.size() == 0) {
+        		emptyMessageList.setVisibility(View.VISIBLE);
+        		Log.i(TAG, "Deleted the last entry - display empty list warning");
+        	}
     		return true;
     	default:
     		return super.onOptionsItemSelected(item);
@@ -333,9 +343,20 @@ public class AndroidomaticKeyerActivity extends Activity {
     private OnClickListener addMessageButtonListener = new OnClickListener() {
         public void onClick(View v) {
         	int addAt = messages.size();
-        	messages.add(addAt, keyerEditText.getText().toString());
+        	String addText = keyerEditText.getText().toString();
+        	if (addText.length() == 0) {
+        		Toast.makeText(getApplicationContext(), "Enter a message first, then save.",
+  			          Toast.LENGTH_SHORT).show();
+        		Log.i(TAG,"Refused to save an empty string to a slot");
+        	}
+        	else {
+        	if (messages.size() == 0) {
+        		emptyMessageList.setVisibility(View.INVISIBLE);
+        	}
+        	messages.add(addAt, addText);
         	messageList.invalidateViews();
         	Log.i(TAG, String.format("Added new message at index %d", addAt));
+        	}
         }
     };
     
