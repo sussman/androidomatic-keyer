@@ -16,6 +16,14 @@
 
 package com.templaro.opsiz.aka;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,6 +59,9 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private static final int MENU_MOVE_UP = 2;
 	private static final int MENU_MOVE_DOWN = 3;
 	private static final int MENU_DELETE = 4;
+	
+	//Text file to store messages
+	private static final String MESSAGE_STORE = "MessageStore.txt";
 	
     // Dialog boxes we manage. Passed to showDialog().
     // Processed in onDialogCreate().
@@ -103,14 +114,33 @@ public class AndroidomaticKeyerActivity extends Activity {
     
  
 	private void LoadMessages() {
-    	 //TODO: Populate String array from SQLite database 
-        //for now, read initial strings from an xml resource file
-        Log.i(TAG, "Importing canned messages");
-        String [] importedMessages = getResources().getStringArray(R.array.messages_array);
-        for (String s: importedMessages) {
-        	messages.add(s);
+        File file = getFileStreamPath(MESSAGE_STORE);
+        boolean fileReadSucceeded=false;
+        if(file.exists()) {
+        	Log.i(TAG,"Message text file found, attempting to import from internal storage");
+        	 try
+        	   {
+        		 BufferedReader br = new BufferedReader(new FileReader(file));
+        		    String line;
+        		    while ((line = br.readLine()) != null) {
+        		        messages.add(line);
+        		    }
+        		    br.close();    
+        		    fileReadSucceeded = true;
+        	   }
+        	   catch(IOException e)
+        	   { 
+        		   Log.i(TAG, "IO Exception trying to import messages from internal storage");
+        	   }
+       } 	 
+       if (!fileReadSucceeded) {
+        	Log.i(TAG, "Failed to read messages from internal storage -- importing initial messages from XML");
+        	String [] importedMessages = getResources().getStringArray(R.array.messages_array);
+        	for (String s: importedMessages) {
+        		messages.add(s);
+        	}
+        	Log.i(TAG, "Canned messages imported");	
         }
-        Log.i(TAG, "Canned messages imported");	
 	}
 	
     private void DisplayMessages() {
@@ -282,21 +312,6 @@ public class AndroidomaticKeyerActivity extends Activity {
              darkness = prefs.getInt("hellTiming", 0);
     }
     
-    /** Called when activity stops */
-    @Override
-    protected void onStop(){
-       super.onStop();
-
-      //save the current preferences for next time...
-       Log.i(TAG, "Saving current preferences");
-       SharedPreferences prefs = 
-               PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-      SharedPreferences.Editor editor = prefs.edit();
-      editor.putInt("sidetone", hertz);
-      editor.putInt("wpm", speed);
-      editor.putInt("hellTiming", darkness);
-      editor.commit();
-    }
     
 	// Play sound (infinite loop) on separate thread from main UI thread.
     void startMessage() {
@@ -413,4 +428,45 @@ public class AndroidomaticKeyerActivity extends Activity {
         	return;
         }
     }
+   
+    /** Called when activity stops */
+    @Override
+    protected void onStop(){
+       super.onStop();
+       savePreferences();
+       saveMessages();
+    }
+
+	private void savePreferences() {
+		 Log.i(TAG, "Saving current preferences");
+	       SharedPreferences prefs = 
+	               PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+	      SharedPreferences.Editor editor = prefs.edit();
+	      editor.putInt("sidetone", hertz);
+	      editor.putInt("wpm", speed);
+	      editor.putInt("hellTiming", darkness);
+	      editor.commit();
+	}
+
+
+	private void saveMessages()  {
+		//if not extent, creates files/MESSAGE_STORE directory and file
+		//under ...package/data/data/, otherwise overwrites it.
+		Log.i(TAG, "Writing messages to internal storage");
+		try {
+			FileOutputStream fOut = openFileOutput(MESSAGE_STORE, MODE_WORLD_READABLE);
+			BufferedWriter buf = new BufferedWriter(new OutputStreamWriter(fOut));
+			for (String s : messages) {
+				buf.write(s+"\n");
+			}
+		  //closing, so no flush required.	
+	      buf.close();
+		}
+		catch (IOException e){
+			Log.i(TAG,"IO Exception");
+		}
+	}
 }
+
+
+
