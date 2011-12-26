@@ -450,21 +450,35 @@ public class AndroidomaticKeyerActivity extends Activity {
 
 
 	private void saveMessages()  {
-		//if not extent, creates files/MESSAGE_STORE directory and file
-		//under ...package/data/data/, otherwise overwrites it.
-		Log.i(TAG, "Writing messages to internal storage");
-		try {
-			FileOutputStream fOut = openFileOutput(MESSAGE_STORE, MODE_WORLD_READABLE);
-			BufferedWriter buf = new BufferedWriter(new OutputStreamWriter(fOut));
-			for (String s : messages) {
-				buf.write(s+"\n");
+		//if there are no messages to store, delete the custom file
+		if (messages.size() == 0) {
+			 File file = getFileStreamPath(MESSAGE_STORE);
+		        if(file.exists()) {
+		        	Log.i(TAG,"Attempting to delete custom message text file");
+		        	//Note: file.delete doesn't throw an IOException when it fails
+		        	if(file.delete()) 
+		        		Log.i(TAG,"Deleted custom message text file");
+		        	else
+		        		Log.i(TAG,"Unable to delete custom text file");
+		        }
+		}
+		else {
+			//if not extent, creates files/MESSAGE_STORE directory and file
+			//under ...package/data/data/, otherwise overwrites it.
+			Log.i(TAG, "Writing messages to internal storage");
+			try {
+				FileOutputStream fOut = openFileOutput(MESSAGE_STORE, MODE_WORLD_READABLE);
+				BufferedWriter buf = new BufferedWriter(new OutputStreamWriter(fOut));
+				for (String s : messages) {
+					buf.write(s+"\n");
+				}
+				//closing, so no flush required.	
+				buf.close();
 			}
-		  //closing, so no flush required.	
-	      buf.close();
-		}
-		catch (IOException e){
-			Log.i(TAG,"IO Exception");
-		}
+			catch (IOException e){
+				Log.i(TAG,"IO Exception");
+			}
+		}	
 	}
 }
 
