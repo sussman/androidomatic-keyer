@@ -31,6 +31,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -68,14 +69,18 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private static final int DIALOG_EDIT_MESSAGE= 1;
 	
 	private String TAG = "AndroidomaticKeyer";
+	
+	private int hertz = 800; 
+	private int speed = 15;
+	private int darkness = 0;
+	private boolean suppress_other_sound = true;
+	
 	private Thread soundThread;
 	private Button playButton;
 	private Button clearMessageButton;
 	private Button addMessageButton;
 	private EditText keyerEditText;
-	private int hertz = 800; 
-	private int speed = 15;
-	private int darkness = 0;
+
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
 	private boolean cwMode = true;
 	private ListView messageList;
@@ -83,6 +88,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private ArrayList<String> messages = new ArrayList<String>();
 	private int currentPick = 0;
 	private EditText messageEditText;
+	
 
 	
     /** Called when the activity is first created. */
@@ -92,6 +98,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         Log.i(TAG, "Initialize layout");
         setContentView(R.layout.main);
         LoadMessages();
+        SetMuting(suppress_other_sound);
         DisplayMessages();
 
         soundThread = new Thread(new Runnable() {
@@ -141,6 +148,14 @@ public class AndroidomaticKeyerActivity extends Activity {
         	}
         	Log.i(TAG, "Canned messages imported");	
         }
+	}
+	
+	private void SetMuting(boolean isSolo) {
+		// Give this app full control of phone sound or not.
+		// CW is music to android's ears
+		AudioManager mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+		mAudioManager.setStreamSolo(AudioManager.STREAM_MUSIC, isSolo);
+		// TODO: Ideally, provide some sort of visual feedback about on main screen
 	}
 	
     private void DisplayMessages() {
@@ -310,6 +325,7 @@ public class AndroidomaticKeyerActivity extends Activity {
              hertz = prefs.getInt("sidetone", 800);
              speed = prefs.getInt("wpm", 15);
              darkness = prefs.getInt("hellTiming", 0);
+             suppress_other_sound = prefs.getBoolean("get_other_sound",true);
     }
     
     
@@ -428,13 +444,35 @@ public class AndroidomaticKeyerActivity extends Activity {
         	return;
         }
     }
+    
+    
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // The activity has become visible (it is now "resumed").
+    }
    
-    /** Called when activity stops */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Another activity is taking focus (this activity is about to be "paused").
+    }
+    
     @Override
     protected void onStop(){
        super.onStop();
+    // The activity is no longer visible (it is now "stopped")
        savePreferences();
        saveMessages();
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // The activity is about to be destroyed.
+        // Kill any still running threads
+        // Release all resources
     }
 
 	private void savePreferences() {
@@ -445,6 +483,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	      editor.putInt("sidetone", hertz);
 	      editor.putInt("wpm", speed);
 	      editor.putInt("hellTiming", darkness);
+	      editor.putBoolean("suppress_other_sound",suppress_other_sound);
 	      editor.commit();
 	}
 
