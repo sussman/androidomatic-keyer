@@ -70,9 +70,13 @@ public class AndroidomaticKeyerActivity extends Activity {
 	
 	private String TAG = "AndroidomaticKeyer";
 	
+	//preference items
 	private int hertz = 800; 
 	private int speed = 15;
 	private int darkness = 0;
+	private String callsign;
+	private String beacon_interval = "15";
+	
 	private boolean suppress_other_sound = true;
 	
 	private Thread soundThread;
@@ -89,7 +93,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private int currentPick = 0;
 	private EditText messageEditText;
 	
-	private String callsign;
+
 	
 	
 
@@ -331,6 +335,7 @@ public class AndroidomaticKeyerActivity extends Activity {
              hertz = prefs.getInt("sidetone", 800);
              speed = prefs.getInt("wpm", 15);
              darkness = prefs.getInt("hellTiming", 0);
+             beacon_interval = prefs.getString("beacon_interval", "15");
              suppress_other_sound = prefs.getBoolean("get_other_sound",true);
              callsign = prefs.getString("callsign","UR CALL");
              
@@ -494,6 +499,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	      editor.putInt("sidetone", hertz);
 	      editor.putInt("wpm", speed);
 	      editor.putInt("hellTiming", darkness);
+	      editor.putString("beacon_interval", beacon_interval);
 	      editor.putBoolean("suppress_other_sound",suppress_other_sound);
 	      editor.putString("callsign", callsign);
 	      editor.commit();
