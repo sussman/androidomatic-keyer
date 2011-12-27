@@ -19,7 +19,6 @@ package com.templaro.opsiz.aka;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -95,12 +94,6 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private EditText messageEditText;
 	
 
-	
-	
-
-	
-
-	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -344,6 +337,7 @@ public class AndroidomaticKeyerActivity extends Activity {
              
     }
     
+   
     
 	// Play sound (infinite loop) on separate thread from main UI thread.
     void startMessage() {
@@ -352,12 +346,9 @@ public class AndroidomaticKeyerActivity extends Activity {
     		stopMessage();
     	}
     	String playText = keyerEditText.getText().toString();
-    	if (playText.length() == 0) {
-    		Toast.makeText(getApplicationContext(), "Nothing to play. Enter a message first.",
-			          Toast.LENGTH_SHORT).show();
-      		Log.i(TAG,"Refused to play nothing");
-    	}
-    	else {
+    	if (!emptyMessage(playText)) {
+    		playText = expandMessage(playText);
+    		keyerEditText.setText(playText);
     		Log.i(TAG, "Starting morse thread with new message.");
         	player.setMessage(playText);
         	player.setSpeed(speed);
@@ -372,6 +363,25 @@ public class AndroidomaticKeyerActivity extends Activity {
         	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
         			getResources().getDrawable(android.R.drawable.ic_media_pause));
     	}
+    }
+    
+    boolean emptyMessage(String mMsg) {
+    	if (mMsg.length() == 0) {
+    		Toast.makeText(getApplicationContext(), "Nothing to play. Enter a message first.",
+			          Toast.LENGTH_SHORT).show();
+      		Log.i(TAG,"Refused to play nothing");
+      		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
+    String expandMessage(String mMsg) {
+		Log.i(TAG, "Expanding text substitutions");
+		mMsg = mMsg.replaceAll("@",callsign);
+		mMsg = mMsg.replaceAll("#","GPS coordinates");
+		return mMsg;
     }
     
     void stopMessage() {
