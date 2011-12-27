@@ -98,7 +98,6 @@ public class AndroidomaticKeyerActivity extends Activity {
         Log.i(TAG, "Initialize layout");
         setContentView(R.layout.main);
         LoadMessages();
-        SetMuting(suppress_other_sound);
         DisplayMessages();
 
         soundThread = new Thread(new Runnable() {
@@ -150,11 +149,13 @@ public class AndroidomaticKeyerActivity extends Activity {
         }
 	}
 	
-	private void SetMuting(boolean isSolo) {
+	private void setMuting(boolean isSolo) {
 		// Give this app full control of phone sound or not.
 		// CW is music to android's ears
+		// Do other activities need to call this as well? TOCONSIDER refactoring out of this activity
 		AudioManager mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 		mAudioManager.setStreamSolo(AudioManager.STREAM_MUSIC, isSolo);
+		Log.i(TAG,"Setting the audio stream to " + (String) ((isSolo) ? "Music Stream Solo" : "Unmuted" + " mode"));
 		// TODO: Ideally, provide some sort of visual feedback about on main screen
 	}
 	
@@ -446,19 +447,21 @@ public class AndroidomaticKeyerActivity extends Activity {
     }
     
     
-    
     @Override
     protected void onResume() {
         super.onResume();
         // The activity has become visible (it is now "resumed").
+        setMuting(suppress_other_sound);
     }
    
     @Override
     protected void onPause() {
         super.onPause();
         // Another activity is taking focus (this activity is about to be "paused").
+        if(suppress_other_sound) 
+        	setMuting(false);
     }
-    
+        
     @Override
     protected void onStop(){
        super.onStop();
