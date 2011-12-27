@@ -330,14 +330,11 @@ public class AndroidomaticKeyerActivity extends Activity {
              speed = prefs.getInt("wpm", 15);
              darkness = prefs.getInt("hellTiming", 0);
              beacon_interval = prefs.getString("beacon_interval", "15");
-             beacon_text = prefs.getString("beacon_text", "QTH # DE @/B @/B");
+             beacon_text = xmlImport(prefs.getString("beacon_text", "QTH # DE @/B @/B"));
              suppress_other_sound = prefs.getBoolean("suppress_other_sound",true);
-             callsign = prefs.getString("callsign","UR CALL");
-             
-             
+             callsign = xmlImport(prefs.getString("callsign","UR CALL"));
     }
     
-   
     
 	// Play sound (infinite loop) on separate thread from main UI thread.
     void startMessage() {
@@ -502,6 +499,23 @@ public class AndroidomaticKeyerActivity extends Activity {
         // Kill any still running threads
         // Release all resources
     }
+    
+    protected String xmlExport(String str) {
+    	//XML 1.0, section 2.4 recommends escaping &, < and >
+    	//
+    	str.replaceAll("<", "&lt;");
+    	str.replaceAll(">", "&gt;");
+    	str.replaceAll("&", "&amp;");
+    	return str;
+    }
+    
+    protected String xmlImport(String str){
+    	str.replaceAll("&lt;","<");
+    	str.replaceAll("&gt;",">");
+    	str.replaceAll("&amp;","&");
+    	return str;
+    }
+    
 
 	private void savePreferences() {
 		 Log.i(TAG, "Saving current preferences");
@@ -512,9 +526,9 @@ public class AndroidomaticKeyerActivity extends Activity {
 	      editor.putInt("wpm", speed);
 	      editor.putInt("hellTiming", darkness);
 	      editor.putString("beacon_interval", beacon_interval);
-	      editor.putString("beacon_text", beacon_text);
+	      editor.putString(xmlExport("beacon_text"), beacon_text);
 	      editor.putBoolean("suppress_other_sound",suppress_other_sound);
-	      editor.putString("callsign", callsign);
+	      editor.putString(xmlExport("callsign"), callsign);
 	      editor.commit();
 	}
 
