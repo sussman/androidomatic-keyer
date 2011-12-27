@@ -89,6 +89,11 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private int currentPick = 0;
 	private EditText messageEditText;
 	
+	private String callsign;
+	
+	
+
+	
 
 	
     /** Called when the activity is first created. */
@@ -327,6 +332,9 @@ public class AndroidomaticKeyerActivity extends Activity {
              speed = prefs.getInt("wpm", 15);
              darkness = prefs.getInt("hellTiming", 0);
              suppress_other_sound = prefs.getBoolean("get_other_sound",true);
+             callsign = prefs.getString("callsign","UR CALL");
+             
+             
     }
     
     
@@ -487,6 +495,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	      editor.putInt("wpm", speed);
 	      editor.putInt("hellTiming", darkness);
 	      editor.putBoolean("suppress_other_sound",suppress_other_sound);
+	      editor.putString("callsign", callsign);
 	      editor.commit();
 	}
 
