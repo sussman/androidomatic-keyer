@@ -56,7 +56,7 @@ public class HellPlayer {
 	private byte footerSnd[];//  divided between top and bottom of the column
 	private byte tailSnd[]; // end of each character is padded to assure total character length of 400 ms
 	private AudioTrack audioTrack;
-	private String currentMessage;  // message to play in morse
+	private String currentMessage;  // message to play in Hell
 	
 
 	// Constructor: prepare to play morse code at SPEED wpm and HERTZ frequency,
@@ -117,49 +117,59 @@ public class HellPlayer {
 	public void setMessage(String message) {
 		currentMessage = message;
 	}
-	
-/*	
-	
+
 	
 	// Plays MESSAGE in an infinite loop, until thread is interrupted by parent.
-	public void playMorse() {
-		// check to make sure sine data is already generated
-		Log.i(TAG, "Now playing morse code...");
-		MorseBit[] pattern = MorseConverter.pattern(currentMessage);
+	public void playHell() {
+		// check to make sure sine data are already generated
+		Log.i(TAG, "Now playing Hellscreiber message...");
+		HellBit[] pattern = HellConverter.pattern(currentMessage);
 		audioTrack.play();
 		
 		while (true) {
-			for (MorseBit bit : pattern) {
-				for (int column=1; column < COLUMNS_PER_CHARACTER; column++) {
+			HellBit bit;
+			int elementsPerCharacter = COLUMNS_PER_CHARACTER * ELEMENTS_PER_COLUMN;
+			int charsToSend = pattern.length / elementsPerCharacter;
+			for (int charIndex =0; charIndex < charsToSend; charIndex++) {
+				for (int column=0; column < COLUMNS_PER_CHARACTER; column++) {
 					if (Thread.interrupted()) {  //assuming it's enough to check at top of each column
 						Log.i(TAG, "Interrupted, stopping all sound...");
 						audioTrack.stop(); // make sure no sound is playing
 						return;
 					}
-					for (int row =1; row < ELEMENTS_PER_COLUMN; row++) {
+					for (int row =0; row < ELEMENTS_PER_COLUMN; row++) {
+						bit = pattern[charIndex*elementsPerCharacter + column*ELEMENTS_PER_COLUMN + row];
+						if (row == 0) {
+							// top of the column
+							audioTrack.write(headerSnd, 0, headerSnd.length);
+							}
 						switch (bit) {
-							case MARK:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
-							case MODMARK:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
-							case SPACE: audioTrack.write(dahSnd, 0, dahSnd.length);  break;
+							case MARK:  
+								audioTrack.write(markSnd, 0, markSnd.length);  
+								break;
+							case MODMARK:  
+								audioTrack.write(modMarkSnd, 0, modMarkSnd.length);  
+								break;
+							case SPACE: 
+								audioTrack.write(spaceSnd, 0, spaceSnd.length);  
+								break;
 							case MODSPACE:
-								
-								for (int i = 0; i < 3; i++)
-									audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
+								audioTrack.write(modSpaceSnd, 0, modSpaceSnd.length);  
 								break;
-							case WORD_GAP:
-								for (int i = 0; i < 7; i++)
-									audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
+							default:  
+								Log.d(TAG,"Default/unknown Hellbit type error");
 								break;
-							default:  break;
-						}		
-							
-							
-							
-							
+						}
+						if (row == 13 ){
+							//bottom of column
+							audioTrack.write(footerSnd, 0, footerSnd.length);
+							if (column == 6) {
+								//last position, pad out to CHARACTER_DURATION
+								audioTrack.write(tailSnd,0,tailSnd.length);
+							}
+						}	
 					}
 				}
-				
-					
 				
 			}
 			try {
@@ -171,7 +181,5 @@ public class HellPlayer {
 			}
 		}
 	}
-	
-	
-*/	
+		
 }
