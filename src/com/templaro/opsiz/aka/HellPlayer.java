@@ -41,7 +41,7 @@ public class HellPlayer  {
 	private String TAG = "HellPlayer";
 	private final int SAMPLE_RATE = 8000; //should be multiple of character duration
 	private final int TONE_HERTZ = 900; // traditional tone for Hellscreiber
-	private final int AUDIO_BUFFER_SIZE = 8192; // a guess
+	private final int AUDIO_BUFFER_SIZE = 4096; // a guess
 	private final int COLUMNS_PER_CHARACTER = 7; //based on standard Hellscreiber font
 	private final int ELEMENTS_PER_COLUMN = 14; //based on standard Hellscreiber font
 	private final double CHARACTER_DURATION = 0.4; // seconds, based on standard Hellscreiber 
@@ -51,7 +51,7 @@ public class HellPlayer  {
 	private byte markSnd[]; // an "on" element
 	private byte modMarkSnd[]; // on element, modified by darkness setting
 	private byte spaceSnd[]; // an "off" element
-	private byte modSpaceSnd[]; // off element, modfied by darkness setting
+	private byte modSpaceSnd[]; // off element, modified by darkness setting
 	private byte headerSnd[]; // after column space is divided among 14 elements, extra samples are 
 	private byte footerSnd[];//  divided between top and bottom of the column
 	private byte tailSnd[]; // end of each character is padded to assure total character length of 400 ms
@@ -77,12 +77,19 @@ public class HellPlayer  {
 	// Generate mark and space tones of the proper lengths.
 	private void buildSounds() {
 		int samplesPerCharacter = (int) (SAMPLE_RATE * CHARACTER_DURATION);
+		Log.d(TAG,"samplesPerCharacter "+ samplesPerCharacter);
 		int samplesPerColumn =  (int) Math.floor(samplesPerCharacter / COLUMNS_PER_CHARACTER);
+		Log.d(TAG,"samplesPerColumn "+ samplesPerColumn);
 		int extraPerCharacter = samplesPerCharacter - COLUMNS_PER_CHARACTER * samplesPerColumn;
+		Log.d(TAG,"extraPerCharacter "+ extraPerCharacter);
 		int samplesPerElement = (int) Math.floor(samplesPerColumn/ELEMENTS_PER_COLUMN);
-		int	extraPerColumn = samplesPerCharacter - ELEMENTS_PER_COLUMN * samplesPerElement;
+		Log.d(TAG,"samplesPerElement "+ samplesPerElement);
+		int	extraPerColumn = samplesPerColumn - ELEMENTS_PER_COLUMN * samplesPerElement;
+		Log.d(TAG,"extraPerColumn "+ extraPerColumn);
 		int extraHead = Math.round(extraPerColumn / 2);
+		Log.d(TAG,"extraHead "+ extraHead);
 		int extraFoot = extraPerColumn - extraHead;
+		Log.d(TAG,"extraFoot "+ extraFoot);
 		
 		sample = new double[samplesPerElement];
 		
