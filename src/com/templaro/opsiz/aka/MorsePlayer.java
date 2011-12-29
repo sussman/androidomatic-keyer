@@ -64,10 +64,11 @@ public class MorsePlayer {
 		numSamples = (int)(duration * sampleRate - 1);
 		double sineMagnitude = 1; // starting with a dummy value for absolute normalized value of sine wave 
 		double CUTOFF = 0.1; // threshold for whether sine wave is near zero crossing
+		double phaseAngle = 2 * Math.PI / (sampleRate/toneHertz);
 		while (sineMagnitude > CUTOFF){
 			numSamples++;
 			//check to see if  is near zero-crossing to avoid clicks when sound cuts off
-			sineMagnitude = Math.abs(Math.sin(2 * Math.PI *numSamples / (sampleRate/toneHertz)));
+			sineMagnitude = Math.abs(Math.sin(phaseAngle*numSamples));
 		}
 		sample = new double[numSamples];
 		ditSnd = new byte[2 * numSamples];
@@ -75,7 +76,7 @@ public class MorsePlayer {
 		pauseInnerSnd = new byte[2 * numSamples];
 				
 		for (int i = 0; i < numSamples; ++i) {
-			sample[i] = Math.sin(2 * Math.PI * i / (sampleRate/toneHertz));
+			sample[i] = Math.sin(phaseAngle * i);
 		}
 		// convert to 16 bit pcm sound array; assumes the sample buffer is normalised.
 		int idx = 0;
