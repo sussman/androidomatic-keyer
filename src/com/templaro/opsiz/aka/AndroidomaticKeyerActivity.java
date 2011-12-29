@@ -160,6 +160,8 @@ public class AndroidomaticKeyerActivity extends Activity {
 		mAudioManager.setStreamSolo(AudioManager.STREAM_MUSIC, isSolo);
 		Log.i(TAG,"Setting the audio stream to " + (String) ((isSolo) ? "Music Stream Solo" : "Unmuted" + " mode"));
 		// TODO: Ideally, provide some sort of visual feedback about on main screen
+		//Note -- probably need to overhaul entire system using phone stream & indicate call in progress
+		//to fully block
 	}
 	
     private void DisplayMessages() {
@@ -480,6 +482,8 @@ public class AndroidomaticKeyerActivity extends Activity {
     protected void onPause() {
         super.onPause();
         // Another activity is taking focus (this activity is about to be "paused").
+        //consider moving save pref and save messages here, as this is more reliably called
+        //than stop
         if(suppress_other_sound) 
         	setMuting(false);
     }
