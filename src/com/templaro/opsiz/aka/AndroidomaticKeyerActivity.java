@@ -102,14 +102,6 @@ public class AndroidomaticKeyerActivity extends Activity {
         setContentView(R.layout.main);
         LoadMessages();
         DisplayMessages();
-
-        soundThread = new Thread(new Runnable() {
-	            @Override
-	            public void run() {
-	        	   player.playMorse();
-	            }
-	        });
-        
         playButton = (Button)findViewById(R.id.playButton);
         playButton.setOnClickListener(playButtonListener);
         clearMessageButton = (Button)findViewById(R.id.clearMessageButton);
@@ -304,7 +296,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     
     private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {
-        	if (soundThread.isAlive()) {
+        	if (null != soundThread && soundThread.isAlive()) {
         		stopMessage();
         	} else {
         		startMessage();
@@ -340,7 +332,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     
 	// Play sound (infinite loop) on separate thread from main UI thread.
     void startMessage() {
-    	if (soundThread.isAlive()) {
+    	if (null != soundThread && soundThread.isAlive()) {
     		Log.i(TAG, "Trying to stop old thread first...");
     		stopMessage();
     	}
