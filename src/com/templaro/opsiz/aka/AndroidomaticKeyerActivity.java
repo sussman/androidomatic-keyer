@@ -86,6 +86,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private EditText keyerEditText;
 
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
+	//private HellPlayer hplayer = new HellPlayer();  //consider more generic *player class...
 	private boolean cwMode = true;
 	private ListView messageList;
 	private TextView emptyMessageList;
@@ -309,7 +310,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     @Override
     public void onStart() {
             super.onStart();
-            getSettings();  // make sure user prefs are applied
+            getSettings();  // makes sure user prefs are applied
     }
     
     /** Called by onStart(), to make sure prefs are loaded whenever we return
@@ -340,16 +341,32 @@ public class AndroidomaticKeyerActivity extends Activity {
     	if (!emptyMessage(playText)) {
     		playText = expandMessage(playText);
     		keyerEditText.setText(playText);
-    		Log.i(TAG, "Starting morse thread with new message.");
-        	player.setMessage(playText);
-        	player.setSpeed(speed);
-        	player.setTone(hertz);
-        	soundThread = new Thread(new Runnable() {
-    	           @Override
-    	            public void run() {
-    	        	   player.playMorse();
-    	            }
+    		Log.i(TAG, "Starting thread with " + (String) ((cwMode) ? "CW" : "Hell" + " message"));
+    		if(cwMode) {
+    			player.setMessage(playText);
+    			player.setSpeed(speed);
+    			player.setTone(hertz);
+    			soundThread = new Thread(new Runnable() {
+    				@Override
+    				public void run() {
+    				player.playMorse();
+    				}
     	        });
+    		}
+    		
+    		/*
+    		else {
+    			hplayer.setMessage(playText);
+    			soundThread = new Thread(new Runnable() {
+    				@Override
+    				public void run() {
+    				hplayer.playHell();
+    				}
+    	        });
+    		}
+    		
+    		*/
+    		
         	soundThread.start();
         	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
         			getResources().getDrawable(android.R.drawable.ic_media_pause));

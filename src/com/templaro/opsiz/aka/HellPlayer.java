@@ -36,7 +36,7 @@ public class HellPlayer {
 	 * Each column consists of 457 samples at the 8000 hz sample rate, so a final empty sample is added
 	 * at the end of the letter, yielding exactly 3200 samples = 400 ms.
 	 */
-	private int darkness =0; // to be read from prefs; timing adjustment for modified mark & space
+	private int darkness = 0; // to be read from prefs; timing adjustment for modified mark & space
 
 	private String TAG = "HellPlayer";
 	private final int SAMPLE_RATE = 8000; //should be multiple of character duration
