@@ -25,7 +25,6 @@ import android.media.AudioTrack;
  * http://marblemice.blogspot.com/2010/04/generate-and-play-tone-in-android.html
  */
 
-
 public class MorsePlayer {
 	
 	private String TAG = "MorsePlayer";

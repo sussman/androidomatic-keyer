@@ -118,7 +118,18 @@ class HellConverter {
         	System.arraycopy(letter, 0, result, pos, 98);
         	pos += 98;
         }
-        Log.i(TAG, String.format("returning result array length %d",result.length));
+        Log.i(TAG, String.format("Returning result array length %d",result.length));
+        /*
+        for (HellBit bit : result) {
+        	switch(bit) {
+        	case SPACE: Log.i(TAG,"0"); break;
+        	case MODSPACE: Log.i(TAG,"o"); break;
+        	case MARK: Log.i(TAG,"1"); break;
+        	case MODMARK: Log.i(TAG,"i"); break;
+        	default: Log.i(TAG,"other"); break;
+        	}
+        }
+        */
         return result;
     }
 }

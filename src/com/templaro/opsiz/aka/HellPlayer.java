@@ -41,7 +41,7 @@ public class HellPlayer  {
 	private String TAG = "HellPlayer";
 	private final int SAMPLE_RATE = 8000; //should be multiple of character duration
 	private final int TONE_HERTZ = 900; // traditional tone for Hellscreiber
-	private final int AUDIO_BUFFER_SIZE = 4096; // a guess
+	private final int AUDIO_BUFFER_SIZE = 8192; // a guess
 	private final int COLUMNS_PER_CHARACTER = 7; //based on standard Hellscreiber font
 	private final int ELEMENTS_PER_COLUMN = 14; //based on standard Hellscreiber font
 	private final double CHARACTER_DURATION = 0.4; // seconds, based on standard Hellscreiber 
