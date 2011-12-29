@@ -91,9 +91,11 @@ public class HellPlayer {
 		headerSnd = new byte[2 * extraHead];
 		footerSnd = new byte[2 * extraFoot];
 		tailSnd = new byte[2 * extraPerCharacter];
+		
+		double phaseAngle = 2 * Math.PI / (SAMPLE_RATE/TONE_HERTZ);
 				
 		for (int i = 0; i < samplesPerElement; ++i) {
-			sample[i] = Math.sin(2 * Math.PI * i / (SAMPLE_RATE/TONE_HERTZ));
+			sample[i] = Math.sin(i * phaseAngle);
 		}
 		// convert to 16 bit pcm sound array; assumes the sample buffer is normalised.
 		int idx = 0;
