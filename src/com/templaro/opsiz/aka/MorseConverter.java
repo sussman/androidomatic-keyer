@@ -489,7 +489,7 @@ class MorseConverter {
         // Generate the pattern array.  Note that we put an extra element of 0
         // in at the beginning, because the pattern always starts with the pause,
         // not with the vibration.
-        MorseBit[] result = new MorseBit[len+1];
+        MorseBit[] result = new MorseBit[len];
         result[0] = MorseBit.GAP;
         int pos = 1;
         lastWasWhitespace = true;

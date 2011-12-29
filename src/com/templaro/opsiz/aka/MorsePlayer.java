@@ -123,8 +123,6 @@ public class MorsePlayer {
 					audioTrack.stop(); // make sure no sound is playing
 					return;
 				}
-				if (null == bit)  // why on earth do nulls creep in?  grrr.
-					continue;
 				switch (bit) {
 					case GAP:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
 					case DOT:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
