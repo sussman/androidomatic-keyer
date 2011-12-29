@@ -86,7 +86,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private EditText keyerEditText;
 
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
-	//private HellPlayer hplayer = new HellPlayer();  //consider more generic *player class...
+	private HellPlayer hplayer = new HellPlayer();  //consider more generic *player class...
 	private boolean cwMode = true;
 	private ListView messageList;
 	private TextView emptyMessageList;
@@ -353,8 +353,6 @@ public class AndroidomaticKeyerActivity extends Activity {
     				}
     	        });
     		}
-    		
-    		/*
     		else {
     			hplayer.setMessage(playText);
     			soundThread = new Thread(new Runnable() {
@@ -363,10 +361,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     				hplayer.playHell();
     				}
     	        });
-    		}
-    		
-    		*/
-    		
+    		}  		
         	soundThread.start();
         	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
         			getResources().getDrawable(android.R.drawable.ic_media_pause));

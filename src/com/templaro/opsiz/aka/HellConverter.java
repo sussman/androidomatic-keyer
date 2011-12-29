@@ -32,8 +32,12 @@ package com.templaro.opsiz.aka;
 
 import java.util.HashMap;
 
+import android.util.Log;
+
 /** Class that implements the text to Feld Hellscreiber conversion */
 class HellConverter {
+	
+	private static String TAG = "HellConverter";
 	
 	private static final HashMap<Character, HellBit[]> hell_map = new HashMap<Character, HellBit[]>(){
         {
@@ -107,13 +111,14 @@ class HellConverter {
     	str = " " + " " + " " + str;
         int strlen = str.length();
         HellBit[] result = new HellBit[strlen*98];
-        int pos = 1;
+        int pos = 0;
         for (int i=0; i<strlen; i++) {
         	char c = str.charAt(i);
         	HellBit[] letter = pattern(c);
         	System.arraycopy(letter, 0, result, pos, 98);
         	pos += 98;
         }
+        Log.i(TAG, String.format("returning result array length %d",result.length));
         return result;
     }
 }

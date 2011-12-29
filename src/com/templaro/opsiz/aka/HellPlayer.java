@@ -27,7 +27,7 @@ import android.media.AudioTrack;
  */
 
 
-public class HellPlayer {
+public class HellPlayer  {
 	
 	/* Each of the 98 elements composing a standard Hellscreiber character can be a mark or space.
 	 * to compensate for timing issues introduced by the phone, interface and transmitter, at transitions 
@@ -36,12 +36,12 @@ public class HellPlayer {
 	 * Each column consists of 457 samples at the 8000 hz sample rate, so a final empty sample is added
 	 * at the end of the letter, yielding exactly 3200 samples = 400 ms.
 	 */
-	private int darkness = 0; // to be read from prefs; timing adjustment for modified mark & space
+	private int mdarkness = 0; // darkness to be read from prefs; timing adjustment for modified mark & space
 
 	private String TAG = "HellPlayer";
 	private final int SAMPLE_RATE = 8000; //should be multiple of character duration
 	private final int TONE_HERTZ = 900; // traditional tone for Hellscreiber
-	private final int AUDIO_BUFFER_SIZE = 512; // a guess
+	private final int AUDIO_BUFFER_SIZE = 4096; // a guess
 	private final int COLUMNS_PER_CHARACTER = 7; //based on standard Hellscreiber font
 	private final int ELEMENTS_PER_COLUMN = 14; //based on standard Hellscreiber font
 	private final double CHARACTER_DURATION = 0.4; // seconds, based on standard Hellscreiber 
@@ -63,12 +63,14 @@ public class HellPlayer {
 	// by 
 	public HellPlayer() {
 		Log.i(TAG, "Generating mark and space tones.");
+		
 		buildSounds();
 		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE,
 				AudioFormat.CHANNEL_CONFIGURATION_MONO,
                 AudioFormat.ENCODING_PCM_16BIT, AUDIO_BUFFER_SIZE,
                 AudioTrack.MODE_STREAM);
 		audioTrack.play();  // begin asynchronous playback of anything streamed to track
+		
 	}
 	
 	
@@ -85,9 +87,9 @@ public class HellPlayer {
 		sample = new double[samplesPerElement];
 		
 		markSnd = new byte[2 * samplesPerElement];
-		modMarkSnd = new byte[2 * (samplesPerElement + darkness)];
+		modMarkSnd = new byte[2 * (samplesPerElement + mdarkness)];
 		spaceSnd = new byte[2 * samplesPerElement];
-		modSpaceSnd = new byte[2 * (samplesPerElement - darkness)];
+		modSpaceSnd = new byte[2 * (samplesPerElement - mdarkness)];
 		headerSnd = new byte[2 * extraHead];
 		footerSnd = new byte[2 * extraFoot];
 		tailSnd = new byte[2 * extraPerCharacter];
