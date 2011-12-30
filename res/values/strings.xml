@@ -12,24 +12,23 @@
 	<string name="messageOptions">Message Options</string>    
 	
 	<string name="help_title">AKA Help</string>    
-	<string name="help_text">
-	    <b>What is it?</b>
+	<string name="help_text"><b>What is it?</b>
 	    \n\nThe Androidomatic Keyer (also known as the AKA) is a memory keyer that 
 	    enables you to send either morse code or Hellscreiber mode messages from your 
-	    android phone through a radio transmitter. 
+	    android device through a radio transmitter. 
 	    In contrast to other digital modes, neither requires that the 
 	    radio transmit a modulated signal. Both modes switch the radio carrier
 	    on and off in a specific pattern. Consequently, they require little
 	    bandwidth and perform well even at low power and under noisy conditions.  
 	    This means that your radio can be a
 	    relatively simple CW transmitter -- perhaps something that
-	    you can build yourself. The phone\'s audio
+	    you can build yourself. The android devices\'s audio
 	    output needs to be connected to the radio\'s key jack through a simple interface 
 	    consisting of just a few easily obtainable components. Plans for building 
 	    such an interface can be found on the Internet at:
 	     goo.gl/dummyURLfornow.html.
-	     \n\n<b>Operation</b>
-	     \n\nThe keyer will send any message 
+	    \n\n<b>Operation</b>
+	    \n\nThe keyer will send any message 
 	    that appears in the message window at the top
 	    of the screen. You can either type in a message or select one of the stored 
 	    messages. To store a new message, press the "+" key next to the message window. 
@@ -40,12 +39,60 @@
 	    for more than a second and choose either <b>Edit</b> or <b>Copy</b>.
 	    \n\nA number of options are available through the menu, including the 
 	    ability to switch back and forth between morse code and Hellscreiber modes and to 
-	    change settings.\n\n
-	    <b>Modes</b>
-	    \n\n<u>Morse Code</u>:
-	    About morse and relevant.
+	    change settings.
+	    \n\n<b>Modes</b>
+	    \n\n<u>Morse Code</u>: Morse
+	    code has been around in various forms since the mid-19th Century, and its staying power
+	    reflects several key advantages over other communication modes.
+	    Anything that transmits an on/off
+	    signal can send morse code, be it a flashlight or radio transmitter. Decoding morse code
+	    does not need fancy computational equipment -- just some training. Morse code signals
+	    occupy a tiny portion of bandwidth and can be distinguished from noise even under 
+	    conditions where many other signaling modes would fail.
+	    \n\nIn addition to the standard international morse code, the keyer supports the extended 
+	    Latin character set, for example for characters like é, ç and ø. Additionally, the
+	    keyer supports Russian morse and Japanese wabun code variants, when messages are entered
+	    in Cyrillic and Katakana characters, respectively. Not every extended punctuation character 
+	    is implemented, as these are very uncommon in morse code messages.
+	    \n\nSpecial Symbols: As a convenience, you can abbreviate some common items with a single
+	    character.
+	    \n\n<b>@</b>  Your Callsign (from Settings)\n
+	    <b>#</b>  Your Location\n
+	    <b>=</b>  prosign BT\n
+	    <b>+</b>  prosign AR\n
+	    <b>~</b>  prosign KN\n
+	    <b>*</b>  prosign SK\n\n
+	    <b>)</b>  prosign DO (begin wabun encoding)\n
+	    <b>(</b>  prosign SN (end wabun encodoing)\n
+	    
 	    \n\n<u>Hellscreiber</u>: 
-	    About Hellscreiber and settings.\n</string>
+	    \n\nHellscreiber is also an on/off mode, which sends a graphic representation of characters. It
+	    was invented in the early 20th Century. Originally, it was received and printed on strips of 
+	    paper, but today any PC with a sound input can decode this mode. Because it is graphic, messages
+	    benefit from the human visual system\'s ability to pick symbols out of noise. Consequently, it is 
+	    also very immune to noise and suitable for low power transmission. The bandwidth of a Hellscreiber
+	    signal is about 300 Hz, so wider than CW, but it is still considered a narrow bandwidth mode.
+	    \n\nOperation in Hell mode is similar to CW mode, except the character set is more limited: effectively
+	    the Latin alphabet, numbers, and a few punctuation symbols. The Hellscreiber font is a 7x7 matrix, which
+	    makes it difficult to represent more complicated glyphs. Any 
+	    non-printing characters will be replaced by a space. Note that the spaces have a small tick mark, 
+	    which is a hold over from when it was desirable to keep a vox activated for the duration of a message.
+	    \n\nHellscreiber is sent at 2.5 characters per second, or 122.5 baud. Some radios disregard keydowns 
+	    of less than about 5 milliseconds, but the smallest transmitted element of Hellscreiber 
+	    has a send duration of 8.163 milliseconds, which should be long enough to key most rigs. To prevent 
+	    keyclicks and consequent widening of the signal, radios shape the carrier envelope when keyed on and off.
+	    Instead of transmitting a square wave, the carrier amplitude ramps up and down, giving the attack and
+	    decay a more rounded appearance and minimizing bandwidth. As a consequence, full carrier only occurs
+	    for a portion of the key down period, and Hell characters may appear thinner and lighter when received. To
+	    compensate, there is a darkness control under the <i>Settings</i> menu, which can increase the duration of 
+	    dark elements. The same setting can be used to lighten a character, but care should be taken to avoid 
+	    excessive shortening, which would increase the required bandwidth.
+	    \n\n<u>Beacon Mode</u>
+	    \n\nThe keyer can be set up to send short morse code messages at regular intervals. The message and 
+	    repetition rate are set under the Settings menu, and the beacon is activated through the main menu. The 
+	    beacon can be sent to send QRSS morse code, where a single dit can take several seconds to send. This is 
+	    a weak signal mode, but be sure that your transmitter can handle the long key down periods.
+	    </string>
 	   
 	<string-array name="messages_array">
         <item>CQ CQ CQ DE AI4SV AI4SV K</item>

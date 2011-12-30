@@ -94,8 +94,23 @@
             android:summary="Define how often beacon is sent"
             android:defaultValue="15"
             android:entries="@array/beaconInterval"
-            android:entryValues="@array/beaconIntervalValues" />   
-       
+            android:entryValues="@array/beaconIntervalValues" />  
+            
+         <CheckBoxPreference
+            android:key="qrss"
+            android:summary="Sends extremely slow morse code"
+            android:title="Enable QRSS Beacon"
+            android:defaultValue="false"  />
+         
+         <ListPreference
+            android:key="qrss_rate"
+            android:title="QRSS rate"
+
+            android:summary="Choose duration of a dit"
+            android:defaultValue="10"
+            android:entries="@array/qrssRate"
+            android:entryValues="@array/qrssRateValues" /> 
+                
     </PreferenceCategory>
 
 </PreferenceScreen>
