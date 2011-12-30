@@ -5,35 +5,35 @@
     xmlns:templaro="http://schemas.android.com/apk/res/com.templaro.opsiz.aka" >
     
     <PreferenceCategory
-        android:title="General"
+        android:title="@string/general_category"
         android:key="general_category">
         
         //Language Selection if Internationalized //
 
         <EditTextPreference
             android:key="callsign"
-            android:title="Your Callsign"
-            android:summary="Callsign to substitute for @ in the text"
-            android:dialogTitle="Callsign"
-            android:dialogMessage="Enter your callsign"   
-            android:defaultValue="URCALL" />
+            android:title="@string/callsign_title"
+            android:summary="@string/callsign_summary"
+            android:dialogTitle="@string/callsign_title"
+            android:dialogMessage="@string/callsign_dialog_message"   
+            android:defaultValue="@string/callsign_default_value" />
         
           <CheckBoxPreference
             android:key="suppress_other_sound"
-            android:summary="Suppress all other phone sounds including ringing and alarms"
-            android:title="Suppress Phone Sounds"
+            android:summary="@string/suppress_summary"
+            android:title="@string/suppress_title"
             android:defaultValue="true"  />
         
     </PreferenceCategory>
  
     <PreferenceCategory
-		android:title="CW (Morse Code) Mode"
+		android:title="@string/cw_category"
         android:key="cw_category" >
           
         <com.templaro.opsiz.aka.SeekBarPreference
             	android:key="sidetone"
-                android:title="Sidetone pitch"
-                android:summary="Adjust audible tone"
+                android:title="@string/sidetone_title"
+                android:summary="@string/sidetone_summary"
                 android:defaultValue="800"
                 android:max="2000"
                 templaro:min="500"
@@ -43,8 +43,8 @@
         
           <com.templaro.opsiz.aka.SeekBarPreference
             	android:key="wpm"
-                android:title="Code speed"
-                android:summary="Adjust speed of sent code"
+                android:title="@string/wpm_title"
+                android:summary="@string/wpm_summary"
                 android:defaultValue="15"
                 android:max="60"
                 templaro:min="5"
@@ -55,7 +55,7 @@
     </PreferenceCategory>      
     
     <PreferenceCategory
-        android:title="Hellscreiber Mode"
+        android:title="@string/hell_category"
         android:key="hell_category">
     </PreferenceCategory>
     
@@ -63,54 +63,53 @@
     
          <com.templaro.opsiz.aka.SeekBarPreference
             	android:key="hellTiming"
-                android:title="Character Darkness"
-                android:summary="Adjust fine timing"
+                android:title="@string/darkness_title"
+                android:summary="@string/darkness_summary"
                 android:defaultValue="0"
                 android:max="50"
                 templaro:min="-50"
             	templaro:unitsLeft=""
-                templaro:unitsRight="% Dark"
+                templaro:unitsRight="%"
 
             />
             
       
     
     <PreferenceCategory
-        android:title="Beacon"
+        android:title="@string/beacon_category"
         android:key="beacon_category">
         
         <EditTextPreference
             android:key="beacon_text"
-            android:title="Beacon Text"
-            android:summary="Message to be sent by beacon"
-            android:dialogTitle="Beacon Message"
-            android:dialogMessage="Enter a message"   
-            android:defaultValue="QTH # DE @/B @/B" />
+            android:title="@string/beacon_title"
+            android:summary="@string/beacon_summary"
+            android:dialogTitle="@string/beacon_dialog_title"
+            android:dialogMessage="@string/beacon_dialog_message"   
+            android:defaultValue="@string/beacon_default_value" />
         
          <ListPreference
             android:key="beacon_interval"
-            android:title="Beacon Interval"
-
-            android:summary="Define how often beacon is sent"
+            android:title="@string/beacon_interval_title"
+            android:summary="@string/beacon_interval_summary"
             android:defaultValue="15"
             android:entries="@array/beaconInterval"
             android:entryValues="@array/beaconIntervalValues" />  
             
          <CheckBoxPreference
             android:key="qrss"
-            android:summary="Sends extremely slow morse code"
-            android:title="Enable QRSS Beacon"
+            android:summary="@string/qrss_box_summary"
+            android:title="@string/qrss_box_title"
             android:defaultValue="false"  />
          
          <ListPreference
             android:key="qrss_rate"
-            android:title="QRSS rate"
-
-            android:summary="Choose duration of a dit"
+            android:title="@string/qrss_rate_title"
+            android:summary="@string/qrss_rate_summary"
             android:defaultValue="10"
             android:entries="@array/qrssRate"
-            android:entryValues="@array/qrssRateValues" /> 
-                
+            android:entryValues="@array/qrssRateValues" 
+            android:dependency = "qrss" /> 
+            
     </PreferenceCategory>
 
 </PreferenceScreen>

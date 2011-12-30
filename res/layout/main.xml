@@ -15,7 +15,7 @@
         android:layout_marginTop="2dip">
     </ImageView>
     <TextView android:layout_height="wrap_content" 
-        android:text="Enter keyer message:" 
+        android:text="@string/instruction_text" 
         android:gravity="center_horizontal" 
         android:layout_width="fill_parent" 
         android:id="@+id/instructionText">
@@ -82,8 +82,6 @@
          android:layout_marginRight="10dip"
          android:layout_marginLeft="10dip"
          android:gravity="center_horizontal"
-         android:text="No messages have been saved. To save a
-         			   new message to a memory slot, enter it 
-         			   above and then hit the save button. "  />
+         android:text="@string/no_messages"  />
     
 </LinearLayout>

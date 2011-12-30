@@ -1,15 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
+    <!--  Main Activity -->
 	<string name="app_name">AKA</string>
+	<string name="instruction_text">Enter message</string>
+	<string name="no_messages">No messages have been saved. To save a
+         			   new message to a memory slot, enter it 
+         			   above and then hit the save button. </string>
+         			   
+	<string-array name="messages_array">
+        <item>CQ CQ CQ DE AI4SV AI4SV K</item>
+        <item>TNX FER CALL = UR 599 OP JACK QTH FAIRFAX, VA +</item>
+        <item>RIG KNWD 450S ANT G5RV 45 FT PWR 5W</item>
+        <item>TNX FB QSO ES 73</item>
+	</string-array>
+    
+	<string-array name="message_options_array">
+        <item>Edit</item>
+        <item>Copy</item>
+        <item>Move Up</item>
+        <item>Move Down</item>
+        <item>Delete</item>
+    </string-array>       
+         			   
+	<!-- Main Activity Menu -->    
 	
 	<string name="toCW_label">CW mode</string>	  
 	<string name="toHell_label">HELL mode</string>  
-	<string name="help_label">Help</string>
-	<string name="exit_label">Exit</string>		
+	<string name="help_label">Help</string>	
 	<string name="settings_label">Settings...</string>
 	
-	<string name="messageOptions">Message Options</string>    
+	<!-- Main Activity ContextMenu -->
+         			   
+	    
+	<!--  Preferences -->    
+         			   
+    <string name="general_category">General</string>  
+    
+    <string name="callsign_title">Your Callsign</string>
+    <string name="callsign_dialg_title">Callsign</string>
+    <string name="callsign_dialog_message">Enter your callsign</string>
+    <string name="callsign_default_value">URCALL</string>
+    <string name="callsign_summary">Callsign to substitute for @ in the text</string>
+ 
+	<string name="suppress_title">Suppress phone sounds</string>
+	<string name="suppress_summary">Suppress all other phone sounds 
+	    including ringing and alarms</string>
+	
+	<string name="cw_category">CW (morse code) mode</string>   
+	
+    <string name="sidetone_title">Sidetone pitch</string>
+    <string name="sidetone_summary">Adjust audible tone</string>
+    <string name="wpm_title">Code speed</string>
+    <string name="wpm_summary">Adjust speed of sent code</string>
+    
+	<string name="hell_category">Hellscreiber Mode</string>
+	
+	<string name="darkness_title">Character darkness</string>
+	<string name="darkness_summary">Adjust fine timing</string>
+	
+	<string name="beacon_category">CW Beacon mode</string> 
+	
+	<string name="beacon_title">Beacon text</string>   
+	<string name="beacon_summary">Message to be sent by beacon</string>
+	<string name="beacon_dialog_title">Beacon message</string>
+	<string name="beacon_dialog_message">Enter a message</string>
+	<string name="beacon_default_value">QTH # DE @/B @/B</string>   
+    <string name="beacon_interval_title">Send beacon...</string> 
+    <string name="beacon_interval_summary">Define how often beacon is sent</string>
+    <string name="qrss_box_title">Enable QRSS beacon</string> 
+    <string name="qrss_box_summary">Sends extremely slow morse code</string>  
+    <string name="qrss_rate_title">Dit duration</string>
+    <string name="qrss_rate_summary">Choose duration of a dit</string>
+         			   
+    <string name="minutes_3">Every 3 minutes</string>     			   
+	<string name="minutes_5">Every 5 minutes</string> 
+	<string name="minutes_15">Every 15 minutes</string> 
+	<string name="minutes_30">Every 30 minutes</string> 
+	<string name="hours_1">Every hour</string> 
+	<string name="hours_2">Every 2 hours</string> 
+	<string name="hours_6">Every 6 hours</string> 
+	
+	<string name="seconds_3">3 seconds</string>
+	<string name="seconds_5">5 seconds</string>
+	<string name="seconds_10">10 seconds</string>
+	<string name="seconds_30">30 seconds</string>
+	                        
+
+	
+	<string name="messageOptions">Message Options</string>   
+	
+	<!-- Help -->   
 	
 	<string name="help_title">AKA Help</string>    
 	<string name="help_text"><b>What is it?</b>
@@ -93,20 +174,6 @@
 	    beacon can be sent to send QRSS morse code, where a single dit can take several seconds to send. This is 
 	    a weak signal mode, but be sure that your transmitter can handle the long key down periods.
 	    </string>
-	   
-	<string-array name="messages_array">
-        <item>CQ CQ CQ DE AI4SV AI4SV K</item>
-        <item>TNX FER CALL = UR 599 OP JACK QTH FAIRFAX, VA +</item>
-        <item>RIG KNWD 450S ANT G5RV 45 FT PWR 5W</item>
-        <item>TNX FB QSO ES 73</item>
-    </string-array>
-    
-	<string-array name="message_options_array">
-        <item>Edit</item>
-        <item>Copy</item>
-        <item>Move Up</item>
-        <item>Move Down</item>
-        <item>Delete</item>
-    </string-array>
+	
 
 </resources>
