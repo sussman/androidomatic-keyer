@@ -78,8 +78,10 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private String beacon_text = "Beacon Text";
 	
 	private boolean suppress_other_sound = true;
+	private boolean sound_playing = false;
 	
 	private Thread soundThread;
+	private AKASignaler signaler = AKASignaler.getInstance();
 	private Button playButton;
 	private Button clearMessageButton;
 	private Button addMessageButton;
@@ -112,6 +114,13 @@ public class AndroidomaticKeyerActivity extends Activity {
         
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
         
+        soundThread = new Thread(new Runnable() {
+			@Override
+				public void run() {
+				player.playMorse();
+			}
+        });
+        soundThread.start();  // should immediately wait() until we signal it to wake up
     }
     
  
@@ -297,7 +306,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     
     private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {
-        	if (null != soundThread && soundThread.isAlive()) {
+        	if (sound_playing) {
         		stopMessage();
         	} else {
         		startMessage();
@@ -333,36 +342,23 @@ public class AndroidomaticKeyerActivity extends Activity {
     
 	// Play sound (infinite loop) on separate thread from main UI thread.
     void startMessage() {
-    	if (null != soundThread && soundThread.isAlive()) {
-    		Log.i(TAG, "Trying to stop old thread first...");
-    		stopMessage();
-    	}
     	String playText = keyerEditText.getText().toString();
     	if (!emptyMessage(playText)) {
     		playText = expandMessage(playText);
     		keyerEditText.setText(playText);
-    		Log.i(TAG, "Starting thread with " + (String) ((cwMode) ? "CW" : "Hell" + " message"));
+    		Log.i(TAG, "Starting sound thread with " + (String) ((cwMode) ? "CW" : "Hell" + " message"));
     		if(cwMode) {
     			player.setMessage(playText);
     			player.setSpeed(speed);
     			player.setTone(hertz);
-    			soundThread = new Thread(new Runnable() {
-    				@Override
-    				public void run() {
-    				player.playMorse();
-    				}
-    	        });
     		}
     		else {
     			hplayer.setMessage(playText);
-    			soundThread = new Thread(new Runnable() {
-    				@Override
-    				public void run() {
-    				hplayer.playHell();
-    				}
-    	        });
-    		}  		
-        	soundThread.start();
+    		}
+    		synchronized (signaler) {
+    			signaler.notify();  // this should wake up the soundThread to start playing
+    		}
+    		sound_playing = true;
         	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
         			getResources().getDrawable(android.R.drawable.ic_media_pause));
     	}
@@ -388,15 +384,9 @@ public class AndroidomaticKeyerActivity extends Activity {
     }
     
     void stopMessage() {
-    	if (soundThread.isAlive()) {
-    		Log.i(TAG, "Stopping existing morse thread.");
-    		soundThread.interrupt();
-    		try {
-    			soundThread.join();  // wait for thread to die
-    		} catch (InterruptedException e) {
-    			Log.i(TAG, "Main thread interrupted while waiting for child to die!");
-    		}
-    	}
+    	Log.i(TAG, "Stopping existing sound thread.");
+    	signaler.pleaseShutUp = true;  // soundThread is polling this boolean, and should now wait()
+    	sound_playing = false;
     	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
     			getResources().getDrawable(android.R.drawable.ic_media_play));
     }

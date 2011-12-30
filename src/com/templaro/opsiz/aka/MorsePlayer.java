@@ -39,6 +39,7 @@ public class MorsePlayer {
 	private byte dahSnd[];
 	private byte pauseInnerSnd[];
 	private AudioTrack audioTrack;
+	private AKASignaler signaler = AKASignaler.getInstance();
 	private String currentMessage;  // message to play in morse
 	
 
@@ -53,7 +54,6 @@ public class MorsePlayer {
 				AudioFormat.CHANNEL_CONFIGURATION_MONO,
                 AudioFormat.ENCODING_PCM_16BIT, 10 * numSamples,
                 AudioTrack.MODE_STREAM);
-		audioTrack.play();  // begin asynchronous playback of anything streamed to track
 	}
 	
 	
@@ -109,41 +109,67 @@ public class MorsePlayer {
 		buildSounds();
 	}
 	
-	// Plays MESSAGE in an infinite loop, until thread is interrupted by parent.
+	private void hibernate() {
+		Log.i(TAG, "soundThread now sleeping in wait()...");
+		synchronized (signaler) {
+			try {
+				signaler.wait();
+			}
+			catch (Exception e) {
+				return;  // TODO: deep failure, time to abort the whole app probably
+			}
+		}
+	}
+	
+	// The main logic loop of this class;  what the soundThread runs forever.
 	public void playMorse() {
-		// check to make sure sine data is already generated
-		Log.i(TAG, "Now playing morse code...");
-		MorseBit[] pattern = MorseConverter.pattern(currentMessage);
-		audioTrack.play();
 		
 		while (true) {
-			for (MorseBit bit : pattern) {
-				if (Thread.interrupted()) {
+			// Begin by sleeping indefinitely within a wait() call
+			hibernate();
+			
+			// If we get here, we've just been awakened by the UI thread calling notify()
+			// and now need to get to work playing sound.
+			
+			Log.i(TAG, "Now playing morse code...");
+			MorseBit[] pattern = MorseConverter.pattern(currentMessage);
+			buildSounds();  // in case tone or speed settings changed
+			audioTrack.play();  // sound is now active
+			
+			while (true) {  // the main keyer sound loop
+				for (MorseBit bit : pattern) {
+					if (signaler.pleaseShutUp == true) {
+						Log.i(TAG, "Interrupted, stopping all sound...");
+						audioTrack.stop(); // make sure no sound is playing
+						audioTrack.flush();
+						// TODO:  clear out audioTrack buffer here?
+						signaler.pleaseShutUp = false;
+						hibernate();  // go back to the wait()
+						audioTrack.play();  // we've been awakened again!
+					}
+					switch (bit) {
+						case GAP:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
+						case DOT:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
+						case DASH: audioTrack.write(dahSnd, 0, dahSnd.length);  break;
+						case LETTER_GAP:
+							for (int i = 0; i < 3; i++)
+								audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
+							break;
+						case WORD_GAP:
+							for (int i = 0; i < 7; i++)
+								audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
+							break;
+						default:  break;
+					}	
+				}
+				try {
+					Thread.sleep(2000);  // TODO: should be configurable pause
+				} catch (InterruptedException e) {
 					Log.i(TAG, "Interrupted, stopping all sound...");
 					audioTrack.stop(); // make sure no sound is playing
-					return;
+					audioTrack.flush();
+					break;
 				}
-				switch (bit) {
-					case GAP:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
-					case DOT:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
-					case DASH: audioTrack.write(dahSnd, 0, dahSnd.length);  break;
-					case LETTER_GAP:
-						for (int i = 0; i < 3; i++)
-							audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
-						break;
-					case WORD_GAP:
-						for (int i = 0; i < 7; i++)
-							audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
-						break;
-					default:  break;
-				}	
-			}
-			try {
-				Thread.sleep(2000);  // TODO: should be configurable
-			} catch (InterruptedException e) {
-				Log.i(TAG, "Interrupted, stopping all sound...");
-				audioTrack.stop(); // make sure no sound is playing
-				return;
 			}
 		}
 	}
