@@ -274,7 +274,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     			messageList.invalidateViews();
     		}
     		else {
-    			Toast.makeText(getApplicationContext(), "Can't move up any further.",
+    			Toast.makeText(getApplicationContext(), R.string.cant_move_up,
     			          Toast.LENGTH_SHORT).show();
     		}
     		return true;
@@ -286,7 +286,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     			messageList.invalidateViews();
     		}
     		else {
-    			Toast.makeText(getApplicationContext(), "Can't move down any further.",
+    			Toast.makeText(getApplicationContext(), R.string.cant_move_down,
     			          Toast.LENGTH_SHORT).show();
     		}
     		return true;
@@ -366,7 +366,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     
     boolean emptyMessage(String mMsg) {
     	if (mMsg.length() == 0) {
-    		Toast.makeText(getApplicationContext(), "Nothing to play. Enter a message first.",
+    		Toast.makeText(getApplicationContext(), R.string.nothing_to_play,
 			          Toast.LENGTH_SHORT).show();
       		Log.i(TAG,"Refused to play nothing");
       		return true;
@@ -403,7 +403,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         	int addAt = messages.size();
         	String addText = keyerEditText.getText().toString();
         	if (addText.length() == 0) {
-        		Toast.makeText(getApplicationContext(), "Enter a message first, then save.",
+        		Toast.makeText(getApplicationContext(), R.string.enter_message_first,
   			          Toast.LENGTH_SHORT).show();
         		Log.i(TAG,"Refused to save an empty string to a slot");
         	}
@@ -430,16 +430,16 @@ public class AndroidomaticKeyerActivity extends Activity {
                 messageEditText = (EditText) textEntryView.findViewById(R.id.edit_message_prompt_entry);
                 messageEditText.setText("initial value");
                 return new AlertDialog.Builder(AndroidomaticKeyerActivity.this)
-                .setTitle("Edit Message")
+                .setTitle(R.string.edit_message_dialog_title)
                 .setView(textEntryView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.edit_message_dialog_ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                         	messages.set(currentPick, messageEditText.getText().toString());
                         	messageList.invalidateViews();
                         	Log.i(TAG, "OK'd the message edit.");
                         }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.edit_message_dialog_cancel, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                         	Log.i(TAG, "Nix'd the message edit.");
                         }

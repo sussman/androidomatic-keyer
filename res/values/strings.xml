@@ -21,7 +21,10 @@
         <item>Move Up</item>
         <item>Move Down</item>
         <item>Delete</item>
-    </string-array>       
+    </string-array>   
+    
+	<string name="nothing_to_play">Nothing to play. Enter a message first.</string>
+	<string name="enter_message_first">Enter a message first, then save.</string>	    
          			   
 	<!-- Main Activity Menu -->    
 	
@@ -31,8 +34,17 @@
 	<string name="settings_label">Settings...</string>
 	
 	<!-- Main Activity ContextMenu -->
-         			   
-	    
+	
+	<string name="messageOptions">Message Options</string>   
+	<string name="cant_move_up">Can\'t move up any further.</string>
+	<string name="cant_move_down">Can\'t move down any further.</string>
+	
+	<!-- Edit Message Dialog -->
+	
+	<string name="edit_message_dialog_title">Edit Message</string>
+	<string name="edit_message_dialog_ok">OK</string>	    
+	<string name="edit_message_dialog_cancel">Cancel</string>
+		    
 	<!--  Preferences -->    
          			   
     <string name="general_category">General</string>  
@@ -66,7 +78,7 @@
 	<string name="beacon_dialog_title">Beacon message</string>
 	<string name="beacon_dialog_message">Enter a message</string>
 	<string name="beacon_default_value">QTH # DE @/B @/B</string>   
-    <string name="beacon_interval_title">Send beacon...</string> 
+    <string name="beacon_interval_title">Beacon interval</string> 
     <string name="beacon_interval_summary">Define how often beacon is sent</string>
     <string name="qrss_box_title">Enable QRSS beacon</string> 
     <string name="qrss_box_summary">Sends extremely slow morse code</string>  
@@ -88,7 +100,7 @@
 	                        
 
 	
-	<string name="messageOptions">Message Options</string>   
+
 	
 	<!-- Help -->   
 	

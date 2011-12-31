@@ -70,11 +70,8 @@
                 templaro:min="-50"
             	templaro:unitsLeft=""
                 templaro:unitsRight="%"
-
             />
             
-      
-    
     <PreferenceCategory
         android:title="@string/beacon_category"
         android:key="beacon_category">
