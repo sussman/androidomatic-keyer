@@ -76,8 +76,12 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private String callsign;
 	private String beacon_interval = "15";
 	private String beacon_text = "Beacon Text";
-	
 	private boolean suppress_other_sound = true;
+	private boolean qrss = false;
+	private String qrss_rate = "10";
+	
+	
+	
 	private boolean sound_playing = false;
 	
 	private Thread soundThread;
@@ -337,6 +341,9 @@ public class AndroidomaticKeyerActivity extends Activity {
              beacon_text = xmlImport(prefs.getString("beacon_text", "QTH # DE @/B @/B"));
              suppress_other_sound = prefs.getBoolean("suppress_other_sound",true);
              callsign = xmlImport(prefs.getString("callsign","UR CALL"));
+             qrss = prefs.getBoolean("qrss", false);
+             qrss_rate = prefs.getString("qrss_rate", "10");
+             
     }
     
     
@@ -527,6 +534,8 @@ public class AndroidomaticKeyerActivity extends Activity {
 	      editor.putString(xmlExport("beacon_text"), beacon_text);
 	      editor.putBoolean("suppress_other_sound",suppress_other_sound);
 	      editor.putString(xmlExport("callsign"), callsign);
+	      editor.putBoolean("qrss", qrss);
+	      editor.putString("qrss_rate",qrss_rate);
 	      editor.commit();
 	}
 
