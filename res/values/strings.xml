@@ -150,7 +150,8 @@
 	    \n\nSpecial Symbols: As a convenience, you can abbreviate some common items with a single
 	    character.
 	    \n\n<b>@</b>  Your Callsign (from Settings)\n
-	    <b>#</b>  Your Location\n
+	    <b>#</b>  GPS Coordinates\n 
+	    <b>!</b>  Maidenhead Grid Location\n
 	    <b>=</b>  prosign BT\n
 	    <b>+</b>  prosign AR\n
 	    <b>~</b>  prosign KN\n
@@ -165,8 +166,11 @@
 	    benefit from the human visual system\'s ability to pick symbols out of noise. Consequently, it is 
 	    also very immune to noise and suitable for low power transmission. The bandwidth of a Hellscreiber
 	    signal is about 300 Hz, so wider than CW, but it is still considered a narrow bandwidth mode.
-	    \n\nOperation in Hell mode is similar to CW mode, except the character set is more limited: effectively
-	    the Latin alphabet, numbers, and a few punctuation symbols. The Hellscreiber font is a 7x7 matrix, which
+	    \n\nOperation in Hell mode is similar to CW mode, except the character set is more limited: the original
+	    Hellscreiber font was limited to 
+	    the Latin alphabet, numbers, and a few punctuation symbols. 
+	    This keyer includes some extended Latin characters, the Russian alphabet, and additional punctuation
+	    symbols. The Hellscreiber font is a 7x7 matrix, which
 	    makes it difficult to represent more complicated glyphs. Any 
 	    non-printing characters will be replaced by a space. Note that the spaces have a small tick mark, 
 	    which is a hold over from when it was desirable to keep a vox activated for the duration of a message.

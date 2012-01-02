@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -80,8 +81,6 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private boolean qrss = false;
 	private String qrss_rate = "10";
 	
-	
-	
 	private boolean sound_playing = false;
 	
 	private Thread soundThread;
@@ -100,6 +99,8 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private int currentPick = 0;
 	private EditText messageEditText;
 	
+	GeoHelper mGeo;
+	
 
     /** Called when the activity is first created. */
     @Override
@@ -117,6 +118,8 @@ public class AndroidomaticKeyerActivity extends Activity {
         addMessageButton.setOnClickListener(addMessageButtonListener);
         
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
+        
+        mGeo = new GeoHelper(this);
         
         soundThread = new Thread(new Runnable() {
 			@Override
@@ -386,7 +389,8 @@ public class AndroidomaticKeyerActivity extends Activity {
     String expandMessage(String mMsg) {
 		Log.i(TAG, "Expanding text substitutions");
 		mMsg = mMsg.replaceAll("@",callsign);
-		mMsg = mMsg.replaceAll("#","GPS coordinates");
+		mMsg = mMsg.replaceAll("#",mGeo.currentDecimalLocation());
+		mMsg = mMsg.replaceAll("!",mGeo.maidenheadGrid());
 		return mMsg;
     }
     
@@ -477,6 +481,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         super.onResume();
         // The activity has become visible (it is now "resumed").
         setMuting(suppress_other_sound);
+        mGeo.locationUpdatesOn();
     }
    
     @Override
@@ -487,6 +492,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         //than stop
         if(suppress_other_sound) 
         	setMuting(false);
+        mGeo.locationUpdatesOff();
     }
         
     @Override
