@@ -32,6 +32,8 @@
         <activity android:name=".Settings" 
             android:configChanges="orientation"
 		    android:screenOrientation="portrait" />
+        
+		<receiver android:name=".BeaconSqualk" android:process=":remote" /> 
             
     </application>
     

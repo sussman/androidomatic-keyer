@@ -93,6 +93,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private MorsePlayer player = new MorsePlayer(hertz, speed);
 	private HellPlayer hplayer = new HellPlayer();  //consider more generic *player class...
 	private boolean cwMode = true;
+	private boolean beaconOn = false;
 	private ListView messageList;
 	private TextView emptyMessageList;
 	private ArrayList<String> messages = new ArrayList<String>();
@@ -171,6 +172,7 @@ public class AndroidomaticKeyerActivity extends Activity {
 		// TODO: Ideally, provide some sort of visual feedback about on main screen
 		//Note -- probably need to overhaul entire system using phone stream & indicate call in progress
 		//to fully block
+		//Also need to somehow suppress pending timed activities, if any
 	}
 	
     private void DisplayMessages() {
@@ -216,6 +218,8 @@ public class AndroidomaticKeyerActivity extends Activity {
         case R.id.settings:
         	startActivity(new Intent(this, Settings.class));
         	return true;
+        case R.id.beacon_control:
+        	return true;
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -239,6 +243,16 @@ public class AndroidomaticKeyerActivity extends Activity {
     		menu
     		.findItem(R.id.mode)
     		.setTitle(R.string.toCW_label);
+    	}
+    	if(beaconOn){
+    		menu
+    		.findItem(R.id.beacon_control)
+    		.setTitle(R.string.cancel_beacon_label);
+    	}
+    	else {
+    		menu
+    		.findItem(R.id.beacon_control)
+    		.setTitle(R.string.enable_beacon_label);
     	}
             return super.onPrepareOptionsMenu(menu);
     }

@@ -32,6 +32,8 @@
 	<string name="toHell_label">HELL mode</string>  
 	<string name="help_label">Help</string>	
 	<string name="settings_label">Settings...</string>
+	<string name="cancel_beacon_label">Beacon Off</string>
+	<string name="enable_beacon_label">Beacon On</string>
 	
 	<!-- Main Activity ContextMenu -->
 	
