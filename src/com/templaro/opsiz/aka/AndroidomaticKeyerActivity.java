@@ -26,13 +26,16 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -219,6 +222,14 @@ public class AndroidomaticKeyerActivity extends Activity {
         	startActivity(new Intent(this, Settings.class));
         	return true;
         case R.id.beacon_control:
+        	if(beaconOn) {
+        		//turn it off
+        		disarmBeacon();
+        	}
+        	else {
+        		//activate beacon
+        		armBeacon();
+        	}
         	return true;
         default:
             return super.onOptionsItemSelected(item);
@@ -228,9 +239,48 @@ public class AndroidomaticKeyerActivity extends Activity {
     private void switchMode() {
     	//TODO: Revise UI to reflect change of mode
     	//(in addition to menu button text changing)
-    	Log.i(TAG, "Switched to " + (String) ((cwMode) ? "Hell" : "CW" + " mode"));
     	cwMode = !cwMode;
+    	Log.i(TAG, "Switched to " + (String) ((cwMode) ? "CW" : "Hell" + " mode"));
+    	
 	}
+    
+    private void armBeacon() {
+    	Intent intent = new Intent(AndroidomaticKeyerActivity.this, BeaconSqualk.class);
+        PendingIntent sender = PendingIntent.getBroadcast(AndroidomaticKeyerActivity.this,
+                0, intent, 0);
+        
+        // We want the alarm to go off duration seconds from now.
+        long firstTime = SystemClock.elapsedRealtime();
+        int beacon_period = Integer.parseInt(beacon_interval) * 60; //period in seconds
+        firstTime += beacon_period*1000; //milliseconds
+
+        // Schedule the repeating alarm
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+        am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                        firstTime, beacon_period*1000, sender);
+        
+    	beaconOn = true;
+        Log.i(TAG, String.format("Armed beacon for %s minutes", beacon_interval));
+        //TOOO: arming the beacon should also be reflected in the UI
+        //TODO: Save beacon status in onpause/resume
+        
+    }
+    
+    private void disarmBeacon() {
+    	
+    	Intent intent = new Intent(AndroidomaticKeyerActivity.this, BeaconSqualk.class);
+        PendingIntent sender = PendingIntent.getBroadcast(AndroidomaticKeyerActivity.this,
+                0, intent, 0);
+        
+        //Cancel the alarm.
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+        am.cancel(sender);
+
+    	beaconOn = false;
+        Log.i(TAG, "Beacon disarmed");
+        //TODO: disarming beacon should be reflected in the UI
+        //TODO: save beacon status in onpause/resume
+    }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
