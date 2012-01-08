@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!-- It would sure be nice if a native francophone could edit these attempts at translation and add 
+     the help text.  -->
+
+    <!--  Main Activity -->
+	<string name="app_name">AKA</string>
+	<string name="instruction_text">Entrez un message</string>
+	<string name="no_messages">Aucun message n\'a été enregistré. Pour enregistrer 
+		un nouveau message, entrez-le ci-dessus et cliquez le bouton 
+		d\'enregistrement.</string>
+         			   
+	<string-array name="messages_array">
+        <item>CQ CQ CQ DE AI4SV AI4SV K</item>
+        <item>TNX FER CALL = UR 599 OP JACK QTH FAIRFAX, VA +</item>
+        <item>RIG KNWD 450S ANT G5RV 45 FT PWR 5W</item>
+        <item>TNX FB QSO ES 73</item>
+	</string-array>
+    
+	<string-array name="message_options_array">
+        <item>Modifier</item>
+        <item>Copier</item>
+        <item>Déplacer vers le haut</item>
+        <item>Déplacer vers le bas</item>
+        <item>Supprimer</item>
+    </string-array>   
+    
+	<string name="nothing_to_play">Rien à jouer. D\'abord, il faut entrer un message.</string>
+	<string name="enter_message_first">Après avoir entré un message, enregistrez-le.</string>	    
+         			   
+	<!-- Main Activity Menu -->    
+	
+	<string name="toCW_label">CW mode</string>	  
+	<string name="toHell_label">HELL mode</string>  
+	<string name="help_label">Aide</string>	
+	<string name="settings_label">Configuration...</string>
+	<string name="cancel_beacon_label">Activer balise</string>
+	<string name="enable_beacon_label">Désactiver balise</string>
+	
+	<!-- Main Activity ContextMenu -->
+	
+	<string name="messageOptions">Options</string>   
+	<string name="cant_move_up">Impossible de déplacer en haut</string>
+	<string name="cant_move_down">Impossible de déplacer en bas</string>
+	
+	<!-- Edit Message Dialog -->
+	
+	<string name="edit_message_dialog_title">Modifier le message</string>
+	<string name="edit_message_dialog_ok">OK</string>	    
+	<string name="edit_message_dialog_cancel">Annuler</string>
+		    
+	<!--  Preferences -->    
+         			   
+    <string name="general_category">Général</string>  
+    
+    <string name="callsign_title">Votre indicatif</string>
+    <string name="callsign_dialg_title">Indicatif</string>
+    <string name="callsign_dialog_message">Entrez votre indicatif</string>
+    <string name="callsign_default_value">F5???</string>
+    <string name="callsign_summary">Remplacer le symbole @ par l\'indicatif</string>
+ 
+	<string name="suppress_title">Faire taire tous les sons</string>
+	<string name="suppress_summary">Rendre silencieux tous les sons, notamment les alertes</string>
+	
+	<string name="cw_category">CW (code morse) mode</string>   
+	
+    <string name="sidetone_title">Fréquence de la tonalité </string>
+    <string name="sidetone_summary">Ajuster la tonalité</string>
+    <string name="wpm_title">Vitesse d\'émission</string>
+    <string name="wpm_summary">Ajuster la vitesse du code</string>
+    
+	<string name="hell_category">Hellschreiber Mode</string>
+	
+	<string name="darkness_title">Noirceur des caractères</string>
+	<string name="darkness_summary">Ajuster le minutage d\'émission</string>
+	
+	<string name="beacon_category">Mode de CW balise</string> 
+	
+	<string name="beacon_title">Texte de la balise</string>   
+	<string name="beacon_summary">Message pour envoyer</string>
+	<string name="beacon_dialog_title">Message de la balise</string>
+	<string name="beacon_dialog_message">Entrez un message</string>
+	<string name="beacon_default_value">QTH # DE @/B @/B</string>   
+    <string name="beacon_interval_title">Intervalle de la balise</string> 
+    <string name="beacon_interval_summary">Comment fréquemment envoyer le message</string>
+    <string name="qrss_box_title">Activer la mode QRSS</string> 
+    <string name="qrss_box_summary">Envoyer le morse très lentement</string>  
+    <string name="qrss_rate_title">Durée d\'un point (un \'ti\')</string>
+    <string name="qrss_rate_summary">Selectionnez la durée d\'un point</string>
+         			   
+    <string name="minutes_3">Tous les 3 minutes</string>     			   
+	<string name="minutes_5">Tous les 5 minutes</string> 
+	<string name="minutes_15">Tous lese 15 minutes</string> 
+	<string name="minutes_30">Tous les 30 minutes</string> 
+	<string name="hours_1">Tous les heure</string> 
+	<string name="hours_2">Tous les 2 heures</string> 
+	<string name="hours_6">Tous les 6 heures</string> 
+	
+	<string name="seconds_3">3 secondes</string>
+	<string name="seconds_5">5 secondes</string>
+	<string name="seconds_10">10 secondes</string>
+	<string name="seconds_30">30 secondes</string>
+	                        
+
+	
+
+	
+	<!-- Aide -->   
+	
+	<string name="help_title">AKA Aide</string>    
+	
+	
+    
+</resources>

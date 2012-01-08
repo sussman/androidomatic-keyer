@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--  Apologies in advance for the translation; if any native speakers would provide
+      corrections and add the help section, it would be much appreciated. -->
+
+    
+    <!--  Main Activity -->
+	<string name="app_name">AKA</string>
+	<string name="instruction_text">Введите сообщение</string>
+	<string name="no_messages">Сообщения не сохраняются. Чтобы сохранить новое сообщение
+		 в слот памяти, введите его выше, а затем нажмите кнопку Сохранить.</string>
+         			   
+	
+	<string-array name="message_options_array">
+        <item>Редактировать</item>
+        <item>Копировать</item>
+        <item>Переместить вверх</item>
+        <item>Переместить вниз</item>
+        <item>Удалить</item>
+    </string-array>   
+    
+	<string name="nothing_to_play">Нет сообщений для игры. Во-первых, ввести сообщение.</string>
+	<string name="enter_message_first">Ввести сообщение, и потом сохранить.</string>	    
+         			   
+	<!-- Main Activity Menu -->    
+	
+	<string name="toCW_label">Морзе режим</string>	  
+	<string name="toHell_label">Хэлл режим</string>  
+	<string name="help_label">Справка</string>	
+	<string name="settings_label">Настройки...</string>
+	<string name="cancel_beacon_label">Выключить маяк</string>
+	<string name="enable_beacon_label">Включить маяк</string>
+	
+	<!-- Main Activity ContextMenu -->
+	
+	<string name="messageOptions">Параметры сообщений</string>   
+	<string name="cant_move_up">Невозможно переместить вверх дальше.</string>
+	<string name="cant_move_down">Невозможно переместить вниз дальше.</string>
+	
+	<!-- Edit Message Dialog -->
+	
+	<string name="edit_message_dialog_title">Редактировать сообщение</string>
+	<string name="edit_message_dialog_ok">OK</string>	    
+	<string name="edit_message_dialog_cancel">Отмена</string>
+		    
+	<!--  Preferences -->    
+         			   
+    <string name="general_category">Общие </string>  
+    
+    <string name="callsign_title">Ваш позывной сигнал</string>
+    <string name="callsign_dialg_title">Позывной сигнал</string>
+    <string name="callsign_dialog_message">Введите ваш позывной сигнал</string>
+    <string name="callsign_default_value">РУ1???</string>
+    <string name="callsign_summary">Позывной сигнал вместо @ в тексте</string>
+ 
+	<string name="suppress_title">Подавить все звуки</string>
+	<string name="suppress_summary">Подавить все звуки, включая уведомления</string>
+	
+	<string name="cw_category">CW (Морзe код) режим</string>   
+	
+    <string name="sidetone_title">Высота бокового тона</string>
+    <string name="sidetone_summary">Регулировка звука</string>
+    <string name="wpm_title">Скорость передачи</string>
+    <string name="wpm_summary">Выбрать слов в минуту</string>
+    
+	<string name="hell_category">Хэллшрейбер режим</string>
+	
+	<string name="darkness_title">Темнота симболов</string>
+	<string name="darkness_summary">Kоррекция скорости</string>
+	
+	<string name="beacon_category">Морз маяк режим</string> 
+	
+	<string name="beacon_title">Текст маяка</string>   
+	<string name="beacon_summary">Сообщение маяка</string>
+	<string name="beacon_dialog_title">Сообщение маяка</string>
+	<string name="beacon_dialog_message">Ввести сообщение</string>
+	<string name="beacon_default_value">QTH # DE @/B @/B</string>   
+    <string name="beacon_interval_title">Интервал маяка</string> 
+    <string name="beacon_interval_summary">Частота повторения сообщения</string>
+    <string name="qrss_box_title">Включить QRSS</string> 
+    <string name="qrss_box_summary">Передача крайне медленно</string>  
+    <string name="qrss_rate_title">Продолжительность </string>
+    <string name="qrss_rate_summary">Продолжительность одной точки</string>
+         			   
+    <string name="minutes_3">Kаждые 3 минуты</string>     			   
+	<string name="minutes_5">Каждые 5 минут</string> 
+	<string name="minutes_15">Каждые 15 минут</string> 
+	<string name="minutes_30">Каждые 30 минут</string> 
+	<string name="hours_1">Каждый час</string> 
+	<string name="hours_2">Каждые 2 часа</string> 
+	<string name="hours_6">Каждые 6 часов</string> 
+	
+	<string name="seconds_3">3 секунды</string>
+	<string name="seconds_5">5 секунд</string>
+	<string name="seconds_10">10 секунд</string>
+	<string name="seconds_30">30 секунд</string>
+	                       
+	
+	<!-- Help -->   
+	
+	<string name="help_title">АКА Справка</string>    
+	
+</resources>
