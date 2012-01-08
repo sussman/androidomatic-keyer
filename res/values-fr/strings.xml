@@ -89,13 +89,13 @@
     <string name="qrss_rate_title">Durée d\'un point (un \'ti\')</string>
     <string name="qrss_rate_summary">Selectionnez la durée d\'un point</string>
          			   
-    <string name="minutes_3">Tous les 3 minutes</string>     			   
-	<string name="minutes_5">Tous les 5 minutes</string> 
-	<string name="minutes_15">Tous lese 15 minutes</string> 
-	<string name="minutes_30">Tous les 30 minutes</string> 
-	<string name="hours_1">Tous les heure</string> 
-	<string name="hours_2">Tous les 2 heures</string> 
-	<string name="hours_6">Tous les 6 heures</string> 
+    <string name="minutes_3">Toutes les 3 minutes</string>     			   
+	<string name="minutes_5">Toutes les 5 minutes</string> 
+	<string name="minutes_15">Toute les 15 minutes</string> 
+	<string name="minutes_30">Toutes les 30 minutes</string> 
+	<string name="hours_1">Toutes les heure</string> 
+	<string name="hours_2">Toutes les 2 heures</string> 
+	<string name="hours_6">Toutes les 6 heures</string> 
 	
 	<string name="seconds_3">3 secondes</string>
 	<string name="seconds_5">5 secondes</string>
