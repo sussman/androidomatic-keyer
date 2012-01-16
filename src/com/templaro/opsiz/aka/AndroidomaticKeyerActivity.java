@@ -220,7 +220,7 @@ public class AndroidomaticKeyerActivity extends Activity {
             return true;
         case R.id.settings:
         	startActivity(new Intent(this, Settings.class));
-        	return true;
+        	return true;	
         case R.id.beacon_control:
         	if(beaconOn) {
         		//turn it off
@@ -230,6 +230,8 @@ public class AndroidomaticKeyerActivity extends Activity {
         		//activate beacon
         		armBeacon();
         	}
+        	return true;
+        case R.id.sk:
         	return true;
         default:
             return super.onOptionsItemSelected(item);

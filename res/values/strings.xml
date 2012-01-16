@@ -34,6 +34,7 @@
 	<string name="settings_label">Settings...</string>
 	<string name="cancel_beacon_label">Beacon Off</string>
 	<string name="enable_beacon_label">Beacon On</string>
+	<string name="sk_label">Straight Key</string>
 	
 	<!-- Main Activity ContextMenu -->
 	
