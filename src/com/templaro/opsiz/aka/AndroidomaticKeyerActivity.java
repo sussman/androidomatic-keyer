@@ -232,6 +232,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         	}
         	return true;
         case R.id.sk:
+        	startActivity(new Intent(this, StraightKeyActivity.class));
         	return true;
         default:
             return super.onOptionsItemSelected(item);

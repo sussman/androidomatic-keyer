@@ -33,6 +33,10 @@
             android:configChanges="orientation"
 		    android:screenOrientation="portrait" />
         
+       	<activity android:name=".StraightKeyActivity"
+       	    android:configChanges="orientation"
+       	    android:screenOrientation="portrait" />
+        
 		<receiver android:name=".BeaconSqualk" android:process=":remote" /> 
             
     </application>
