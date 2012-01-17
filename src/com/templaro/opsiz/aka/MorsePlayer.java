@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Ben Collins-Sussman
+ * Copyright (C) 2011 Ben Collins-Sussman and Jack Welch
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,17 +44,10 @@ public class MorsePlayer {
 	private String currentMessage;  // message to play in morse
 	
 
-	// Constructor: prepare to play morse code at SPEED wpm and HERTZ frequency,
-	// by 
+	// Constructor: prepare to play morse code at SPEED wpm and HERTZ frequency
 	public MorsePlayer(int hertz, int speed) {
-		Log.i(TAG, "Generating dit and dah tones.");
 		wpmSpeed = speed;
 		toneHertz = hertz;
-		buildSounds();
-		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate,
-				AudioFormat.CHANNEL_CONFIGURATION_MONO,
-                AudioFormat.ENCODING_PCM_16BIT, 10 * numSamples,
-                AudioTrack.MODE_STREAM);
 	}
 	
 	
@@ -110,41 +103,34 @@ public class MorsePlayer {
 		buildSounds();
 	}
 	
-	private void hibernate() {
-		Log.i(TAG, "soundThread now sleeping in wait()...");
-		synchronized (signaler) {
-			try {
-				signaler.wait();
-			}
-			catch (Exception e) {
-				return;  // TODO: deep failure, time to abort the whole app probably
-			}
-		}
-		// we've been awakened to play sound!
-		Log.i(TAG, "Now playing morse code...");
-		pattern = MorseConverter.pattern(currentMessage);
-		buildSounds();  // in case tone or speed settings changed
-		audioTrack.play();  // sound is now active
+	public void shutUp() {
+		Log.i(TAG, "stopping all sound...");
+		audioTrack.stop();
+		audioTrack.flush();
+		audioTrack.release();
 	}
-	
-	// The main logic loop of this class;  what the soundThread runs forever.
+
+	// The main logic loop of this class; runs exactly once in a standalone thread.
 	public void playMorse() {
-	
-		// Begin thread by sleeping indefinitely within a wait() call
-		hibernate();
-			
-		while (true) {  // the main keyer sound loop
-			for (MorseBit bit : pattern) {
-				if (signaler.pleaseShutUp == true) {
-					Log.i(TAG, "Interrupted, stopping all sound...");
-					audioTrack.stop(); // make sure no sound is playing
-					audioTrack.flush();
-					// TODO:  clear out audioTrack buffer here?
-					signaler.pleaseShutUp = false;
-					hibernate();  // sleep until we're reawoken
-					break;  // start the (possibly new) message over
-				}
-				switch (bit) {
+		Log.i(TAG, "Now playing morse code...");
+        pattern = MorseConverter.pattern(currentMessage);
+        
+        buildSounds();  // TODO:  only do this if settings have actually changed since last time
+		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate,
+				AudioFormat.CHANNEL_CONFIGURATION_MONO,
+				AudioFormat.ENCODING_PCM_16BIT, 10 * numSamples,
+				AudioTrack.MODE_STREAM);
+		audioTrack.play();
+         
+		// Play the message exactly once, unless we're interrupted early.
+		for (MorseBit bit : pattern) {
+			if (signaler.pleaseShutUp == true) {  // POLL to see if stop button was pressed
+				Log.i(TAG, "soundThread interrupted: stopping all sound...");
+				shutUp();
+				signaler.pleaseShutUp = false;
+				return;  // this thread & audiotrack die forever
+			}
+			switch (bit) {
 				case GAP:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
 				case DOT:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
 				case DASH: audioTrack.write(dahSnd, 0, dahSnd.length);  break;
@@ -157,16 +143,13 @@ public class MorsePlayer {
 						audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
 					break;
 				default:  break;
-				}	
-			}
-			try {
-				Thread.sleep(2000);  // TODO: should be configurable pause
-			} catch (InterruptedException e) {
-				Log.i(TAG, "Interrupted, stopping all sound...");
-				audioTrack.stop(); // make sure no sound is playing
-				audioTrack.flush();
-				break;
 			}
 		}
+
+		// Done playing message, let's commit suicide.
+		// TODO:  should wait first  until audioTrack is done playing its buffer!
+		// TODO:  set UI button back to 'play', among other things like unsetting flag
+		shutUp();
+		return;  // this thread & audiotrack die forever
 	}
 }

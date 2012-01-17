@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Ben Collins-Sussman
+ * Copyright (C) 2011 Ben Collins-Sussman and Jack Welch
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,14 +124,6 @@ public class AndroidomaticKeyerActivity extends Activity {
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
         
         mGeo = new GeoHelper(this);
-        
-        soundThread = new Thread(new Runnable() {
-			@Override
-				public void run() {
-				player.playMorse();
-			}
-        });
-        soundThread.start();  // should immediately wait() until we signal it to wake up
     }
     
  
@@ -380,6 +372,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     
     private OnClickListener playButtonListener = new OnClickListener() {
         public void onClick(View v) {
+                Log.i(TAG, "Play/pause button clicked.");
         	if (sound_playing) {
         		stopMessage();
         	} else {
@@ -419,6 +412,14 @@ public class AndroidomaticKeyerActivity extends Activity {
     
 	// Play sound (infinite loop) on separate thread from main UI thread.
     void startMessage() {
+    	
+         soundThread = new Thread(new Runnable() {  // old soundThread gets garbage collected
+              @Override
+              public void run() {
+                   player.playMorse();  // plays message once then dies
+              }
+        });
+
     	String playText = keyerEditText.getText().toString();
     	if (!emptyMessage(playText)) {
     		playText = expandMessage(playText);
@@ -432,12 +433,10 @@ public class AndroidomaticKeyerActivity extends Activity {
     		else {
     			hplayer.setMessage(playText);
     		}
-    		synchronized (signaler) {
-    			signaler.notify();  // this should wake up the soundThread to start playing
-    		}
     		sound_playing = true;
         	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
         			getResources().getDrawable(android.R.drawable.ic_media_pause));
+                soundThread.start();  // injects sound data once, then commits suicide
     	}
     }
     
@@ -463,7 +462,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     
     void stopMessage() {
     	Log.i(TAG, "Stopping existing sound thread.");
-    	signaler.pleaseShutUp = true;  // soundThread is polling this boolean, and should now wait()
+    	signaler.pleaseShutUp = true;  // soundThread is polling this, and should now commit suicide
     	sound_playing = false;
     	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
     			getResources().getDrawable(android.R.drawable.ic_media_play));
