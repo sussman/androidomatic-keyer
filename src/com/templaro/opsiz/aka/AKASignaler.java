@@ -5,9 +5,11 @@ package com.templaro.opsiz.aka;
 public class AKASignaler {
 	private static final AKASignaler instance = new AKASignaler();
 	public boolean pleaseShutUp;
+	public boolean pleaseChangeButtonText;
 	
 	private AKASignaler() {
 		pleaseShutUp = false;
+		pleaseChangeButtonText = false;
 	}
 	
 	public static AKASignaler getInstance() {

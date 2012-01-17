@@ -413,10 +413,21 @@ public class AndroidomaticKeyerActivity extends Activity {
 	// Play sound (infinite loop) on separate thread from main UI thread.
     void startMessage() {
     	
+    	// LOOK UPON MY NESTED RUNNABLES, YE MIGHTY, AND DESPAIR
+    	
          soundThread = new Thread(new Runnable() {  // old soundThread gets garbage collected
               @Override
               public void run() {
                    player.playMorse();  // plays message once then dies
+                   playButton.post(new Runnable() {
+                	   public void run() {
+                		   if (signaler.pleaseChangeButtonText == true) {
+                        	   playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
+                           			getResources().getDrawable(android.R.drawable.ic_media_play));
+                        	   signaler.pleaseChangeButtonText = false;
+                           }
+                	   }
+                   });
               }
         });
 
@@ -436,7 +447,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     		sound_playing = true;
         	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
         			getResources().getDrawable(android.R.drawable.ic_media_pause));
-                soundThread.start();  // injects sound data once, then commits suicide
+            soundThread.start();  // injects sound data once, then commits suicide
     	}
     }
     
@@ -467,7 +478,6 @@ public class AndroidomaticKeyerActivity extends Activity {
     	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
     			getResources().getDrawable(android.R.drawable.ic_media_play));
     }
-
     
     private OnClickListener clearMessageButtonListener = new OnClickListener() {
         public void onClick(View v) {
