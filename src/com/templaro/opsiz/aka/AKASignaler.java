@@ -1,14 +1,16 @@
 package com.templaro.opsiz.aka;
 
+import android.media.AudioTrack;
+
 // Singleton class shared by main UI thread and MorsePlayer thread.
 
 public class AKASignaler {
 	private static final AKASignaler instance = new AKASignaler();
-	public boolean pleaseShutUp;
+	public AudioTrack audioTrack;
 	public boolean pleaseChangeButtonText;
 	
 	private AKASignaler() {
-		pleaseShutUp = false;
+		AudioTrack audioTrack = null;
 		pleaseChangeButtonText = false;
 	}
 	

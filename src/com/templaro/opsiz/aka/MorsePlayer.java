@@ -41,7 +41,6 @@ public class MorsePlayer {
 	private byte dahSnd[];
 	private byte pauseInnerSnd[];
 	private MorseBit[] pattern;
-	private AudioTrack audioTrack;
 	private AKASignaler signaler = AKASignaler.getInstance();
 	private String currentMessage;  // message to play in morse
 
@@ -104,13 +103,12 @@ public class MorsePlayer {
 		buildSounds();
 	}
 	
-	public void shutUp() {
+	public void killAudioTrack() {
 		Log.i(TAG, "stopping all sound and releasing audioTrack resources...");
-		signaler.pleaseShutUp = false;
-		audioTrack.stop();
-		audioTrack.flush();
-		audioTrack.release();  // release underlying audio resources
-		audioTrack = null;  // release object for garbage collection
+		signaler.audioTrack.stop();
+		signaler.audioTrack.flush();
+		signaler.audioTrack.release();  // release underlying audio resources
+		signaler.audioTrack = null;  // release object for garbage collection
 	}
 	
 	// The main logic loop of this class; runs exactly once in a standalone thread.
@@ -120,54 +118,66 @@ public class MorsePlayer {
         
         buildSounds();  // TODO:  only do this if settings have actually changed since last time
 		
-        int bufferSize = 100 * numSamples;
-        audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate,
-				AudioFormat.CHANNEL_CONFIGURATION_MONO,
-				AudioFormat.ENCODING_PCM_16BIT,
-				bufferSize,	AudioTrack.MODE_STREAM);
+        int bufferSize = 20 * numSamples;
+        signaler.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate,
+        						AudioFormat.CHANNEL_CONFIGURATION_MONO,
+        						AudioFormat.ENCODING_PCM_16BIT,
+        						bufferSize,	AudioTrack.MODE_STREAM);
         
         // When audioTrack reaches end of buffer, shut everything down.
-		audioTrack.setNotificationMarkerPosition(bufferSize);
-		audioTrack.setPlaybackPositionUpdateListener(new OnPlaybackPositionUpdateListener() {
+		
+		signaler.audioTrack.play();
+         
+		// Push the sound data into the audiotrack's buffer.
+		int msgSize = 0;
+		for (MorseBit bit : pattern) {
+			switch (bit) {
+				case GAP:  
+					signaler.audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);
+					msgSize += pauseInnerSnd.length;
+					break;
+				case DOT:  
+					signaler.audioTrack.write(ditSnd, 0, ditSnd.length);
+					msgSize += ditSnd.length;
+					break;
+				case DASH: 
+					signaler.audioTrack.write(dahSnd, 0, dahSnd.length);
+					msgSize += dahSnd.length;
+					break;
+				case LETTER_GAP:
+					for (int i = 0; i < 3; i++) {
+						signaler.audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);
+						msgSize += pauseInnerSnd.length;
+					}
+					break;
+				case WORD_GAP:
+					for (int i = 0; i < 7; i++) {
+						signaler.audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);
+						msgSize += pauseInnerSnd.length;
+					}
+					break;
+				default:  break;
+			}
+		}
+
+		// We're done pushing data into the huge audiotrack buffer.
+		// Set a callback to fire when the audiotrack hits the end of our pushed data.
+		signaler.audioTrack.setNotificationMarkerPosition(msgSize);
+		signaler.audioTrack.setPlaybackPositionUpdateListener(new OnPlaybackPositionUpdateListener() {
             @Override
             public void onPeriodicNotification(AudioTrack track) {
                 // nothing to do
             }
             @Override
             public void onMarkerReached(AudioTrack track) {
-                Log.i(TAG, "AudioTrack end of buffer reached, time to die.");
-                shutUp();  // shut down AudioTrack
+                Log.i(TAG, "AudioTrack played to end of message; time to die.");
+                killAudioTrack();  // shut down AudioTrack
                 signaler.pleaseChangeButtonText = true; // UI thread needs to update button
-                return;  // commit suicide
+                return;
             }
         });
 
-		audioTrack.play();
-         
-		// Play the message exactly once, unless we're interrupted early.
-		for (MorseBit bit : pattern) {
-			if (signaler.pleaseShutUp == true) {  // POLL to see if stop button was pressed
-				Log.i(TAG, "soundThread interrupted: stopping all sound...");
-				shutUp();
-				return;  // this thread & audiotrack die forever
-			}
-			switch (bit) {
-				case GAP:  audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  break;
-				case DOT:  audioTrack.write(ditSnd, 0, ditSnd.length);  break;
-				case DASH: audioTrack.write(dahSnd, 0, dahSnd.length);  break;
-				case LETTER_GAP:
-					for (int i = 0; i < 3; i++)
-						audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
-					break;
-				case WORD_GAP:
-					for (int i = 0; i < 7; i++)
-						audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);  
-					break;
-				default:  break;
-			}
-		}
-
-		// Done pushing data into AudioTrack's buffer, so this thread can die.
+		// All data is pushed, and callback is set.  This thread can now commit suicide.
 		return;
 	}
 }

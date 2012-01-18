@@ -435,7 +435,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     	if (!emptyMessage(playText)) {
     		playText = expandMessage(playText);
     		keyerEditText.setText(playText);
-    		Log.i(TAG, "Starting sound thread with " + (String) ((cwMode) ? "CW" : "Hell" + " message"));
+    		Log.i(TAG, "PLAY button clicked; starting sound thread with " + (String) ((cwMode) ? "CW" : "Hell" + " message"));
     		if(cwMode) {
     			player.setMessage(playText);
     			player.setSpeed(speed);
@@ -472,8 +472,11 @@ public class AndroidomaticKeyerActivity extends Activity {
     }
     
     void stopMessage() {
-    	Log.i(TAG, "Stopping existing sound thread.");
-    	signaler.pleaseShutUp = true;  // soundThread is polling this, and should now commit suicide
+    	Log.i(TAG, "STOP button clicked; killing audiotrack.");
+    	if (signaler.audioTrack != null) {
+    		signaler.audioTrack.stop();  // stop sound immediately
+    		player.killAudioTrack();  // free up the shared audioTrack
+    	}
     	sound_playing = false;
     	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
     			getResources().getDrawable(android.R.drawable.ic_media_play));
