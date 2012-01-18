@@ -7,11 +7,11 @@ import android.media.AudioTrack;
 public class AKASignaler {
 	private static final AKASignaler instance = new AKASignaler();
 	public AudioTrack audioTrack;
-	public boolean pleaseChangeButtonText;
+	int msgSize;
 	
 	private AKASignaler() {
 		AudioTrack audioTrack = null;
-		pleaseChangeButtonText = false;
+		int msgSize = 0;
 	}
 	
 	public static AKASignaler getInstance() {

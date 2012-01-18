@@ -34,6 +34,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.AudioTrack;
+import android.media.AudioTrack.OnPlaybackPositionUpdateListener;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -410,7 +412,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     }
     
     
-	// Play sound (infinite loop) on separate thread from main UI thread.
+	// Play sound on separate thread from main UI thread.
     void startMessage() {
     	
     	// LOOK UPON MY NESTED RUNNABLES, YE MIGHTY, AND DESPAIR
@@ -420,12 +422,28 @@ public class AndroidomaticKeyerActivity extends Activity {
               public void run() {
                    player.playMorse();  // plays message once then dies
                    playButton.post(new Runnable() {
+                	   // called by the UI thread when the soundThread returns
                 	   public void run() {
-                		   if (signaler.pleaseChangeButtonText == true) {
-                        	   playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
-                           			getResources().getDrawable(android.R.drawable.ic_media_play));
-                        	   signaler.pleaseChangeButtonText = false;
-                           }
+                		   // soundThread has returned from pushing data into audiotrack buffer;
+                		   // presumably audiotrack is still playing.
+                		   // Set a callback to fire when the audiotrack hits the end of data.
+                			signaler.audioTrack.setNotificationMarkerPosition(signaler.msgSize / 2);
+                			signaler.audioTrack.setPlaybackPositionUpdateListener(new OnPlaybackPositionUpdateListener() {
+                	            @Override
+                	            public void onPeriodicNotification(AudioTrack track) {
+                	                // nothing to do
+                	            }
+                	            @Override
+                	            public void onMarkerReached(AudioTrack track) {
+                	                Log.i(TAG, "AudioTrack played to end of message; time to die.");
+                	                player.killAudioTrack();  // shut down AudioTrack
+                	                sound_playing = false;
+                	                playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
+                	                		getResources().getDrawable(android.R.drawable.ic_media_play));
+                	                return;
+                	            }
+                	        });
+                			Log.i(TAG, "Set marker-callback on " + (signaler.msgSize -2));
                 	   }
                    });
               }

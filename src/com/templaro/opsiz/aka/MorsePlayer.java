@@ -142,23 +142,8 @@ public class MorsePlayer {
         						AudioFormat.CHANNEL_CONFIGURATION_MONO,
         						AudioFormat.ENCODING_PCM_16BIT,
         						msgSize, AudioTrack.MODE_STREAM);
-      
-    	// Set a callback to fire when the audiotrack hits the end of our pushed data.
-		signaler.audioTrack.setNotificationMarkerPosition(msgSize);
-		signaler.audioTrack.setPlaybackPositionUpdateListener(new OnPlaybackPositionUpdateListener() {
-            @Override
-            public void onPeriodicNotification(AudioTrack track) {
-                // nothing to do
-            }
-            @Override
-            public void onMarkerReached(AudioTrack track) {
-                Log.i(TAG, "AudioTrack played to end of message; time to die.");
-                killAudioTrack();  // shut down AudioTrack
-                signaler.pleaseChangeButtonText = true; // UI thread needs to update button
-                return;
-            }
-        });
-
+        signaler.msgSize = msgSize;
+    	
         // Start playing sound out of the buffer
 		signaler.audioTrack.play();
          
@@ -184,6 +169,7 @@ public class MorsePlayer {
 		}
 
 		// All data is pushed, and callback is set.  This thread can now commit suicide.
+		Log.i(TAG, "All data pushed to audio buffer; thread quitting.");
 		return;
 	}
 }
