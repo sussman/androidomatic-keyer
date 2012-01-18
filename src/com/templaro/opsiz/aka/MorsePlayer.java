@@ -118,50 +118,32 @@ public class MorsePlayer {
         
         buildSounds();  // TODO:  only do this if settings have actually changed since last time
 		
-        int bufferSize = 20 * numSamples;
-        signaler.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate,
-        						AudioFormat.CHANNEL_CONFIGURATION_MONO,
-        						AudioFormat.ENCODING_PCM_16BIT,
-        						bufferSize,	AudioTrack.MODE_STREAM);
-        
-        // When audioTrack reaches end of buffer, shut everything down.
-		
-		signaler.audioTrack.play();
-         
-		// Push the sound data into the audiotrack's buffer.
-		int msgSize = 0;
-		for (MorseBit bit : pattern) {
+        // Calculate size of data we're going to push.
+        int msgSize = 0;
+        for (MorseBit bit : pattern) {
 			switch (bit) {
-				case GAP:  
-					signaler.audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);
-					msgSize += pauseInnerSnd.length;
-					break;
-				case DOT:  
-					signaler.audioTrack.write(ditSnd, 0, ditSnd.length);
-					msgSize += ditSnd.length;
-					break;
-				case DASH: 
-					signaler.audioTrack.write(dahSnd, 0, dahSnd.length);
-					msgSize += dahSnd.length;
-					break;
+				case GAP:  msgSize += pauseInnerSnd.length;  break;
+				case DOT:  msgSize += ditSnd.length;  break;
+				case DASH: 	msgSize += dahSnd.length;  break;
 				case LETTER_GAP:
-					for (int i = 0; i < 3; i++) {
-						signaler.audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);
+					for (int i = 0; i < 3; i++)
 						msgSize += pauseInnerSnd.length;
-					}
 					break;
 				case WORD_GAP:
-					for (int i = 0; i < 7; i++) {
-						signaler.audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);
+					for (int i = 0; i < 7; i++)
 						msgSize += pauseInnerSnd.length;
-					}
 					break;
 				default:  break;
 			}
 		}
-
-		// We're done pushing data into the huge audiotrack buffer.
-		// Set a callback to fire when the audiotrack hits the end of our pushed data.
+        
+        // Create an audioTrack with a buffer exactly the size of our message.
+        signaler.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate,
+        						AudioFormat.CHANNEL_CONFIGURATION_MONO,
+        						AudioFormat.ENCODING_PCM_16BIT,
+        						msgSize, AudioTrack.MODE_STREAM);
+      
+    	// Set a callback to fire when the audiotrack hits the end of our pushed data.
 		signaler.audioTrack.setNotificationMarkerPosition(msgSize);
 		signaler.audioTrack.setPlaybackPositionUpdateListener(new OnPlaybackPositionUpdateListener() {
             @Override
@@ -176,6 +158,30 @@ public class MorsePlayer {
                 return;
             }
         });
+
+        // Start playing sound out of the buffer
+		signaler.audioTrack.play();
+         
+		// Start pushing sound data into the audiotrack's buffer.
+		for (MorseBit bit : pattern) {
+			switch (bit) {
+				case GAP:  
+					signaler.audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length); break;
+				case DOT:  
+					signaler.audioTrack.write(ditSnd, 0, ditSnd.length); break;
+				case DASH: 
+					signaler.audioTrack.write(dahSnd, 0, dahSnd.length); break;
+				case LETTER_GAP:
+					for (int i = 0; i < 3; i++)
+						signaler.audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);
+					break;
+				case WORD_GAP:
+					for (int i = 0; i < 7; i++)
+						signaler.audioTrack.write(pauseInnerSnd, 0, pauseInnerSnd.length);
+					break;
+				default:  break;
+			}
+		}
 
 		// All data is pushed, and callback is set.  This thread can now commit suicide.
 		return;
