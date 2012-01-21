@@ -55,27 +55,20 @@ public class HellPlayer  {
 	private byte headerSnd[]; // after column space is divided among 14 elements, extra samples are 
 	private byte footerSnd[];//  divided between top and bottom of the column
 	private byte tailSnd[]; // end of each character is padded to assure total character length of 400 ms
-	private AudioTrack audioTrack;
+	
+	private HellBit[] pattern;
+	private AKASignaler signaler = AKASignaler.getInstance();
 	private String currentMessage;  // message to play in Hell
 	
 
-	// Constructor: prepare to play morse code at SPEED wpm and HERTZ frequency,
-	// by 
+	//Constructor -- no parameters for now -- TODO: pass darkness
 	public HellPlayer() {
-		Log.i(TAG, "Generating mark and space tones.");
-		
 		buildSounds();
-		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE,
-				AudioFormat.CHANNEL_CONFIGURATION_MONO,
-                AudioFormat.ENCODING_PCM_16BIT, AUDIO_BUFFER_SIZE,
-                AudioTrack.MODE_STREAM);
-		audioTrack.play();  // begin asynchronous playback of anything streamed to track
-		
 	}
-	
 	
 	// Generate mark and space tones of the proper lengths.
 	private void buildSounds() {
+		Log.i(TAG, "Generating mark and space tones.");
 		int samplesPerCharacter = (int) (SAMPLE_RATE * CHARACTER_DURATION);
 		Log.d(TAG,"samplesPerCharacter "+ samplesPerCharacter);
 		int samplesPerColumn =  (int) Math.floor(samplesPerCharacter / COLUMNS_PER_CHARACTER);
@@ -130,67 +123,106 @@ public class HellPlayer  {
 	}
 
 	
-	// Plays MESSAGE in an infinite loop, until thread is interrupted by parent.
+	// The main method of this class; runs exactly once in a standalone thread.
 	public void playHell() {
-		// check to make sure sine data are already generated
 		Log.i(TAG, "Now playing Hellscreiber message...");
-		HellBit[] pattern = HellConverter.pattern(currentMessage);
-		audioTrack.play();
+		pattern = HellConverter.pattern(currentMessage);
 		
-		while (true) {
-			HellBit bit;
-			int elementsPerCharacter = COLUMNS_PER_CHARACTER * ELEMENTS_PER_COLUMN;
-			int charsToSend = pattern.length / elementsPerCharacter;
-			for (int charIndex =0; charIndex < charsToSend; charIndex++) {
-				for (int column=0; column < COLUMNS_PER_CHARACTER; column++) {
-					if (Thread.interrupted()) {  //assuming it's enough to check at top of each column
-						Log.i(TAG, "Interrupted, stopping all sound...");
-						audioTrack.stop(); // make sure no sound is playing
-						return;
+		// Calculate size of data we're going to push.
+        int msgSize = 0;
+        HellBit bit;
+        int elementsPerCharacter = COLUMNS_PER_CHARACTER * ELEMENTS_PER_COLUMN;
+        int charsToSend = pattern.length / elementsPerCharacter;
+        
+        for (int charIndex =0; charIndex < charsToSend; charIndex++) {
+        	for (int column=0; column < COLUMNS_PER_CHARACTER; column++) {
+        		for (int row =0; row < ELEMENTS_PER_COLUMN; row++) {
+        			bit = pattern[charIndex*elementsPerCharacter + column*ELEMENTS_PER_COLUMN + row];
+        			if (row == 0) {
+        			// top of the column
+        			msgSize += headerSnd.length;
 					}
-					for (int row =0; row < ELEMENTS_PER_COLUMN; row++) {
-						bit = pattern[charIndex*elementsPerCharacter + column*ELEMENTS_PER_COLUMN + row];
-						if (row == 0) {
-							// top of the column
-							audioTrack.write(headerSnd, 0, headerSnd.length);
-							}
-						switch (bit) {
-							case MARK:  
-								audioTrack.write(markSnd, 0, markSnd.length);  
-								break;
-							case MODMARK:  
-								audioTrack.write(modMarkSnd, 0, modMarkSnd.length);  
-								break;
-							case SPACE: 
-								audioTrack.write(spaceSnd, 0, spaceSnd.length);  
-								break;
-							case MODSPACE:
-								audioTrack.write(modSpaceSnd, 0, modSpaceSnd.length);  
-								break;
-							default:  
-								Log.d(TAG,"Default/unknown Hellbit type error");
-								break;
-						}
-						if (row == 13 ){
-							//bottom of column
-							audioTrack.write(footerSnd, 0, footerSnd.length);
-							if (column == 6) {
-								//last position, pad out to CHARACTER_DURATION
-								audioTrack.write(tailSnd,0,tailSnd.length);
-							}
-						}	
+					switch (bit) {
+						case MARK:  
+							msgSize += markSnd.length;
+							break;
+						case MODMARK:  
+							msgSize += modMarkSnd.length;  
+							break;
+						case SPACE: 
+							msgSize += spaceSnd.length;  
+							break;
+						case MODSPACE:
+							msgSize += modSpaceSnd.length;  
+							break;
+						default:  
+							Log.d(TAG,"Default/unknown Hellbit type error");
+							break;
 					}
-				}
-				
-			}
-			try {
-				Thread.sleep(2000);  // TODO: should be configurable
-			} catch (InterruptedException e) {
-				Log.i(TAG, "Interrupted, stopping all sound...");
-				audioTrack.stop(); // make sure no sound is playing
-				return;
-			}
-		}
+					if (row == 13 ){
+						//bottom of column
+						msgSize += footerSnd.length;
+						if (column == 6) {
+							//last position, pad out to CHARACTER_DURATION
+							msgSize += tailSnd.length;
+						}//end loast position
+					}//end bottom of column	
+				}//next row
+			}//next column	
+		}//next character
+        
+        // Create an audioTrack with a buffer exactly the size of our message.
+        signaler.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE,
+        						AudioFormat.CHANNEL_CONFIGURATION_MONO,
+        						AudioFormat.ENCODING_PCM_16BIT,
+        						msgSize, AudioTrack.MODE_STREAM);
+        signaler.msgSize = msgSize;
+    	
+        // Start playing sound out of the buffer
+		signaler.audioTrack.play();   
+        
+		// Start pushing sound data into the audiotrack's buffer.
+		
+		for (int charIndex =0; charIndex < charsToSend; charIndex++) {
+        	for (int column=0; column < COLUMNS_PER_CHARACTER; column++) {
+        		for (int row =0; row < ELEMENTS_PER_COLUMN; row++) {
+        			bit = pattern[charIndex*elementsPerCharacter + column*ELEMENTS_PER_COLUMN + row];
+        			if (row == 0) {
+        			// top of the column
+        			signaler.audioTrack.write(headerSnd, 0, headerSnd.length); 	
+					}
+					switch (bit) {
+						case MARK:  
+							signaler.audioTrack.write(markSnd, 0, markSnd.length);
+							break;
+						case MODMARK:  
+							signaler.audioTrack.write(modMarkSnd,0, modMarkSnd.length); 
+							break;
+						case SPACE: 
+							signaler.audioTrack.write(spaceSnd, 0, spaceSnd.length);
+							break;
+						case MODSPACE:
+							signaler.audioTrack.write(modSpaceSnd, 0, modSpaceSnd.length);
+							break;
+						default:  
+							Log.d(TAG,"Default/unknown Hellbit type error");
+							break;
+					}
+					if (row == 13 ){
+						//bottom of column
+						signaler.audioTrack.write(footerSnd, 0, footerSnd.length);
+						if (column == 6) {
+							//last position, pad out to CHARACTER_DURATION
+							signaler.audioTrack.write(tailSnd, 0, tailSnd.length);
+						}//end loast position
+					}//end bottom of column	
+				}//next row
+			}//next column	
+		}//next character
+		
+		// All data are pushed, and callback is set.  This thread can now commit suicide.
+		Log.i(TAG, "All data pushed to audio buffer; thread quitting.");
+		return;   
 	}
-		
-}
+	
+}	

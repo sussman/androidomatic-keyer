@@ -31,7 +31,7 @@ import android.media.AudioTrack.OnPlaybackPositionUpdateListener;
 public class MorsePlayer {
 	
 	private String TAG = "MorsePlayer";
-	private int sampleRate = 8000;
+	private final int SAMPLE_RATE = 8000;
 	private double duration;  // in seconds
 	private int wpmSpeed;
 	private int toneHertz;
@@ -46,9 +46,9 @@ public class MorsePlayer {
 
 	// Constructor: prepare to play morse code at SPEED wpm and HERTZ frequency
 	public MorsePlayer(int hertz, int speed) {
-		this.setSpeed(speed);
-		this.setTone(hertz);
-		buildSounds();  // TODO:  only do this if settings have actually changed since last time
+		setSpeed(speed);
+		setTone(hertz);
+		buildSounds(); 
 	}
 	
 	
@@ -56,10 +56,10 @@ public class MorsePlayer {
 	private void buildSounds() {
 		// where (1200 / wpm) = element length in milliseconds
 		duration = (double)((1200 / wpmSpeed) * .001);
-		numSamples = (int)(duration * sampleRate - 1);
+		numSamples = (int)(duration * SAMPLE_RATE - 1);
 		double sineMagnitude = 1; // starting with a dummy value for absolute normalized value of sine wave 
 		double CUTOFF = 0.1; // threshold for whether sine wave is near zero crossing
-		double phaseAngle = 2 * Math.PI / (sampleRate/toneHertz);
+		double phaseAngle = 2 * Math.PI / (SAMPLE_RATE/toneHertz);
 		while (sineMagnitude > CUTOFF){
 			numSamples++;
 			//check to see if  is near zero-crossing to avoid clicks when sound cuts off
@@ -102,7 +102,7 @@ public class MorsePlayer {
 		toneHertz = hertz;
 	}
 	
-	// The main logic loop of this class; runs exactly once in a standalone thread.
+	// The main method of this class; runs exactly once in a standalone thread.
 	public void playMorse() {
 		Log.i(TAG, "Now playing morse code...");
         pattern = MorseConverter.pattern(currentMessage);
@@ -127,7 +127,7 @@ public class MorsePlayer {
 		}
         
         // Create an audioTrack with a buffer exactly the size of our message.
-        signaler.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate,
+        signaler.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE,
         						AudioFormat.CHANNEL_CONFIGURATION_MONO,
         						AudioFormat.ENCODING_PCM_16BIT,
         						msgSize, AudioTrack.MODE_STREAM);
@@ -157,7 +157,7 @@ public class MorsePlayer {
 			}
 		}
 
-		// All data is pushed, and callback is set.  This thread can now commit suicide.
+		// All data are pushed, and callback is set.  This thread can now commit suicide.
 		Log.i(TAG, "All data pushed to audio buffer; thread quitting.");
 		return;
 	}
