@@ -101,15 +101,6 @@ public class MorsePlayer {
 		toneHertz = hertz;
 	}
 	
-	public void killAudioTrack() {
-		Log.i(TAG, "stopping all sound and releasing audioTrack resources...");
-		signaler.audioTrack.stop();
-		signaler.audioTrack.flush(); //flush is necessary even though audiotrack is released
-									 //on next line. Without this, the message keeps playing.
-		signaler.audioTrack.release();  // release underlying audio resources
-		signaler.audioTrack = null;  // release object for garbage collection
-	}
-	
 	// The main logic loop of this class; runs exactly once in a standalone thread.
 	public void playMorse() {
 		Log.i(TAG, "Now playing morse code...");
