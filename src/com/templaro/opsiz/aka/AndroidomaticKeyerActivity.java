@@ -469,7 +469,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     	if (!emptyMessage(playText)) {
     		playText = expandMessage(playText);
     		keyerEditText.setText(playText);
-    		Log.i(TAG, "PLAY button clicked; starting sound thread with " + (String) ((cwMode) ? "CW" : "Hell" + " message"));
+    		Log.i(TAG, "Starting sound thread with " + (String) ((cwMode) ? "CW" : "Hell" + " message"));
     		if(cwMode) {
     			player.setMessage(playText);
     			player.setSpeed(speed);
