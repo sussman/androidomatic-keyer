@@ -95,12 +95,12 @@ public class MorsePlayer {
 	
 	public void setSpeed(int speed) {
 		wpmSpeed = speed;
-		buildSounds();
+		//buildSounds();  speed and freq are no long adjusted on the fly, but in a separate activity
 	}
 	
 	public void setTone(int hertz) {
 		toneHertz = hertz;
-		buildSounds();
+		//buildSounds();
 	}
 	
 	public void killAudioTrack() {
