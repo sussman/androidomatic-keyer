@@ -376,6 +376,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         public void onClick(View v) {
                 Log.i(TAG, "Play/pause button clicked.");
         	if (sound_playing) {
+        		Log.i(TAG, "STOP button clicked; killing audiotrack.");
         		stopMessage();
         	} else {
         		startMessage();
@@ -436,10 +437,7 @@ public class AndroidomaticKeyerActivity extends Activity {
                 	            @Override
                 	            public void onMarkerReached(AudioTrack track) {
                 	                Log.i(TAG, "AudioTrack played to end of message; time to die.");
-                	                player.killAudioTrack();  // shut down AudioTrack
-                	                sound_playing = false;
-                	                playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
-                	                		getResources().getDrawable(android.R.drawable.ic_media_play));
+                	                stopMessage();
                 	                return;
                 	            }
                 	        });
@@ -490,11 +488,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     }
     
     void stopMessage() {
-    	Log.i(TAG, "STOP button clicked; killing audiotrack.");
-    	if (signaler.audioTrack != null) {
-    		signaler.audioTrack.stop();  // stop sound immediately
-    		player.killAudioTrack();  // free up the shared audioTrack
-    	}
+    	signaler.killAudioTrack(); 
     	sound_playing = false;
     	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
     			getResources().getDrawable(android.R.drawable.ic_media_play));
