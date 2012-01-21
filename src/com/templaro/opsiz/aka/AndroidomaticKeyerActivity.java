@@ -590,6 +590,7 @@ public class AndroidomaticKeyerActivity extends Activity {
         if(suppress_other_sound) 
         	setMuting(false);
         mGeo.locationUpdatesOff();
+        signaler.killAudioTrack(); 
     }
         
     @Override
