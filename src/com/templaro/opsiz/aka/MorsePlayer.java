@@ -46,8 +46,8 @@ public class MorsePlayer {
 
 	// Constructor: prepare to play morse code at SPEED wpm and HERTZ frequency
 	public MorsePlayer(int hertz, int speed) {
-		wpmSpeed = speed;
-		toneHertz = hertz;
+		this.setSpeed(speed);
+		this.setTone(hertz);
 	}
 	
 	
@@ -95,18 +95,17 @@ public class MorsePlayer {
 	
 	public void setSpeed(int speed) {
 		wpmSpeed = speed;
-		//buildSounds();  speed and freq are no long adjusted on the fly, but in a separate activity
-	}
+		}
 	
 	public void setTone(int hertz) {
 		toneHertz = hertz;
-		//buildSounds();
 	}
 	
 	public void killAudioTrack() {
 		Log.i(TAG, "stopping all sound and releasing audioTrack resources...");
 		signaler.audioTrack.stop();
-		signaler.audioTrack.flush();
+		signaler.audioTrack.flush(); //flush is necessary even though audiotrack is released
+									 //on next line. Without this, the message keeps playing.
 		signaler.audioTrack.release();  // release underlying audio resources
 		signaler.audioTrack = null;  // release object for garbage collection
 	}
