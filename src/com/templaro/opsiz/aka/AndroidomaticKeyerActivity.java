@@ -95,8 +95,8 @@ public class AndroidomaticKeyerActivity extends Activity {
 	private Button addMessageButton;
 	private EditText keyerEditText;
 
-	private MorsePlayer player = new MorsePlayer(hertz, speed);
-	private HellPlayer hplayer = new HellPlayer();  //consider more generic *player class...
+	private MorsePlayer player; //instantiate as needed rather than
+	private HellPlayer hplayer;  //build sounds for both every time activity starts
 	private boolean cwMode = true;
 	private boolean beaconOn = false;
 	private ListView messageList;
@@ -416,12 +416,30 @@ public class AndroidomaticKeyerActivity extends Activity {
 	// Play sound on separate thread from main UI thread.
     void startMessage() {
     	
+    	//Instantiate the appropriate player, when needed
+    	if(cwMode) {
+    		if(null == player) {
+    		   Log.i(TAG,"Instantiating a new morse player");
+    		   player = new MorsePlayer(hertz,speed);
+    		}
+    	}
+    	else {
+    		if(null == hplayer) {
+    			   Log.i(TAG,"Instantiating a hell player.");
+    			   hplayer = new HellPlayer();
+    		}
+    	}
+    	
     	// LOOK UPON MY NESTED RUNNABLES, YE MIGHTY, AND DESPAIR
     	
          soundThread = new Thread(new Runnable() {  // old soundThread gets garbage collected
               @Override
               public void run() {
-                   player.playMorse();  // plays message once then dies
+            	   // plays message once then dies
+            	   if(cwMode) 
+            		   player.playMorse();
+            	   else
+            		   hplayer.playHell();
                    playButton.post(new Runnable() {
                 	   // called by the UI thread when the soundThread returns
                 	   public void run() {
