@@ -48,6 +48,7 @@ public class MorsePlayer {
 	public MorsePlayer(int hertz, int speed) {
 		this.setSpeed(speed);
 		this.setTone(hertz);
+		buildSounds();  // TODO:  only do this if settings have actually changed since last time
 	}
 	
 	
@@ -105,8 +106,6 @@ public class MorsePlayer {
 	public void playMorse() {
 		Log.i(TAG, "Now playing morse code...");
         pattern = MorseConverter.pattern(currentMessage);
-        
-        buildSounds();  // TODO:  only do this if settings have actually changed since last time
 		
         // Calculate size of data we're going to push.
         int msgSize = 0;

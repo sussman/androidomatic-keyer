@@ -603,6 +603,9 @@ public class AndroidomaticKeyerActivity extends Activity {
         	setMuting(false);
         mGeo.locationUpdatesOff();
         signaler.killAudioTrack(); 
+        if (player != null) player = null;  
+        //assures a fresh morseplayer each time, with updated tone and speed settings
+        //it's okay to let an hplayer instance persist, since it's parameters don't change
     }
         
     @Override
