@@ -134,8 +134,6 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         bootianImageView = (ImageView)findViewById(R.id.bootian_imageView);
         bootianImageView.setOnClickListener(this);
         
-        
-        
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
         
         mGeo = new GeoHelper(this);
@@ -219,28 +217,12 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-        case R.id.mode:
-            switchMode();
-            return true;
         case R.id.help:
     		startActivity(new Intent(this, Help.class));
             return true;
         case R.id.settings:
         	startActivity(new Intent(this, Settings.class));
         	return true;	
-        case R.id.beacon_control:
-        	if(beaconOn) {
-        		//turn it off
-        		disarmBeacon();
-        	}
-        	else {
-        		//activate beacon
-        		armBeacon();
-        	}
-        	return true;
-        case R.id.sk:
-        	startActivity(new Intent(this, StraightKeyActivity.class));
-        	return true;
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -271,7 +253,6 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         
     	beaconOn = true;
         Log.i(TAG, String.format("Armed beacon for %s minutes", beacon_interval));
-        //TOOO: arming the beacon should also be reflected in the UI
         //TODO: Save beacon status in onpause/resume
         
     }
@@ -288,35 +269,9 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
 
     	beaconOn = false;
         Log.i(TAG, "Beacon disarmed");
-        //TODO: disarming beacon should be reflected in the UI
         //TODO: save beacon status in onpause/resume
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-    	if(cwMode){
-            menu
-            .findItem(R.id.mode)
-            .setTitle(R.string.toHell_label);
-    	}
-    	else {
-    		menu
-    		.findItem(R.id.mode)
-    		.setTitle(R.string.toCW_label);
-    	}
-    	if(beaconOn){
-    		menu
-    		.findItem(R.id.beacon_control)
-    		.setTitle(R.string.cancel_beacon_label);
-    	}
-    	else {
-    		menu
-    		.findItem(R.id.beacon_control)
-    		.setTitle(R.string.enable_beacon_label);
-    	}
-            return super.onPrepareOptionsMenu(menu);
-    }
-    
     
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
@@ -524,9 +479,11 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         	}
     		break;
     	case R.id.clearMessageButton:
+    		Log.i(TAG,"Clear button clicked; wiping Edit Text.");
     		keyerEditText.setText("");
     		break;
     	case R.id.addMessageButton:
+    		Log.i(TAG,"Add message button clicked; attempting to add message to list");
     		int addAt = messages.size();
         	String addText = keyerEditText.getText().toString();
         	if (addText.length() == 0) {
@@ -544,10 +501,29 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         	}
     		break;
     	case R.id.mode_textView:
+    		Log.i(TAG,"Mode status toggleded.");
+    		switchMode();
+    		if(cwMode){
+                modeTextView.setText(R.string.toCW_label);
+        	}
+        	else {
+        		modeTextView.setText(R.string.toHell_label);
+        	}
     		break;
     	case R.id.beacon_textView:	
+    		Log.i(TAG,"Beacon status toggled.");
+        	if(beaconOn) {
+        		beaconTextView.setText(R.string.cancel_beacon_label);
+        		disarmBeacon();
+        	}
+        	else {
+        		beaconTextView.setText(R.string.enable_beacon_label);
+        		//TODO: kick off count down display to beacon firing
+        		armBeacon();
+        	}
     		break;
     	case R.id.bootian_imageView:
+    		Log.i(TAG,"Bootian clicked, switching to straight key activity.");
     		startActivity(new Intent(this, StraightKeyActivity.class));
     		break;
     	}
