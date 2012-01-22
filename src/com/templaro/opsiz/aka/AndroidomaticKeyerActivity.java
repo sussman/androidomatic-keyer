@@ -51,6 +51,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
@@ -96,6 +97,7 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
 	private EditText keyerEditText;
 	private TextView modeTextView;
 	private TextView beaconTextView;
+	private ImageView bootianImageView;
 	
 
 	private MorsePlayer player; //instantiate as needed rather than
@@ -129,6 +131,9 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         modeTextView.setOnClickListener(this);
         beaconTextView = (TextView)findViewById(R.id.beacon_textView);
         beaconTextView.setOnClickListener(this);
+        bootianImageView = (ImageView)findViewById(R.id.bootian_imageView);
+        bootianImageView.setOnClickListener(this);
+        
         
         
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
@@ -542,7 +547,9 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
     		break;
     	case R.id.beacon_textView:	
     		break;
-    		
+    	case R.id.bootian_imageView:
+    		startActivity(new Intent(this, StraightKeyActivity.class));
+    		break;
     	}
     }
     
