@@ -94,6 +94,9 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
 	private Button clearMessageButton;
 	private Button addMessageButton;
 	private EditText keyerEditText;
+	private TextView modeTextView;
+	private TextView beaconTextView;
+	
 
 	private MorsePlayer player; //instantiate as needed rather than
 	private HellPlayer hplayer;  //build sounds for both every time activity starts
@@ -122,6 +125,11 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         clearMessageButton.setOnClickListener(this);
         addMessageButton = (Button)findViewById(R.id.addMessageButton);
         addMessageButton.setOnClickListener(this);
+        modeTextView = (TextView)findViewById(R.id.mode_textView);
+        modeTextView.setOnClickListener(this);
+        beaconTextView = (TextView)findViewById(R.id.beacon_textView);
+        beaconTextView.setOnClickListener(this);
+        
         
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
         
@@ -530,6 +538,11 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         	Log.i(TAG, String.format("Added new message at index %d", addAt));
         	}
     		break;
+    	case R.id.mode_textView:
+    		break;
+    	case R.id.beacon_textView:	
+    		break;
+    		
     	}
     }
     
