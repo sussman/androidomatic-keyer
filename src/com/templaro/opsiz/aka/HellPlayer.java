@@ -67,7 +67,7 @@ public class HellPlayer  {
 		buildSounds();
 	}
 	
-	public void setDarkness(int dark) {
+	private void setDarkness(int dark) {
 		mdarkness = dark;
 		Log.i(TAG, String.format("Set darkness to %d", mdarkness));
 	}

@@ -428,8 +428,6 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
     		Log.i(TAG, "Starting sound thread with " + (String) ((cwMode) ? "CW" : "Hell" + " message"));
     		if(cwMode) {
     			player.setMessage(playText);
-    			player.setSpeed(speed);
-    			player.setTone(hertz);
     		}
     		else {
     			hplayer.setMessage(playText);

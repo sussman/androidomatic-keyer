@@ -27,7 +27,6 @@ import android.media.AudioTrack.OnPlaybackPositionUpdateListener;
  * http://marblemice.blogspot.com/2010/04/generate-and-play-tone-in-android.html
  */
 
-
 public class MorsePlayer {
 	
 	private String TAG = "MorsePlayer";
@@ -94,11 +93,11 @@ public class MorsePlayer {
 		currentMessage = message;
 	}
 	
-	public void setSpeed(int speed) {
+	private void setSpeed(int speed) {
 		wpmSpeed = speed;
 		}
 	
-	public void setTone(int hertz) {
+	private void setTone(int hertz) {
 		toneHertz = hertz;
 	}
 	
