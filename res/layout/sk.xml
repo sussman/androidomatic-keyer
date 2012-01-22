@@ -8,14 +8,14 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Click the Bootian" />
+        android:text="Straight Key Mode" android:gravity="center_horizontal"/>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" 
-        android:layout_weight="1">
+        android:layout_weight="1" android:layout_gravity="1">
 
         <ImageView
             android:id="@+id/bootianView"
