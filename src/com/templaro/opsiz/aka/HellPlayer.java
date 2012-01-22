@@ -56,10 +56,11 @@ public class HellPlayer  {
 	private byte tailSnd[]; // end of each character is padded to assure total character length of 400 ms
 	
 	private HellBit[] pattern;
-	private AKASignaler signaler = AKASignaler.getInstance();
 	private String currentMessage;  // message to play in Hell
 	
-
+	private AKASignaler signaler = AKASignaler.getInstance();
+	private HellConverter mHell = new HellConverter();
+	
 	//Constructor -- no parameters for now -- TODO: pass darkness
 	public HellPlayer() {
 		buildSounds();
@@ -125,7 +126,7 @@ public class HellPlayer  {
 	// The main method of this class; runs exactly once in a standalone thread.
 	public void playHell() {
 		Log.i(TAG, "Now playing Hellscreiber message...");
-		pattern = HellConverter.pattern(currentMessage);
+		pattern = mHell.pattern(currentMessage);
 		
 		// Calculate size of data we're going to push.
         int msgSize = 0;
