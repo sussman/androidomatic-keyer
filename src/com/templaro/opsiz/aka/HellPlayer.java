@@ -61,9 +61,15 @@ public class HellPlayer  {
 	private AKASignaler signaler = AKASignaler.getInstance();
 	private HellConverter mHell = new HellConverter();
 	
-	//Constructor -- no parameters for now -- TODO: pass darkness
-	public HellPlayer() {
+	//Constructor
+	public HellPlayer(int darkness_adjust) {  
+		setDarkness(darkness_adjust);
 		buildSounds();
+	}
+	
+	public void setDarkness(int dark) {
+		mdarkness = dark;
+		Log.i(TAG, String.format("Set darkness to %d", mdarkness));
 	}
 	
 	// Generate mark and space tones of the proper lengths.
@@ -87,6 +93,8 @@ public class HellPlayer  {
 		sample = new double[samplesPerElement];
 		
 		markSnd = new byte[2 * samplesPerElement];
+		//as specified in xml/preferences.xml, the abs value of mdarkness can't be bigger
+		//than samplesPerElement
 		modMarkSnd = new byte[2 * (samplesPerElement + mdarkness)];
 		spaceSnd = new byte[2 * samplesPerElement];
 		modSpaceSnd = new byte[2 * (samplesPerElement - mdarkness)];

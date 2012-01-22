@@ -59,15 +59,13 @@
         android:key="hell_category">
     </PreferenceCategory>
     
-
-    
          <com.templaro.opsiz.aka.SeekBarPreference
             	android:key="hellTiming"
                 android:title="@string/darkness_title"
                 android:summary="@string/darkness_summary"
                 android:defaultValue="0"
-                android:max="50"
-                templaro:min="-50"
+                android:max="25"
+                templaro:min="-25"
             	templaro:unitsLeft=""
                 templaro:unitsRight="%"
             />

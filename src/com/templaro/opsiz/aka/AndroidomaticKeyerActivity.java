@@ -233,6 +233,7 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
     	//(in addition to menu button text changing)
     	cwMode = !cwMode;
     	Log.i(TAG, "Switched to " + (String) ((cwMode) ? "CW" : "Hell" + " mode"));
+    	stopMessage();
     	
 	}
     
@@ -381,7 +382,7 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
     	else {
     		if(null == hplayer) {
     			   Log.i(TAG,"Instantiating a hell player.");
-    			   hplayer = new HellPlayer();
+    			   hplayer = new HellPlayer(darkness);
     		}
     	}
     	
@@ -501,7 +502,7 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         	}
     		break;
     	case R.id.mode_textView:
-    		Log.i(TAG,"Mode status toggleded.");
+    		Log.i(TAG,"Mode status toggled.");
     		switchMode();
     		if(cwMode){
                 modeTextView.setText(R.string.toCW_label);
@@ -593,9 +594,9 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         	setMuting(false);
         mGeo.locationUpdatesOff();
         signaler.killAudioTrack(); 
-        if (player != null) player = null;  
-        //assures a fresh morseplayer each time, with updated tone and speed settings
-        //it's okay to let an hplayer instance persist, since it's parameters don't change
+        if (player != null) player = null;
+        if (hplayer != null) hplayer = null;
+        //assures a fresh player each time, with updated settings
     }
         
     @Override
