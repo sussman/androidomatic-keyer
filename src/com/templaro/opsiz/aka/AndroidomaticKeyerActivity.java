@@ -57,7 +57,7 @@ import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-public class AndroidomaticKeyerActivity extends Activity {
+public class AndroidomaticKeyerActivity extends Activity implements OnClickListener {
 	
 	//Context Menu Options
 	private static final int MENU_EDIT = 0;
@@ -117,11 +117,11 @@ public class AndroidomaticKeyerActivity extends Activity {
         LoadMessages();
         DisplayMessages();
         playButton = (Button)findViewById(R.id.playButton);
-        playButton.setOnClickListener(playButtonListener);
+        playButton.setOnClickListener(this);
         clearMessageButton = (Button)findViewById(R.id.clearMessageButton);
-        clearMessageButton.setOnClickListener(clearMessageButtonListener);
+        clearMessageButton.setOnClickListener(this);
         addMessageButton = (Button)findViewById(R.id.addMessageButton);
-        addMessageButton.setOnClickListener(addMessageButtonListener);
+        addMessageButton.setOnClickListener(this);
         
         keyerEditText = (EditText)findViewById(R.id.keyerEditText);
         
@@ -370,20 +370,7 @@ public class AndroidomaticKeyerActivity extends Activity {
     	default:
     		return super.onOptionsItemSelected(item);
     	}
-    } 
-    
-    private OnClickListener playButtonListener = new OnClickListener() {
-        public void onClick(View v) {
-                Log.i(TAG, "Play/pause button clicked.");
-        	if (sound_playing) {
-        		Log.i(TAG, "STOP button clicked; killing audiotrack.");
-        		stopMessage();
-        	} else {
-        		startMessage();
-        	}
-        }
-    };
-    
+    }  
     
     /** Called whenever activity comes (or returns) to foreground. */
     @Override
@@ -505,22 +492,29 @@ public class AndroidomaticKeyerActivity extends Activity {
 		return mMsg;
     }
     
-    void stopMessage() {
+    private void stopMessage() {
     	signaler.killAudioTrack(); 
     	sound_playing = false;
     	playButton.setCompoundDrawablesWithIntrinsicBounds(null,null,null, 
     			getResources().getDrawable(android.R.drawable.ic_media_play));
     }
     
-    private OnClickListener clearMessageButtonListener = new OnClickListener() {
-        public void onClick(View v) {
-        	keyerEditText.setText("");
-        }
-    };
-    
-    private OnClickListener addMessageButtonListener = new OnClickListener() {
-        public void onClick(View v) {
-        	int addAt = messages.size();
+    public void onClick(View v){
+    	switch (v.getId()) {
+    	case R.id.playButton:
+    		Log.i(TAG, "Play/pause button clicked.");
+        	if (sound_playing) {
+        		Log.i(TAG, "STOP button clicked; killing audiotrack.");
+        		stopMessage();
+        	} else {
+        		startMessage();
+        	}
+    		break;
+    	case R.id.clearMessageButton:
+    		keyerEditText.setText("");
+    		break;
+    	case R.id.addMessageButton:
+    		int addAt = messages.size();
         	String addText = keyerEditText.getText().toString();
         	if (addText.length() == 0) {
         		Toast.makeText(getApplicationContext(), R.string.enter_message_first,
@@ -535,11 +529,11 @@ public class AndroidomaticKeyerActivity extends Activity {
         	messageList.invalidateViews();
         	Log.i(TAG, String.format("Added new message at index %d", addAt));
         	}
-        }
-    };
+    		break;
+    	}
+    }
     
-
-
+    
     /** Have our activity manage and persist dialogs, showing and hiding them */
     @Override
     protected Dialog onCreateDialog(int id) {
