@@ -25,11 +25,11 @@
          			   
 	<!-- Main Activity Menu -->    
 	
-	<string name="toCW_label">Морзе режим</string>	  
-	<string name="toHell_label">Хэлл режим</string>  
+	<string name="toCW_label">Морзе</string>	  
+	<string name="toHell_label">Хэлл</string>  
 	<string name="help_label">Справка</string>	
 	<string name="settings_label">Настройки...</string>
-	<string name="cancel_beacon_label">Выключить маяк</string>
+	<string name="cancel_beacon_label">Mаяк</string>
 	<string name="enable_beacon_label">Включить маяк</string>
 	
 	<!-- Main Activity ContextMenu -->

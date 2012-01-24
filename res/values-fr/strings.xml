@@ -35,7 +35,7 @@
 	<string name="toHell_label">HELL mode</string>  
 	<string name="help_label">Aide</string>	
 	<string name="settings_label">Configuration...</string>
-	<string name="cancel_beacon_label">Activer balise</string>
+	<string name="cancel_beacon_label">Balise</string>
 	<string name="enable_beacon_label">Désactiver balise</string>
 	
 	<!-- Main Activity ContextMenu -->

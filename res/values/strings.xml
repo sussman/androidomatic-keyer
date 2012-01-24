@@ -32,7 +32,7 @@
 	<string name="toHell_label">HELL mode</string>  
 	<string name="help_label">Help</string>	
 	<string name="settings_label">Settings...</string>
-	<string name="cancel_beacon_label">Beacon Off</string>
+	<string name="cancel_beacon_label">Beacon</string>
 	<string name="enable_beacon_label">Beacon On</string>
 	<string name="sk_label">Straight Key</string>
 	
@@ -122,7 +122,7 @@
 	    output needs to be connected to the radio\'s key jack through a simple interface 
 	    consisting of just a few easily obtainable components. Plans for building 
 	    such an interface can be found on the Internet at:
-	     goo.gl/dummyURLfornow.html.
+	     goo.gl/QIgVw.
 	    \n\n<b>Operation</b>
 	    \n\nThe keyer will send any message 
 	    that appears in the message window at the top
@@ -133,9 +133,21 @@
 	    and then select <b>Delete</b> from the menu that appears. Similarly, if you want 
 	    to edit a previous message or copy it to a new message slot, select the message
 	    for more than a second and choose either <b>Edit</b> or <b>Copy</b>.
-	    \n\nA number of options are available through the menu, including the 
-	    ability to switch back and forth between morse code and Hellscreiber modes and to 
-	    change settings.
+	    \n\nA number of options are available above the edit window. Selecting Hell/CW will
+	    toggle between these two modes. Any message already being played will complete in 
+	    whatever mode it originated. Selecting Beacon will start a count down to sending the
+	    cw beacon message, and selecting the countdown will turn the beacon off. If a beacon
+	    is playing, selecting the countdown will not interrupt the current message. Other 
+	    beacon settings are found under the setting menu. Finally, between the mode and beacon
+	    text at the top of the screen, there is a cartoon alien. Clicking the alien will put
+	    the device into straight key mode. In that mode, tapping the alien will key the 
+	    transmitter. To return to the main screen, use the device\'s back button.
+	    \n\n<b>Settings</b>
+	    \n\nPressing the menu button will bring up options including a settings menu. After
+	    selecting the settings menu, a new screen will appear with controls for various 
+	    setting affecting the general behavior of the application, as well as specific items 
+	    pertaining to CW, Hellscreiber, and beacon modes. To leave the settings menu, use the
+	    device\'s back button. Settings should persist between sessions.
 	    \n\n<b>Modes</b>
 	    \n\n<u>Morse Code</u>: Morse
 	    code has been around in various forms since the mid-19th Century, and its staying power
@@ -190,7 +202,7 @@
 	    \n\n<u>Beacon Mode</u>
 	    \n\nThe keyer can be set up to send short morse code messages at regular intervals. The message and 
 	    repetition rate are set under the Settings menu, and the beacon is activated through the main menu. The 
-	    beacon can be sent to send QRSS morse code, where a single dit can take several seconds to send. This is 
+	    beacon can be set to send QRSS morse code, where a single dit can take several seconds to send. This is 
 	    a weak signal mode, but be sure that your transmitter can handle the long key down periods.
 	    </string>
 	

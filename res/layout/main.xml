@@ -24,14 +24,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="Mode: CW"
+            android:text="@string/toCW_label"
             android:textAppearance="?android:attr/textAppearanceMedium" android:gravity="right" android:layout_toLeftOf="@id/bootian_imageView" android:layout_marginRight="10dip"/>
 
         <TextView
             android:id="@+id/beacon_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Beacon Off"
+            android:text="@string/cancel_beacon_label"
             android:textAppearance="?android:attr/textAppearanceMedium" android:layout_centerVertical="true" android:gravity="left" android:layout_toRightOf="@id/bootian_imageView" android:layout_marginLeft="10dip"/>
 
     </RelativeLayout>
