@@ -399,7 +399,7 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
              callsign = xmlImport(prefs.getString("callsign","UR CALL"));
              qrss = prefs.getBoolean("qrss", false);
              qrss_rate = prefs.getString("qrss_rate", "10");
-             
+             beaconOn = prefs.getBoolean("beacon_status", false);
     }
     
     
@@ -614,6 +614,7 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         // The activity has become visible (it is now "resumed").
         setMuting(suppress_other_sound);
         mGeo.locationUpdatesOn();
+        if(beaconOn) mHandler.post(mUpdateTimeTask);
     }
    
     @Override
@@ -678,6 +679,7 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
 	      editor.putString(xmlExport("callsign"), callsign);
 	      editor.putBoolean("qrss", qrss);
 	      editor.putString("qrss_rate",qrss_rate);
+	      editor.putBoolean("beacon_status",beaconOn);
 	      editor.commit();
 	}
 
