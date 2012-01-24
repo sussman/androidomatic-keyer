@@ -14,29 +14,25 @@
 
         <ImageView
             android:id="@+id/bootian_imageView"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dip"
-            android:src="@drawable/bootian" />
+            android:src="@drawable/bootian" android:layout_centerInParent="true"/>
 
         <TextView
             android:id="@+id/mode_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:text="Mode: CW"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium" android:gravity="right" android:layout_toLeftOf="@id/bootian_imageView" android:layout_marginRight="10dip"/>
 
         <TextView
             android:id="@+id/beacon_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:text="Beacon Off"
-            android:textAppearance="?android:attr/textAppearanceMedium" android:layout_centerVertical="true"/>
+            android:textAppearance="?android:attr/textAppearanceMedium" android:layout_centerVertical="true" android:gravity="left" android:layout_toRightOf="@id/bootian_imageView" android:layout_marginLeft="10dip"/>
 
     </RelativeLayout>
 

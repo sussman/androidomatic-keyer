@@ -37,6 +37,7 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.AudioTrack.OnPlaybackPositionUpdateListener;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -110,7 +111,9 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
 	private int currentPick = 0;
 	private EditText messageEditText;
 	
-	GeoHelper mGeo;
+	private GeoHelper mGeo;
+	private Handler mHandler = new Handler();
+	private long mStartTime;
 	
 
     /** Called when the activity is first created. */
@@ -242,21 +245,52 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         PendingIntent sender = PendingIntent.getBroadcast(AndroidomaticKeyerActivity.this,
                 0, intent, 0);
         
-        // We want the alarm to go off duration seconds from now.
-        long firstTime = SystemClock.elapsedRealtime();
-        int beacon_period = Integer.parseInt(beacon_interval) * 60; //period in seconds
-        firstTime += beacon_period*1000; //milliseconds
-
+        // We want the alarm to go off beacon_period minutes from now.
+        
+        long beacon_period = Integer.parseInt(beacon_interval) * 60000; //period in milliseconds
+        long firstTime = SystemClock.elapsedRealtime() + beacon_period; //in milliseconds
+       
         // Schedule the repeating alarm
         AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
         am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                        firstTime, beacon_period*1000, sender);
+                        firstTime, beacon_period, sender);
+        //alarm manager's wake lock is now engaged; while it runs, there will be no deep sleeps,
+        //so uptimeMillis will track elapsed real time.
+        mStartTime = SystemClock.uptimeMillis();
         
     	beaconOn = true;
         Log.i(TAG, String.format("Armed beacon for %s minutes", beacon_interval));
         //TODO: Save beacon status in onpause/resume
         
+        mHandler.removeCallbacks(mUpdateTimeTask);
+        mHandler.postDelayed(mUpdateTimeTask, 100);
     }
+    
+    private Runnable mUpdateTimeTask = new Runnable() {
+    	   public void run() {
+    	       
+    	       
+    	       long beacon_period = Integer.parseInt(beacon_interval) * 60000;
+    	       long elapsed = SystemClock.uptimeMillis() - mStartTime;
+    	       
+    	       long millis = beacon_period - elapsed % beacon_period;
+    	       
+    	       int seconds = (int) (millis / 1000);
+    	       int minutes = seconds / 60;
+    	       seconds     = seconds % 60;
+
+    	       if (seconds < 10) {
+    	           beaconTextView.setText("" + minutes + ":0" + seconds);
+    	       } else {
+    	           beaconTextView.setText("" + minutes + ":" + seconds);            
+    	       }
+    	       
+    	       //The whacky integer division below yields an update very second
+    	       //of uptime.
+    	       mHandler.postAtTime(this, mStartTime + elapsed/1000*1000 + 1000);
+    	   }
+    	};
+    
     
     private void disarmBeacon() {
     	
@@ -269,6 +303,8 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
         am.cancel(sender);
 
     	beaconOn = false;
+    	
+    	mHandler.removeCallbacks(mUpdateTimeTask);
         Log.i(TAG, "Beacon disarmed");
         //TODO: save beacon status in onpause/resume
     }
