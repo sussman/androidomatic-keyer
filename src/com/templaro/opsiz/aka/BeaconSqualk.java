@@ -37,8 +37,6 @@ public class BeaconSqualk extends BroadcastReceiver {
 		 if(mMsg.matches(".*[#!]+.*")) {
 			 mGeo = new GeoHelper(context);
 			 mGeo.locationUpdatesOn();
-			 //Log.i(TAG,"waiting 1 minute for location update, then expanding geotags.");
-			 
 			 mMsg = mMsg.replaceAll("#",mGeo.currentDecimalLocation());
 			 mMsg = mMsg.replaceAll("!",mGeo.maidenheadGrid());
 			 mGeo.locationUpdatesOff(); //is this really necessary in that mGeo get nuked?

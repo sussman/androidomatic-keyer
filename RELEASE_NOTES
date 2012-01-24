@@ -1,0 +1,35 @@
+0.9: 25 Jan 2012
+First release to Android market
+
+* What works:
+The application performs basic keyer function well, and when coupled with 
+the basic hardware design, will on/off key a rig in either CW or Feld-
+Hellscreiber mode. Messages are input on the main screen, can be saved to
+and played back from memory slots. These memory slots persist between 
+sessions, as do all settings. The menu brings up a help screen and a settings
+menu. The settings menu sets a number of parameters for CW, Hell, and cw 
+beacon modes. 
+
+What mostly works: 
+The beacon mode is not fully up to snuff. The timing
+is not precise, and the beacon may not update positional information 
+adequately. The straight key mode works, but takes some getting used to due 
+to both the responsiveness of the screen and the difficulty of tapping out
+code on a surface that has no recoil. The phone suppresses some system sounds,
+but the menu item does not completely disable all sounds, e.g., phone and 
+alarms still work. Ideally, if the android device is connected to a radio, 
+these sound sources should be silenced to avoid inadvertently keying the 
+rig. For now, consider putting the device in "airplane mode", turning off 
+alarms, and so on.
+
+What (we know) doesn't work: The beacon QRSS mode is not hooked up at all
+right now. 
+
+The TO DO list: Aside from above issues, the obvious missing feature is 
+decoding of morse and Hellscreiber modes. We're working on it.
+
+0.5:  27 December 2011
+Early build demonstrating CW and Hell output, basic editing.
+
+0.2: 22 November 2011
+Proof of Concept build, and general layout of main user interface.
