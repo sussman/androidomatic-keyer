@@ -24,6 +24,10 @@ public class BeaconSqualk extends BroadcastReceiver {
 		 LoadPrefs(context);
 		 Toast.makeText(context, "Activating Beacon: "+ beacon_text  +"Squalk! Squalk!", Toast.LENGTH_SHORT).show();
 		 Log.i(TAG, "Squalk! "+ beacon_text);
+		 
+		 MorsePlayer player = new MorsePlayer(hertz,speed);
+		 player.setMessage(beacon_text);
+		 player.playMorse();
 	}
 	
 	private void LoadPrefs(Context context) {

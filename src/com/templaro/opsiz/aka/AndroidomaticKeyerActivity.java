@@ -276,14 +276,12 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
     	       long millis = beacon_period - elapsed % beacon_period;
     	       
     	       int seconds = (int) (millis / 1000);
+    	       int hours = (int) seconds/3600;
+    	       seconds = seconds - hours*3600;		  
     	       int minutes = seconds / 60;
     	       seconds     = seconds % 60;
 
-    	       if (seconds < 10) {
-    	           beaconTextView.setText("" + minutes + ":0" + seconds);
-    	       } else {
-    	           beaconTextView.setText("" + minutes + ":" + seconds);            
-    	       }
+    	       beaconTextView.setText(String.format("%02d:%02d:%02d",hours,minutes,seconds));	
     	       
     	       //The whacky integer division below yields an update very second
     	       //of uptime.
