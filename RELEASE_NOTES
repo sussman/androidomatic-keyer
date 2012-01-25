@@ -14,8 +14,8 @@ What mostly works:
 The beacon mode is not fully up to snuff. The timing
 is not precise, and the beacon may not update positional information 
 adequately. The straight key mode works, but takes some getting used to due 
-to both the responsiveness of the screen and the difficulty of tapping out
-code on a surface that has no recoil. The phone suppresses some system sounds,
+to both the relative unresponsiveness of the screen and the difficulty of tapping out
+code on an inelastic surface. The phone suppresses some system sounds,
 but the menu item does not completely disable all sounds, e.g., phone and 
 alarms still work. Ideally, if the android device is connected to a radio, 
 these sound sources should be silenced to avoid inadvertently keying the 
