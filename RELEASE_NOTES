@@ -3,7 +3,7 @@ First release to Android market
 
 * What works:
 The application performs basic keyer function well, and when coupled with 
-the basic hardware design, will on/off key a rig in either CW or Feld-
+a hardware adapter, will on/off key a rig in either CW or Feld-
 Hellscreiber mode. Messages are input on the main screen, can be saved to
 and played back from memory slots. These memory slots persist between 
 sessions, as do all settings. The menu brings up a help screen and a settings
