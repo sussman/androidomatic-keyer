@@ -1,0 +1,65 @@
+ANDROIDOMATIC KEYER RELEASE PROCESS
+===================================
+
+This process is the official way to push a new release of AKA to
+Android Market; it's mostly concerned with signing the release with
+the proper release-keys, which are required for publishing.
+
+For experimental test releases (alphas, etc), no key-signing is
+required.  Testers simply need to have their Android configured to
+accept unsigned packages from 'unknown sources'.
+
+
+1. Bump the version number
+
+  In AndroidManifest.xml, bump the versionCode and versionName
+  attributes.
+
+  - versionCode is the one which really matters:  you MUST increase
+    the integer monotonically.  This is what android Market looks at
+    to notice that the new .apk is an 'upgrade' from the prior one.
+
+  - versionName can be whatever we want (i.e. 1.2.6), and it's what we
+    display to the user on startup.  In other words, this is 'public'
+    release name.
+
+  - for AKA, we're trying to keep these values relatively synced:
+    versionName 1.0 == versionCode 10, versionName 1.1 == versionCode 11, etc.
+
+
+2. Export an *unsigned* .apk from Eclipse.
+
+  Right-click the project folder, then choose 'Android Tools->Export
+  Unsigned Application Package".
+
+  (Eclipse normally builds a 'debug' .apk which is signed by a
+  standard lame debug-key.  Market will not accept this key signature;
+  it requires a signature from key we generate ourselves.)
+
+
+3. Sign the .apk with our own "official" developer private key.
+
+  Make sure you have the shared AKA key (and password) available,
+  (templaro.keystore) then run:
+
+  $ jarsigner -verbose -keystore templaro.keystore AndroidomaticKeyer.apk templaro
+
+  After signing, you can verify the sig:
+
+  $ jarsigner -verify -verbose AndroidomaticKeyer.apk
+
+
+4. Upload the new .apk to Google Code
+
+  Use the 'Downloads' tab to upload the package.  Be sure to label the
+  package as 'Featured' so it shows up on the front page, and label
+  the old package as 'Deprecated' so it's not listed to the public
+  anymore.
+
+
+5. Upload the new .apk to Market
+
+  Log into the 'templaroteam@gmail.com" GAIA account at
+  market.android.com.  Upload the new .apk and 'publish' it.
+
+
