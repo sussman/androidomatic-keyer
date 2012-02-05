@@ -26,6 +26,10 @@ accept unsigned packages from 'unknown sources'.
   - for AKA, we're trying to keep these values relatively synced:
     versionName 1.0 == versionCode 10, versionName 1.1 == versionCode 11, etc.
 
+  - For cleanliness, make these two number changes as a single 'hg
+    commit', and then immediately tag the codebase afterwards,
+    e.g. 'hg tag 1.2', so we have a bookmark of the exact code we released.
+
 
 2. Export an *unsigned* .apk from Eclipse.
 
@@ -48,8 +52,12 @@ accept unsigned packages from 'unknown sources'.
 
   $ jarsigner -verify -verbose AndroidomaticKeyer.apk
 
+  Then run 'zipalign' on it to make it memory-efficient at runtime:
 
-4. Upload the new .apk to Google Code
+  $ android-sdk-mac_x86/tools/zipalign -v 4 ~/Desktop/AndroidomaticKeyer.apk AKA.apk
+
+
+4. Upload the final AKA.apk to Google Code
 
   Use the 'Downloads' tab to upload the package.  Be sure to label the
   package as 'Featured' so it shows up on the front page, and label
@@ -57,9 +65,10 @@ accept unsigned packages from 'unknown sources'.
   anymore.
 
 
-5. Upload the new .apk to Market
+5. Upload the new AKA.apk to Android Market -- may have to do as sussman.
 
-  Log into the 'templaroteam@gmail.com" GAIA account at
-  market.android.com.  Upload the new .apk and 'publish' it.
+  Log into the 'sussman@gmail.com" GAIA account at
+  http://market.android.com/publish.  Upload the new .apk and
+  'publish' it with a description of recent changes.
 
 
