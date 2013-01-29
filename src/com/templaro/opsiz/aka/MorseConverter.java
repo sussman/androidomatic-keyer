@@ -25,7 +25,9 @@ import java.util.HashMap;
 class MorseConverter {
 	
 	private static final HashMap<Character, MorseBit[]> morse_map = new HashMap<Character, MorseBit[]>(){
-        {
+		private static final long serialVersionUID = 1L;
+
+		{
         	put('A', new MorseBit[] { MorseBit.DOT, MorseBit.GAP, MorseBit.DASH });
         	put('B', new MorseBit[] { MorseBit.DASH, MorseBit.GAP, MorseBit.DOT, MorseBit.GAP, 
         			MorseBit.DOT, MorseBit.GAP, MorseBit.DOT });

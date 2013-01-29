@@ -20,7 +20,6 @@ import android.util.Log;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
-import android.media.AudioTrack.OnPlaybackPositionUpdateListener;
 
 
 /* A bunch of this wave-generating code is copied from
@@ -127,7 +126,7 @@ public class MorsePlayer {
         
         // Create an audioTrack with a buffer exactly the size of our message.
         signaler.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE,
-        						AudioFormat.CHANNEL_CONFIGURATION_MONO,
+        						AudioFormat.CHANNEL_OUT_MONO,
         						AudioFormat.ENCODING_PCM_16BIT,
         						msgSize, AudioTrack.MODE_STREAM);
         signaler.msgSize = msgSize;

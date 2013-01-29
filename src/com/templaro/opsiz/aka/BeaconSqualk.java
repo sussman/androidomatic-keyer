@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioTrack;
 import android.media.AudioTrack.OnPlaybackPositionUpdateListener;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,9 +16,6 @@ public class BeaconSqualk extends BroadcastReceiver {
 	private String beacon_text = "Beacon Text";
 	private int hertz = 800;
 	private int speed = 15;
-	private String beacon_interval = "15";
-	private boolean qrss = false;
-	private String qrss_rate = "10";	
 	private String callsign ="URCALL";
 	private GeoHelper mGeo;
 	private String mMsg;
@@ -76,11 +72,11 @@ public class BeaconSqualk extends BroadcastReceiver {
 				PreferenceManager.getDefaultSharedPreferences(context);
 		hertz = prefs.getInt("sidetone", 800);
 		speed = prefs.getInt("wpm", 15);
-		beacon_interval = prefs.getString("beacon_interval", "15");
+		prefs.getString("beacon_interval", "15");
 		beacon_text = xmlImport(prefs.getString("beacon_text", "QTH # DE @/B @/B"));
 		callsign = xmlImport(prefs.getString("callsign","UR CALL"));
-		qrss = prefs.getBoolean("qrss", false);
-		qrss_rate = prefs.getString("qrss_rate", "10");
+		prefs.getBoolean("qrss", false);
+		prefs.getString("qrss_rate", "10");
 	}
 	
 	 protected String xmlImport(String str){

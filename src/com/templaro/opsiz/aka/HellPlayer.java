@@ -181,7 +181,7 @@ public class HellPlayer  {
         
         // Create an audioTrack with a buffer exactly the size of our message.
         signaler.audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE,
-        						AudioFormat.CHANNEL_CONFIGURATION_MONO,
+        						AudioFormat.CHANNEL_OUT_MONO,
         						AudioFormat.ENCODING_PCM_16BIT,
         						msgSize, AudioTrack.MODE_STREAM);
         signaler.msgSize = msgSize;

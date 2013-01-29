@@ -320,7 +320,8 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
       }
     }
     
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
     	int menuItemIndex = item.getItemId();
@@ -595,7 +596,8 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
 
 
     /** Have our activity prepare dialogs before displaying them */
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     protected void onPrepareDialog(int id, Dialog dialog) {
         super.onPrepareDialog(id, dialog);
         switch(id) {
@@ -702,7 +704,7 @@ public class AndroidomaticKeyerActivity extends Activity implements OnClickListe
 			//under ...package/data/data/, otherwise overwrites it.
 			Log.i(TAG, "Writing messages to internal storage");
 			try {
-				FileOutputStream fOut = openFileOutput(MESSAGE_STORE, MODE_WORLD_READABLE);
+				FileOutputStream fOut = openFileOutput(MESSAGE_STORE, MODE_PRIVATE);
 				BufferedWriter buf = new BufferedWriter(new OutputStreamWriter(fOut));
 				for (String s : messages) {
 					buf.write(s+"\n");

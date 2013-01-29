@@ -7,13 +7,11 @@ import android.util.Log;
 
 public class AKASignaler {
 	private static final AKASignaler instance = new AKASignaler();
-	public AudioTrack audioTrack;  //does this need to be public?
-	int msgSize;
+	public AudioTrack audioTrack = null;  //does this need to be public?
+	int msgSize = 0;
 	private String TAG = "AKASignaler";
 	
 	private AKASignaler() {
-		AudioTrack audioTrack = null;
-		int msgSize = 0;
 	}
 	
 	public static AKASignaler getInstance() {

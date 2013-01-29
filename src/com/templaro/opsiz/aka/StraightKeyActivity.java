@@ -98,7 +98,7 @@ public class StraightKeyActivity extends Activity {
  	private void setupTrack() {
 
 		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE,
-				AudioFormat.CHANNEL_CONFIGURATION_MONO,
+				AudioFormat.CHANNEL_OUT_MONO,
                 AudioFormat.ENCODING_PCM_16BIT,2*numSamples,
                 AudioTrack.MODE_STATIC);
 		audioTrack.write(tone, 0, tone.length);	
